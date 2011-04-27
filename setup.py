@@ -1,11 +1,5 @@
 from setuptools import setup, find_packages
 
-README_FILE = open('README.md')
-try:
-    LONG_DESCRIPTION = README_FILE.read()
-finally:
-    README_FILE.close()
-
 setup(
     name="django-salmonella",
     version="0.2.0",
@@ -13,7 +7,6 @@ setup(
     author_email='info@lincolnloop.com',
     description=("raw_id_fields widget replacement that handles display of an object's "
                  "string value on change and can be overridden via a template."),
-    long_description=LONG_DESCRIPTION,
     packages=find_packages(),
     url="http://github.com/lincolnloop/salmonella/",
     install_requires=['setuptools'],
