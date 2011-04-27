@@ -19,14 +19,6 @@ Include the file in your settings.py:
 		...
 	)
 
-Set up your urls.py:
-
-	urlpatterns = patterns('',
-		...
-		(r'^salmonella/', include('salmonella.urls')),
-		...
-	)
-
 Collect the static file:
 
 	$ manage.py collectstatic
@@ -37,5 +29,3 @@ Configure your model admin, here is an example:
 
 	class UserProfileAdmin(SalmonellaModelAdmin):
 	    salmonella_fields = ('user',)
-
-*NOTE:* This assumes you have already included the jQuery javascript library and it is available on the admin pages where Salmonella is being used.
