@@ -8,7 +8,7 @@ finally:
 
 setup(
     name="django-salmonella",
-    version="0.1.0",
+    version="0.2.0",
     author='Lincoln Loop',
     author_email='info@lincolnloop.com',
     description=("raw_id_fields widget replacement that handles display of an object's "
