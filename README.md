@@ -6,7 +6,7 @@ A raw_id_fields widget replacement that handles display of an object's string va
 Installation
 ------------
 
-	$ pip install salmonella
+	$ pip install django-salmonella
 
 Usage
 -----
