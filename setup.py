@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="django-salmonella",
-    version="0.2.2",
+    version="0.2.3",
     author='Lincoln Loop',
     author_email='info@lincolnloop.com',
     description=("raw_id_fields widget replacement that handles display of an object's "
