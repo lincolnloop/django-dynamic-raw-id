@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-README_FILE = open('README')
+README_FILE = open('README.md')
 try:
     LONG_DESCRIPTION = README_FILE.read()
 finally:
