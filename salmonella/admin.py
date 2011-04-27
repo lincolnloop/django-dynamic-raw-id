@@ -32,10 +32,10 @@ class SalmonellaModelAdmin(admin.ModelAdmin):
             if multi:
                 if object_id:
                     object_id = object_id.split(",")
-                model_template = "salmanella/%s/multi_%s.html" % (app_name, model_name)
+                model_template = "salmonella/%s/multi_%s.html" % (app_name, model_name)
                 obj = model.objects.filter(id__in=object_id)
             else:
-                model_template = "salmanella/%s/%s.html" % (app_name, model_name)
+                model_template = "salmonella/%s/%s.html" % (app_name, model_name)
                 obj = model.objects.get(id=object_id)
         except model.DoesNotExist:
             return HttpResponse("")
