@@ -8,7 +8,7 @@ setup(
     description=("raw_id_fields widget replacement that handles display of an object's "
                  "string value on change and can be overridden via a template."),
     packages=find_packages(),
-    package_data={'salmonella': ['static/*.js', 'templates/*.html']},
+    package_data={'salmonella': ['static/*.js', 'templates/salmonella/*.html']},
     url="http://github.com/lincolnloop/django-salmonella/",
     install_requires=['setuptools'],
     classifiers=[
