@@ -12,7 +12,7 @@ setup(
     author='Lincoln Loop',
     author_email='info@lincolnloop.com',
     description=("raw_id_fields widget replacement that handles display of an object's "
-                 "string value on change and is overridable via a template."),
+                 "string value on change and can be overridden via a template."),
     long_description=LONG_DESCRIPTION,
     packages=find_packages(),
     url="http://github.com/lincolnloop/salmonella/",
