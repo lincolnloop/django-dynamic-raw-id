@@ -1,3 +1,4 @@
 include README.md
 include LICENSE
 recursive-include salmonella/static *
+recursive-include salmonella/templates *
