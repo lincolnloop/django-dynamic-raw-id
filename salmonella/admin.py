@@ -41,14 +41,16 @@ class SalmonellaModelAdmin(admin.ModelAdmin):
             return HttpResponse("")
         return render_to_response((model_template, template_name),
                                   {template_object_name: obj})
-        
-    def formfield_for_dbfield(self, db_field, **kwargs):
+    
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name in self.salmonella_fields:
-            kwargs.pop("request", None)
-            type = db_field.rel.__class__.__name__
-            if type == "ManyToOneRel" or type == "OneToOneRel":
-                kwargs['widget'] = SalmonellaIdWidget(db_field.rel)
-            elif type == "ManyToManyRel":
-                kwargs['widget'] = SalmonellaMultiIdWidget(db_field.rel)
+            kwargs['widget'] = SalmonellaIdWidget(db_field.rel)
             return db_field.formfield(**kwargs)
-        return super(SalmonellaModelAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        return super(SalmonellaModelAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        if db_field.name in self.salmonella_fields:
+            kwargs['widget'] = SalmonellaMultiIdWidget(db_field.rel)
+            kwargs['help_text'] = ''
+            return db_field.formfield(**kwargs)
+        return super(SalmonellaModelAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
