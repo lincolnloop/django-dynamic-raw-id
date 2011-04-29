@@ -1,4 +1,3 @@
-from django.contrib import admin
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.db.models import get_model
@@ -6,9 +5,11 @@ from django.conf.urls.defaults import patterns, url
 
 from salmonella.widgets import SalmonellaIdWidget, SalmonellaMultiIdWidget
 
-class SalmonellaModelAdmin(admin.ModelAdmin):
+class SalmonellaModelAdminMixin(object):
+    salmonella_fields = ()
+    
     def get_urls(self):
-        urls = super(SalmonellaModelAdmin, self).get_urls()
+        urls = super(SalmonellaModelAdminMixin, self).get_urls()
         salmonella_urls = patterns('',
             url(r'^salmonella/(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/multiple/$',
                 self.admin_site.admin_view(self.label_view), {
@@ -32,23 +33,39 @@ class SalmonellaModelAdmin(admin.ModelAdmin):
             if multi:
                 if object_id:
                     object_id = object_id.split(",")
-                model_template = "salmanella/%s/multi_%s.html" % (app_name, model_name)
+                model_template = "salmonella/%s/multi_%s.html" % (app_name, model_name)
                 obj = model.objects.filter(id__in=object_id)
             else:
-                model_template = "salmanella/%s/%s.html" % (app_name, model_name)
+                model_template = "salmonella/%s/%s.html" % (app_name, model_name)
                 obj = model.objects.get(id=object_id)
         except model.DoesNotExist:
             return HttpResponse("")
         return render_to_response((model_template, template_name),
                                   {template_object_name: obj})
-        
-    def formfield_for_dbfield(self, db_field, **kwargs):
+    
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name in self.salmonella_fields:
-            kwargs.pop("request", None)
-            type = db_field.rel.__class__.__name__
-            if type == "ManyToOneRel" or type == "OneToOneRel":
-                kwargs['widget'] = SalmonellaIdWidget(db_field.rel)
-            elif type == "ManyToManyRel":
-                kwargs['widget'] = SalmonellaMultiIdWidget(db_field.rel)
+            kwargs['widget'] = SalmonellaIdWidget(db_field.rel)
             return db_field.formfield(**kwargs)
-        return super(SalmonellaModelAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        return super(SalmonellaModelAdminMixin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        if db_field.name in self.salmonella_fields:
+            kwargs['widget'] = SalmonellaMultiIdWidget(db_field.rel)
+            kwargs['help_text'] = ''
+            return db_field.formfield(**kwargs)
+        return super(SalmonellaModelAdminMixin, self).formfield_for_manytomany(db_field, request, **kwargs)
+
+class SalmonellaTabularInlineMixin(object):
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+        if db_field.name in self.salmonella_fields:
+            kwargs['widget'] = SalmonellaIdWidget(db_field.rel)
+            return db_field.formfield(**kwargs)
+        return super(SalmonellaTabularInlineMixin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        if db_field.name in self.salmonella_fields:
+            kwargs['widget'] = SalmonellaMultiIdWidget(db_field.rel)
+            kwargs['help_text'] = ''
+            return db_field.formfield(**kwargs)
+        return super(SalmonellaTabularInlineMixin, self).formfield_for_manytomany(db_field, request, **kwargs)

@@ -20,6 +20,12 @@ function popup_wrapper(triggerLink, app_name, model_name){
             var admin_url_parts = window.location.pathname.split("/").slice(1, 4)
             var url = "/" + admin_url_parts[0] + "/" + admin_url_parts[1] + "/" + admin_url_parts[2] + url;
             
+            // Handles elements added via the TabularInline add row functionality
+            if (name.search(/__prefix__/) != -1){
+                name = element.attr("id").replace("id_", "");
+                console.log(name);
+            }
+            
             $.ajax({
                 url: url,
                 data: {"id": value},
