@@ -1,1 +1,1 @@
-from admin import SalmonellaModelAdmin
+from admin import SalmonellaModelAdminMixin, SalmonellaTabularInlineMixin

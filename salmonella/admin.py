@@ -1,4 +1,3 @@
-from django.contrib import admin
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.db.models import get_model
@@ -6,9 +5,11 @@ from django.conf.urls.defaults import patterns, url
 
 from salmonella.widgets import SalmonellaIdWidget, SalmonellaMultiIdWidget
 
-class SalmonellaModelAdmin(admin.ModelAdmin):
+class SalmonellaModelAdminMixin(object):
+    salmonella_fields = ()
+    
     def get_urls(self):
-        urls = super(SalmonellaModelAdmin, self).get_urls()
+        urls = super(SalmonellaModelAdminMixin, self).get_urls()
         salmonella_urls = patterns('',
             url(r'^salmonella/(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/multiple/$',
                 self.admin_site.admin_view(self.label_view), {
@@ -46,11 +47,25 @@ class SalmonellaModelAdmin(admin.ModelAdmin):
         if db_field.name in self.salmonella_fields:
             kwargs['widget'] = SalmonellaIdWidget(db_field.rel)
             return db_field.formfield(**kwargs)
-        return super(SalmonellaModelAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        return super(SalmonellaModelAdminMixin, self).formfield_for_foreignkey(db_field, request, **kwargs)
         
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name in self.salmonella_fields:
             kwargs['widget'] = SalmonellaMultiIdWidget(db_field.rel)
             kwargs['help_text'] = ''
             return db_field.formfield(**kwargs)
-        return super(SalmonellaModelAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
+        return super(SalmonellaModelAdminMixin, self).formfield_for_manytomany(db_field, request, **kwargs)
+
+class SalmonellaTabularInlineMixin(object):
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+        if db_field.name in self.salmonella_fields:
+            kwargs['widget'] = SalmonellaIdWidget(db_field.rel)
+            return db_field.formfield(**kwargs)
+        return super(SalmonellaTabularInlineMixin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        if db_field.name in self.salmonella_fields:
+            kwargs['widget'] = SalmonellaMultiIdWidget(db_field.rel)
+            kwargs['help_text'] = ''
+            return db_field.formfield(**kwargs)
+        return super(SalmonellaTabularInlineMixin, self).formfield_for_manytomany(db_field, request, **kwargs)
