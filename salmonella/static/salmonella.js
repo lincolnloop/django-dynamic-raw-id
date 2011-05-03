@@ -19,15 +19,17 @@ function popup_wrapper(triggerLink, app_name, model_name){
 (function($) {
     $(document).ready(function($) {
         function update_salmonella_label(element, url){
-            var name = element.next("a").attr("data-name");
-            var value = element.val();
-            var admin_url_parts = window.location.pathname.split("/").slice(1, 4)
-            var url = "/" + admin_url_parts[0] + "/" + admin_url_parts[1] + "/" + admin_url_parts[2] + url;
+            var name = element.next("a").attr("data-name"),
+                value = element.val(),
+                MOUNT_URL = "/admin/salmonella",
+                admin_url_parts = window.location.pathname.split("/").slice(1, 4);
+
+            var url = MOUNT_URL + url;
             
             // Handles elements added via the TabularInline add row functionality
             if (name.search(/__prefix__/) != -1){
                 name = element.attr("id").replace("id_", "");
-                console.log(name);
+
             }
             
             $.ajax({
@@ -47,7 +49,7 @@ function popup_wrapper(triggerLink, app_name, model_name){
             $this = $(this);
             var app = $this.next("a").attr("data-app");
             var model = $this.next("a").attr("data-model");
-            var url = "/salmonella/" + app + "/" + model + "/";
+            var url = "/" + app + "/" + model + "/";
             
             update_salmonella_label($this, url);
         });
@@ -55,9 +57,9 @@ function popup_wrapper(triggerLink, app_name, model_name){
         // Handle ManyToManyRawIdAdminFields.
         $(".vManyToManyRawIdAdminField").blur(function(e){
             $this = $(this);
-            var app = $this.next("a").attr("data-app");
-            var model = $this.next("a").attr("data-model");
-            var url = "/salmonella/" + app + "/" + model + "/multiple/";
+            var app = $this.next("a").attr("data-app"),
+                model = $this.next("a").attr("data-model"),
+                url = "/" + app + "/" + model + "/multiple/";
             
             update_salmonella_label($this, url);
         });
