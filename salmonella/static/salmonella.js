@@ -1,13 +1,17 @@
 function popup_wrapper(triggerLink, app_name, model_name){
-    var name = triggerLink.id.replace(/^lookup_/, '');
-    name = id_to_windowname(name);
+    var name = triggerLink.id.replace(/^lookup_/, ''),
+        windowName = id_to_windowname(name);
 
     // Actual Django javascript function
     showRelatedObjectLookupPopup(triggerLink);
 
     // Sets focus on input field so event is 
     // fired correctly.
-    document.getElementById(name).focus();
+    try {
+        document.getElementById(windowName).focus();
+    } catch (e) {
+        document.getElementById(name).focus();
+    }
     
     return false;
 }
