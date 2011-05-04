@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-    url(r'^(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/many/$',
+    url(r'^(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/multiple/$',
         'salmonella.views.label_view',
         {
             'multi': True,
