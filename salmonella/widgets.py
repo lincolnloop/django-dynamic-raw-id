@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.contrib.admin import widgets
+from django.template.loader import render_to_string
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
+
 
 class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
     def render(self, name, value, attrs=None, multi=False):
@@ -18,7 +20,9 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
             attrs['class'] = 'vForeignKeyRawIdAdminField' # The JavaScript looks for this hook.
         app_name = self.rel.to._meta.app_label.strip()
         model_name = self.rel.to._meta.object_name.lower().strip()
-        output = [super(widgets.ForeignKeyRawIdWidget, self).render(name, value, attrs)]
+        hidden_input = super(widgets.ForeignKeyRawIdWidget, self).render(name, value, attrs)
+        output = []
+        output.append(hidden_input)
         # TODO: "id_" is hard-coded here. This should instead use the correct
         # API to determine the ID dynamically.
         fmt_str = u'<a href="%s%s" data-name="%s" data-app="%s" data-model="%s" class="related-lookup" id="lookup_id_%s" onclick="return popup_wrapper(this);"> '
@@ -36,7 +40,20 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
                 output.append('<span class="salmonella_label" id="%s_salmonella_label">%s</span>' % (name, self.label_for_value(value)))
         else:
             output.append('<span class="salmonella_label" id="%s_salmonella_label"></span>' % name)
-        return mark_safe(u''.join(output))
+            
+        extra_context = {
+            'output': mark_safe(u''.join(output)),
+            'hidden_input': hidden_input,
+            'name': name,
+            'app_name': app_name,
+            'model_name': model_name,
+            'related_url': related_url,
+            'url': url,
+            'admin_media_prefix': settings.ADMIN_MEDIA_PREFIX,
+        }
+        print extra_context['output']
+        return render_to_string('salmonella/admin/widgets/salmonella_field.html',
+                                extra_context)
     
     class Media:
         js = (settings.STATIC_URL + "salmonella.js",)
