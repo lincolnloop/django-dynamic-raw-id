@@ -21,28 +21,8 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
         app_name = self.rel.to._meta.app_label.strip()
         model_name = self.rel.to._meta.object_name.lower().strip()
         hidden_input = super(widgets.ForeignKeyRawIdWidget, self).render(name, value, attrs)
-        output = []
-        output.append(hidden_input)
-        # TODO: "id_" is hard-coded here. This should instead use the correct
-        # API to determine the ID dynamically.
-        fmt_str = u'<a href="%s%s" data-name="%s" data-app="%s" data-model="%s" class="related-lookup" id="lookup_id_%s" onclick="return popup_wrapper(this);"> '
-        output.append(fmt_str % (related_url, url, name, app_name, model_name, name))
-        output.append(u'<img src="%simg/admin/selector-search.gif" width="16" height="16" alt="%s" /></a>' % (settings.ADMIN_MEDIA_PREFIX, _('Lookup')))
-        output.append('<a data-name="%s" data-app="%s" data-model="%s" class="clean_field" >' %(name, app_name, model_name))
-        output.append(u'<img src="%simg/admin/icon_deletelink.gif" width="10" height="10" alt="%s" /></a>' % (settings.ADMIN_MEDIA_PREFIX, _('Lookup')))
-        if value:
-            if multi:
-                labels = []
-                for i in value.split(","):
-                    labels.append(self.label_for_value(i))
-                output.append('<span class="salmonella_label" id="%s_salmonella_label">%s</span>' % (name, ",".join(labels)))
-            else:
-                output.append('<span class="salmonella_label" id="%s_salmonella_label">%s</span>' % (name, self.label_for_value(value)))
-        else:
-            output.append('<span class="salmonella_label" id="%s_salmonella_label"></span>' % name)
-            
+
         extra_context = {
-            'output': mark_safe(u''.join(output)),
             'hidden_input': hidden_input,
             'name': name,
             'app_name': app_name,
