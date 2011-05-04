@@ -24,6 +24,8 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
         fmt_str = u'<a href="%s%s" data-name="%s" data-app="%s" data-model="%s" class="related-lookup" id="lookup_id_%s" onclick="return popup_wrapper(this);"> '
         output.append(fmt_str % (related_url, url, name, app_name, model_name, name))
         output.append(u'<img src="%simg/admin/selector-search.gif" width="16" height="16" alt="%s" /></a>' % (settings.ADMIN_MEDIA_PREFIX, _('Lookup')))
+        output.append('<a data-name="%s" data-app="%s" data-model="%s" class="clean_field" >' %(name, app_name, model_name))
+        output.append(u'<img src="%simg/admin/icon_deletelink.gif" width="10" height="10" alt="%s" /></a>' % (settings.ADMIN_MEDIA_PREFIX, _('Lookup')))
         if value:
             if multi:
                 labels = []

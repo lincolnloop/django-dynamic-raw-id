@@ -16,6 +16,8 @@ function popup_wrapper(triggerLink, app_name, model_name){
     return false;
 }
 
+
+
 (function($) {
     $(document).ready(function($) {
         function update_salmonella_label(element, url){
@@ -63,5 +65,14 @@ function popup_wrapper(triggerLink, app_name, model_name){
             
             update_salmonella_label($this, url);
         });
+        
+        $(".clean_field").click(function(e){
+            $this = $(this);
+            console.log($this);
+            $this.parent().find('input').val("")
+            $this.parent().find(".salmonella_label").empty()
+            
+        });
+
     });
 })(django.jQuery);
