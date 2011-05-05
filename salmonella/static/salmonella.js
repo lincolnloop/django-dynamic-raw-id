@@ -38,47 +38,44 @@
             }
         }
 
-        // A big of a workaround.  The goal here was to use
-        // 'change' but 'showRelatedObjectLookupPopup' above
-        // doesn't set the value in a way that 'change'
-        // is triggered so using blur instead.
-        $(".vForeignKeyRawIdAdminField").blur(function(e){
+        // A big of a workaround to fire the change event on
+        // blur because 'showRelatedObjectLookupPopup'
+        // doesn't set the value in a way that trigger 'change'
+        $(".vForeignKeyRawIdAdminField, .vManyToManyRawIdAdminField").blur(function(e){
+            $(this).trigger('change');
+            e.stopPropagation();
+        });
+        $(".vForeignKeyRawIdAdminField").change(function(e){
             $this = $(this);
             update_salmonella_label($this, mutli=false);
+            e.stopPropagation();
         });
-
         // Handle ManyToManyRawIdAdminFields.
-        $(".vManyToManyRawIdAdminField").blur(function(e){
+        $(".vManyToManyRawIdAdminField").change(function(e){
             $this = $(this);
             update_salmonella_label($this, multi=true);
+            e.stopPropagation();
         });
         
         // clear both the input field and the labels
         $(".salmonella-clear-field").click(function(e){
             $this = $(this);
-
             $this.parent().find('input').val("")
             $this.parent().find(".salmonella_label").empty()
-            
         });
         
         // Open up the pop up window and set the focus in the input field
         $(".salmonella-related-lookup").click(function(e){
-            $this = $(this);
-            // get the dom elem instead of the jquery
-            elem = $this.get(0);
-            
             // Actual Django javascript function
-            showRelatedObjectLookupPopup(elem);
-            
+            showRelatedObjectLookupPopup(this);
             // Set the focus into the input field
-            $this.parent().find('input').focus();
+            $(this).parent().find('input').focus();
             return false;
         });
 
         // Fire the event to update the solmonella fields on loads
-        django.jQuery(".vManyToManyRawIdAdminField").trigger('blur');
-        django.jQuery(".vForeignKeyRawIdAdminField").trigger('blur');
+        django.jQuery(".vManyToManyRawIdAdminField").trigger('change');
+        django.jQuery(".vForeignKeyRawIdAdminField").trigger('change');
         
         
         
