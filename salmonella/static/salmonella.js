@@ -15,6 +15,7 @@
                 url = url + "/" + app + "/" + model + "/";
             }
             try {
+                // only fire the ajax call if we have all the required info
                 if ((name !== undefined) &&
                     (url !== undefined) &&
                     (value !== undefined) && (value !== "")) {
@@ -52,6 +53,7 @@
             update_salmonella_label($this, multi=true);
         });
         
+        // clear both the input field and the labels
         $(".salmonella-clear-field").click(function(e){
             $this = $(this);
 
@@ -60,6 +62,7 @@
             
         });
         
+        // Open up the pop up window and set the focus in the input field
         $(".salmonella-related-lookup").click(function(e){
             $this = $(this);
             // get the dom elem instead of the jquery
