@@ -22,7 +22,6 @@
                     // Handles elements added via the TabularInline add row functionality
                     if (name.search(/__prefix__/) != -1){
                         name = element.attr("id").replace("id_", "");
-        
                     }
                     
                     $.ajax({
@@ -76,6 +75,5 @@
         // Fire the event to update the solmonella fields on loads
         django.jQuery(".vManyToManyRawIdAdminField").trigger('change');
         django.jQuery(".vForeignKeyRawIdAdminField").trigger('change');
-        
     });
 })(django.jQuery);
