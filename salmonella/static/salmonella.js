@@ -77,9 +77,5 @@
         django.jQuery(".vManyToManyRawIdAdminField").trigger('change');
         django.jQuery(".vForeignKeyRawIdAdminField").trigger('change');
         
-        
-        
-
-
     });
 })(django.jQuery);
