@@ -1,15 +1,3 @@
-function popup_wrapper(triggerLink, app_name, model_name){
-    // Actual Django javascript function
-    showRelatedObjectLookupPopup(triggerLink);
-    
-    // Set the focus into the input field
-    django.jQuery("#"+triggerLink.id).parent().find('input').focus();
-        
-    return false;
-}
-
-
-
 (function($) {
     $(document).ready(function($) {
         function update_salmonella_label(element, multi){
@@ -64,11 +52,25 @@ function popup_wrapper(triggerLink, app_name, model_name){
             update_salmonella_label($this, multi=true);
         });
         
-        $(".clean_field").click(function(e){
+        $(".salmonella-clear-field").click(function(e){
             $this = $(this);
+
             $this.parent().find('input').val("")
             $this.parent().find(".salmonella_label").empty()
             
+        });
+        
+        $(".salmonella-related-lookup").click(function(e){
+            $this = $(this);
+            // get the dom elem instead of the jquery
+            elem = $this.get(0);
+            
+            // Actual Django javascript function
+            showRelatedObjectLookupPopup(elem);
+            
+            // Set the focus into the input field
+            $this.parent().find('input').focus();
+            return false;
         });
 
         // Fire the event to update the solmonella fields on loads
