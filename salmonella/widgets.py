@@ -31,7 +31,6 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
             'url': url,
             'admin_media_prefix': settings.ADMIN_MEDIA_PREFIX,
         }
-        print extra_context['output']
         return render_to_string('salmonella/admin/widgets/salmonella_field.html',
                                 extra_context)
     

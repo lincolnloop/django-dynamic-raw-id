@@ -71,7 +71,7 @@ function popup_wrapper(triggerLink, app_name, model_name){
             
         });
 
-        
+        // Fire the event to update the solmonella fields on loads
         django.jQuery(".vManyToManyRawIdAdminField").trigger('blur');
         django.jQuery(".vForeignKeyRawIdAdminField").trigger('blur');
         
