@@ -33,7 +33,9 @@ Collect the static file:
 
 Configure your model admin, here is an example:
 
-    from salmonella import SalmonellaModelAdminMixin
+    from salmonella import SalmonellaMixin
 
-    class UserProfileAdmin(SalmonellaModelAdminMixin):
+    class UserProfileAdmin(SalmonellaMixin, admin.ModelAdmin):
         salmonella_fields = ('user',)
+
+**Note** Don't forget to enable model admin's for each field specified in `salmonella_fields`.
