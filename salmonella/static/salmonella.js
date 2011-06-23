@@ -45,20 +45,20 @@
             e.stopPropagation();
         });
         $(".vForeignKeyRawIdAdminField").change(function(e){
-            $this = $(this);
+            var $this = $(this);
             update_salmonella_label($this, mutli=false);
             e.stopPropagation();
         });
         // Handle ManyToManyRawIdAdminFields.
         $(".vManyToManyRawIdAdminField").change(function(e){
-            $this = $(this);
+            var $this = $(this);
             update_salmonella_label($this, multi=true);
             e.stopPropagation();
         });
         
         // clear both the input field and the labels
         $(".salmonella-clear-field").click(function(e){
-            $this = $(this);
+            var $this = $(this);
             $this.parent().find('input').val("")
             $this.parent().find(".salmonella_label").empty()
         });
