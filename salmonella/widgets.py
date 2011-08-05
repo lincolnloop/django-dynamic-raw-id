@@ -36,7 +36,7 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
                                 extra_context)
 
     class Media:
-        js = (settings.STATIC_URL + "salmonella.js",)
+        js = (settings.STATIC_URL + "salmonella/js/salmonella.js",)
 
 
 class SalmonellaMultiIdWidget(SalmonellaIdWidget):
