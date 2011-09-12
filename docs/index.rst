@@ -6,15 +6,13 @@
 Welcome to django-salmonella's documentation!
 =============================================
 
+A raw_id_fields widget replacement that handles display of an object's string value on change and can be overridden via a template.
+
 Contents:
 
 .. toctree::
-   :maxdepth: 2
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   :maxdepth: 1
+   
+   installation
+   usage
 
