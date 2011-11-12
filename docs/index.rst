@@ -6,7 +6,9 @@
 Welcome to django-salmonella's documentation!
 =============================================
 
-A raw_id_fields widget replacement that handles display of an object's string value on change and can be overridden via a template.
+A raw_id_fields widget replacement that handles display of an object's string value on change and can be overridden via a template. Here is an example:
+
+.. image:: _static/salmonella_field.png
 
 Contents:
 
