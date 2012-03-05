@@ -20,10 +20,18 @@ pip from source
 You can also install with pip straight from the `github.com`_ repository::
 
     $ pip install git+http://github.com/lincolnloop/django-salmonella.git#egg=django-salmonella
-    
-    
+
+
 Finally
 *******
+
+Add a record to your project's urls::
+
+    urlpatterns = patterns('',
+        # ...
+        url(r'^admin/salmonella/', include('salmonella.urls')),
+        # ...
+    )
 
 Add ``salmonella`` to your project's ``INSTALLED_APPS`` and you should be ready to go::
 
