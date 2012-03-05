@@ -30,7 +30,7 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
             'model_name': model_name,
             'related_url': related_url,
             'url': url,
-            'admin_media_prefix': settings.ADMIN_MEDIA_PREFIX,
+            'SALMONELLA_STATIC': settings.STATIC_URL + 'salmonella/'
         }
         return render_to_string('salmonella/admin/widgets/salmonella_field.html',
                                 extra_context)
