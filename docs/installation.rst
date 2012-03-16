@@ -25,6 +25,7 @@ Add URLS
 ********
 
 Add the following line to urls.py::
+
     urlpatterns = patterns('',
         ...
         (r'^admin/salmonella/', include('salmonella.urls')),
