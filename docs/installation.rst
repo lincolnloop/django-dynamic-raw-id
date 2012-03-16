@@ -21,7 +21,7 @@ You can also install with pip straight from the `github.com`_ repository::
 
     $ pip install git+http://github.com/lincolnloop/django-salmonella.git#egg=django-salmonella
 
-Add URLS
+add URLs
 ********
 
 Add the following line to urls.py::
