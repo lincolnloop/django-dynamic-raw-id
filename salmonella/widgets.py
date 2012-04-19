@@ -1,17 +1,29 @@
 from django.conf import settings
 from django.contrib.admin import widgets
+from django.core.urlresolvers import reverse, NoReverseMatch
+from django.core.exceptions import ImproperlyConfigured
 from django.template.loader import render_to_string
 from django.utils.encoding import force_unicode
-from django.core.urlresolvers import reverse
+
+
+class SalmonellaImproperlyConfigured(ImproperlyConfigured):
+    pass
 
 
 class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
     def render(self, name, value, attrs=None, multi=False):
         if attrs is None:
             attrs = {}
-        related_url = reverse('admin:%s_%s_changelist' %
-                               (self.rel.to._meta.app_label,
-                                self.rel.to._meta.object_name.lower()))
+
+        try:
+            related_url = reverse('admin:%s_%s_changelist' % (
+                self.rel.to._meta.app_label,
+                self.rel.to._meta.object_name.lower()))
+        except NoReverseMatch:
+            raise SalmonellaImproperlyConfigured('The model %s.%s is not '
+                'registered in the admin.' % (self.rel.to._meta.app_label,
+                                              self.rel.to._meta.object_name))
+
         params = self.url_parameters()
         if params:
             url = u'?' + u'&amp;'.join([u'%s=%s' % (k, v) for k, v in params.items()])
