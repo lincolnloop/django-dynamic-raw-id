@@ -10,11 +10,16 @@ A raw_id_fields widget replacement that handles display of an object's string va
 
 .. image:: _static/salmonella_field.png
 
+The project source is located at Github_, please file bugs and requests there
+in the `issue section`_.
+
 Contents:
 
 .. toctree::
    :maxdepth: 1
-   
+
    installation
    usage
 
+.. _Github: https://github.com/lincolnloop/django-salmonella
+.. _issue section: https://github.com/lincolnloop/django-salmonella/issues

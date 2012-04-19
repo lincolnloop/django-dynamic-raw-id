@@ -8,10 +8,7 @@ To start using django-salmonella in your application all you need to do is imple
     class UserProfileAdmin(SalmonellaMixin, admin.ModelAdmin):
         salmonella_fields = ('user',)
 
-Note
-****
-
-Don't forget to enable model admin's for each field specified in salmonella_fields.
+.. note:: Don't forget to enable model admin's for each field specified in salmonella_fields.
 
 Customizing the value of the dynamic widget
 *******************************************
