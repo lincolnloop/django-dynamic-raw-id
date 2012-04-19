@@ -19,7 +19,6 @@ setup(
         'templates/salmonella/admin/widgets/*.html'
     ]},
     url="http://github.com/lincolnloop/django-salmonella/",
-    install_requires=['setuptools'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
