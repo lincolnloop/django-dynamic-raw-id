@@ -4,10 +4,11 @@ from django.shortcuts import render_to_response
 from django.db.models import get_model
 from django.contrib.auth.decorators import user_passes_test
 
+
 @user_passes_test(lambda u: u.is_staff)
 def label_view(request, app_name, model_name, template_name="", multi=False,
                template_object_name="object"):
-    
+
     try:
         object_id = request.GET.get("id", "")
         model = get_model(app_name, model_name)
@@ -31,7 +32,7 @@ def label_view(request, app_name, model_name, template_name="", multi=False,
             change_url = reverse("admin:%s_%s_change" % (app_name, model_name),
                                  args=[obj.id])
             obj = (obj, change_url)
-        
+
             extra_context = {
                 template_object_name: obj,
             }
