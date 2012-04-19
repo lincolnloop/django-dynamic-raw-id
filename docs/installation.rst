@@ -19,9 +19,9 @@ pip from source
 
 You can also install with pip straight from the `github.com`_ repository::
 
-    $ pip install git+http://github.com/lincolnloop/django-salmonella.git#egg=django-salmonella
-    
-    
+    $ pip install https://github.com/lincolnloop/django-salmonella/tarball/master
+
+
 Finally
 *******
 
