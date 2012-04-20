@@ -23,7 +23,7 @@
                     if (name.search(/__prefix__/) != -1){
                         name = element.attr("id").replace("id_", "");
                     }
-                    
+
                     $.ajax({
                         url: url,
                         data: {"id": value},
@@ -33,7 +33,7 @@
                     });
                 }
             } catch (e) {
-                console.log("Oups, we have a problem" + e)
+                console.log("Oups, we have a problem" + e);
             }
         }
 
@@ -44,25 +44,27 @@
             $(this).trigger('change');
             e.stopPropagation();
         });
+
         $(".vForeignKeyRawIdAdminField").change(function(e){
             var $this = $(this);
             update_salmonella_label($this, mutli=false);
             e.stopPropagation();
         });
+
         // Handle ManyToManyRawIdAdminFields.
         $(".vManyToManyRawIdAdminField").change(function(e){
             var $this = $(this);
             update_salmonella_label($this, multi=true);
             e.stopPropagation();
         });
-        
-        // clear both the input field and the labels
+
+        // Clear both the input field and the labels
         $(".salmonella-clear-field").click(function(e){
             var $this = $(this);
-            $this.parent().find('input').val("")
-            $this.parent().find(".salmonella_label").empty()
+            $this.parent().find('input').val("");
+            $this.parent().find(".salmonella_label").empty();
         });
-        
+
         // Open up the pop up window and set the focus in the input field
         $(".salmonella-related-lookup").click(function(e){
             // Actual Django javascript function
