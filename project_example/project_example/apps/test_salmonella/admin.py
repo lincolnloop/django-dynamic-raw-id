@@ -6,7 +6,7 @@ from .models import SalmonellaTest
 
 
 class SalmonellaTestAdmin(SalmonellaMixin, admin.ModelAdmin):
-    salmonella_fields = ('user',)
+    salmonella_fields = ('user', 'staff_member')
 
 
 admin.site.register(SalmonellaTest, SalmonellaTestAdmin)
