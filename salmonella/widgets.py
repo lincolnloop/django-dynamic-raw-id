@@ -26,7 +26,7 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
 
         params = self.url_parameters()
         if params:
-            url = u'?' + u'&amp;'.join([u'%s=%s' % (k, v) for k, v in params.items()])
+            url = u'?' + u'&'.join([u'%s=%s' % (k, v) for k, v in params.items()])
         else:
             url = u''
         if "class" not in attrs:
