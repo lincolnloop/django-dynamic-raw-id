@@ -1,4 +1,4 @@
-VERSION = (0, 5, 1, "a")  # following PEP 386
+VERSION = (0, 5, 1, "a", "1")  # following PEP 386
 DEV_N = 1  # for PyPi releases, set this to None
 
 
