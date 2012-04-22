@@ -84,7 +84,7 @@ function dismissRelatedLookupPopup(win, chosenId) {
         });
 
         // Fire the event to update the solmonella fields on loads
-        django.jQuery(".vManyToManyRawIdAdminField").trigger('change');
-        django.jQuery(".vForeignKeyRawIdAdminField").trigger('change');
+        $(".vManyToManyRawIdAdminField").trigger('change');
+        $(".vForeignKeyRawIdAdminField").trigger('change');
     });
 })(django.jQuery);
