@@ -27,7 +27,7 @@ def label_view(request, app_name, model_name, template_name="", multi=False,
         except ValueError:
             pass
 
-    # Check if at least one value survived this cleanup. If not,
+    # Check if at least one value survived this cleanup.
     if len(object_list) == 0:
         msg = 'No list or only invalid ids of objects given'
         return HttpResponseBadRequest(settings.DEBUG and msg or '')

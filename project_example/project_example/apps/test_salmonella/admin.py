@@ -6,7 +6,8 @@ from .models import SalmonellaTest
 
 
 class SalmonellaTestAdmin(SalmonellaMixin, admin.ModelAdmin):
-    salmonella_fields = ('user', 'staff_member', 'staff_member_many')
+    raw_id_fields = ('rawid_fk', 'rawid_fk_limited', 'rawid_many')
+    salmonella_fields = ('salmonella_fk', 'salmonella_fk_limited', 'salmonella_many')
 
 
 admin.site.register(SalmonellaTest, SalmonellaTestAdmin)
