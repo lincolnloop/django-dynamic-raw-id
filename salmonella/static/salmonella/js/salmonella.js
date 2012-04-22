@@ -1,5 +1,21 @@
+// Overwrite Django's `dismissRelatedLookupPopup` to trigger a change event
+// on the value change, so Salmonella can catch it and update the associated
+// label.
+function dismissRelatedLookupPopup(win, chosenId) {
+    var name = windowname_to_id(win.name);
+    var elem = document.getElementById(name);
+    if (elem.className.indexOf('vManyToManyRawIdAdminField') != -1 && elem.value) {
+        elem.value += ',' + chosenId;
+    } else {
+        elem.value = chosenId;
+    }
+    django.jQuery(elem).trigger('change');
+    win.close();
+}
+
 (function($) {
     $(document).ready(function($) {
+
         function update_salmonella_label(element, multi){
             var name = element.next("a").attr("data-name"),
                 app = element.next("a").attr("data-app"),
@@ -37,14 +53,6 @@
             }
         }
 
-        // A big of a workaround to fire the change event on
-        // blur because 'showRelatedObjectLookupPopup'
-        // doesn't set the value in a way that trigger 'change'
-        $(".vForeignKeyRawIdAdminField, .vManyToManyRawIdAdminField").blur(function(e){
-            $(this).trigger('change');
-            e.stopPropagation();
-        });
-
         $(".vForeignKeyRawIdAdminField").change(function(e){
             var $this = $(this);
             update_salmonella_label($this, mutli=false);
@@ -69,6 +77,7 @@
         $(".salmonella-related-lookup").click(function(e){
             // Actual Django javascript function
             showRelatedObjectLookupPopup(this);
+
             // Set the focus into the input field
             $(this).parent().find('input').focus();
             return false;
