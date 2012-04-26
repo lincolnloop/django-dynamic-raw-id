@@ -21,7 +21,7 @@ function dismissRelatedLookupPopup(win, chosenId) {
                 app = element.next("a").attr("data-app"),
                 model = element.next("a").attr("data-model"),
                 value = element.val(),
-                MOUNT_URL = "/admin/salmonella",
+                MOUNT_URL = window.SALMONELLA_MOUNT_URL || "/admin/salmonella",
                 admin_url_parts = window.location.pathname.split("/").slice(1, 4);
 
             var url = MOUNT_URL;
