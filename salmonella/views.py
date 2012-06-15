@@ -46,11 +46,11 @@ def label_view(request, app_name, model_name, template_name="", multi=False,
     try:
         if multi:
             model_template = "salmonella/%s/multi_%s.html" % (app_name, model_name)
-            objs = model.objects.filter(id__in=object_list)
+            objs = model.objects.filter(pk__in=object_list)
             objects = []
             for obj in objs:
                 change_url = reverse("admin:%s_%s_change" % (app_name, model_name),
-                                     args=[obj.id])
+                                     args=[obj.pk])
                 obj = (obj, change_url)
                 objects.append(obj)
             extra_context = {
@@ -58,9 +58,9 @@ def label_view(request, app_name, model_name, template_name="", multi=False,
             }
         else:
             model_template = "salmonella/%s/%s.html" % (app_name, model_name)
-            obj = model.objects.get(id=object_list[0])
+            obj = model.objects.get(pk=object_list[0])
             change_url = reverse("admin:%s_%s_change" % (app_name, model_name),
-                                 args=[obj.id])
+                                 args=[obj.pk])
             extra_context = {
                 template_object_name: (obj, change_url),
             }

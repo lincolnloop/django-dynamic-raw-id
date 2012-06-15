@@ -1,14 +1,34 @@
 from django.db import models
 
-class SalmonellaTest(models.Model):
-    rawid_fk = models.ForeignKey('auth.User', related_name='rawid_fk')
-    rawid_fk_limited = models.ForeignKey('auth.User',
-        related_name='staff_members', limit_choices_to={'is_staff': True})
-    rawid_many = models.ManyToManyField('auth.User',
-        related_name='staff_members_many')
+class DirectPrimaryKeyModel(models.Model):
+    num = models.IntegerField("Number", primary_key=True)
 
-    salmonella_fk = models.ForeignKey('auth.User', related_name='salmonella_fk')
+
+class SalmonellaTest(models.Model):
+    rawid_fk = models.ForeignKey('auth.User',
+        related_name='rawid_fk', blank=True, null=True)
+
+    rawid_fk_limited = models.ForeignKey('auth.User',
+        related_name='rawid_fk_limited',
+        limit_choices_to={'is_staff': True},
+        blank=True, null=True)
+
+    rawid_many = models.ManyToManyField('auth.User',
+        related_name='rawid_many', blank=True, null=True)
+
+    rawid_fk_direct_pk = models.ForeignKey(DirectPrimaryKeyModel,
+        related_name='rawid_fk_direct_pk', blank=True, null=True)
+
+    salmonella_fk = models.ForeignKey('auth.User',
+        related_name='salmonella_fk', blank=True, null=True)
+
     salmonella_fk_limited = models.ForeignKey('auth.User',
-        related_name='salmonella_fk_limited', limit_choices_to={'is_staff': True})
+        related_name='salmonella_fk_limited',
+        limit_choices_to={'is_staff': True},
+        blank=True, null=True)
+
     salmonella_many = models.ManyToManyField('auth.User',
-        related_name='salmonella_many')
+        related_name='salmonella_many', blank=True, null=True)
+
+    salmonella_fk_direct_pk = models.ForeignKey(DirectPrimaryKeyModel,
+        related_name='salmonella_fk_direct_pk', blank=True, null=True)
