@@ -3,6 +3,9 @@ from django.db import models
 class DirectPrimaryKeyModel(models.Model):
     num = models.IntegerField("Number", primary_key=True)
 
+class CharPrimaryKeyModel(models.Model):
+    chr = models.CharField(max_length=20, primary_key=True)
+
 
 class SalmonellaTest(models.Model):
     rawid_fk = models.ForeignKey('auth.User',
@@ -32,3 +35,6 @@ class SalmonellaTest(models.Model):
 
     salmonella_fk_direct_pk = models.ForeignKey(DirectPrimaryKeyModel,
         related_name='salmonella_fk_direct_pk', blank=True, null=True)
+
+    salmonella_fk_char_pk = models.ForeignKey(CharPrimaryKeyModel,
+            related_name='salmonella_fk_char_pk', blank=True, null=True)
