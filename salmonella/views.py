@@ -21,11 +21,7 @@ def label_view(request, app_name, model_name, template_name="", multi=False,
     # in case the user entered values by hand, such as '1, 2,3'.
     object_list = []
     for pk in request.GET['id'].split(","):
-        try:
-            object_list.append(int(pk))
-        # Not an integer, not convertable
-        except ValueError:
-            pass
+        object_list.append(pk.strip())
 
     # Check if at least one value survived this cleanup.
     if len(object_list) == 0:
@@ -64,6 +60,10 @@ def label_view(request, app_name, model_name, template_name="", multi=False,
             extra_context = {
                 template_object_name: (obj, change_url),
             }
+    # most likely the pk wasn't convertable
+    except ValueError:
+        msg = 'ValueError during lookup'
+        return HttpResponseBadRequest(settings.DEBUG and msg or '')
     except model.DoesNotExist:
         msg = 'Model instance does not exist'
         return HttpResponseBadRequest(settings.DEBUG and msg or '')
