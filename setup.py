@@ -16,6 +16,7 @@ setup(
         'templates/salmonella/admin/*.html',
         'templates/salmonella/admin/widgets/*.html'
     ]},
+    include_package_data=True,
     url="http://github.com/lincolnloop/django-salmonella/",
     zip_safe=False,
     classifiers=[
