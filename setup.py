@@ -14,7 +14,8 @@ setup(
         'static/salmonella/img/*.gif',
         'templates/salmonella/*.html',
         'templates/salmonella/admin/*.html',
-        'templates/salmonella/admin/widgets/*.html'
+        'templates/salmonella/admin/widgets/*.html',
+        'templates/salmonella/admin/filters/*.html'
     ]},
     include_package_data=True,
     url="http://github.com/lincolnloop/django-salmonella/",
