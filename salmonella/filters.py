@@ -15,7 +15,7 @@ class SalmonellaFilterForm(forms.Form):
         """Construct field for given field rel."""
         super(SalmonellaFilterForm, self).__init__(**kwargs)
 
-        self.fields['%s' % field_name] = forms.CharField(
+        self.fields['%s' % field_name] = forms.IntegerField(
             label='', widget=SalmonellaIdWidget(
                 rel=rel, admin_site=admin_site), required=False)
 
