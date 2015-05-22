@@ -3,7 +3,13 @@ from django.contrib.admin import widgets
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.core.exceptions import ImproperlyConfigured
 from django.template.loader import render_to_string
-from django.utils.encoding import force_unicode
+
+import sys
+version = sys.version_info[0]
+if version >= 3:
+    from django.utils.encoding import force_text
+else:
+    from django.utils.encoding import force_unicode
 
 
 class SalmonellaImproperlyConfigured(ImproperlyConfigured):
@@ -34,7 +40,7 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
         app_name = self.rel.to._meta.app_label.strip()
         model_name = self.rel.to._meta.object_name.lower().strip()
         hidden_input = super(widgets.ForeignKeyRawIdWidget, self).render(name, value, attrs)
-
+        
         extra_context = {
             'hidden_input': hidden_input,
             'name': name,
@@ -62,7 +68,10 @@ class SalmonellaMultiIdWidget(SalmonellaIdWidget):
             attrs = {}
         attrs['class'] = 'vManyToManyRawIdAdminField'
         if value:
-            value = ','.join([force_unicode(v) for v in value])
+            if self.version >= 3:
+                value = ','.join([force_text(v) for v in value])
+            else:
+                value = ','.join([force_unicode(v) for v in value])
         else:
             value = ''
         return super(SalmonellaMultiIdWidget, self).render(name, value,
