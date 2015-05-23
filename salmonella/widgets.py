@@ -4,12 +4,10 @@ from django.core.urlresolvers import reverse, NoReverseMatch
 from django.core.exceptions import ImproperlyConfigured
 from django.template.loader import render_to_string
 
-import sys
-version = sys.version_info[0]
-if version >= 3:
+try:
     from django.utils.encoding import force_text
-else:
-    from django.utils.encoding import force_unicode
+except ImportError:
+    from django.utils.encoding import force_unicode as force_text
 
 
 class SalmonellaImproperlyConfigured(ImproperlyConfigured):
@@ -68,10 +66,7 @@ class SalmonellaMultiIdWidget(SalmonellaIdWidget):
             attrs = {}
         attrs['class'] = 'vManyToManyRawIdAdminField'
         if value:
-            if self.version >= 3:
-                value = ','.join([force_text(v) for v in value])
-            else:
-                value = ','.join([force_unicode(v) for v in value])
+            value = ','.join([force_text(v) for v in value])
         else:
             value = ''
         return super(SalmonellaMultiIdWidget, self).render(name, value,
