@@ -3,11 +3,12 @@ from setuptools import find_packages, setup
 
 setup(
     name='django-salmonella',
-    version='1.0',
+    version='1.0a',
     author='Lincoln Loop: Seth Buntin, Yann Malet',
     author_email='info@lincolnloop.com',
     description=("raw_id_fields widget replacement that handles display of an object's "
                  "string value on change and can be overridden via a template."),
+    long_description=open('README.rst').read(),
     url='https://github.com/lincolnloop/django-salmonella/',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
