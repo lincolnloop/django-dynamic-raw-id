@@ -22,7 +22,7 @@ class SalmonellaTest(models.Model):
         blank=True, null=True)
 
     rawid_many = models.ManyToManyField('auth.User',
-        related_name='rawid_many', blank=True, null=True)
+        related_name='rawid_many', blank=True)
 
     rawid_fk_direct_pk = models.ForeignKey(DirectPrimaryKeyModel,
         related_name='rawid_fk_direct_pk', blank=True, null=True)
@@ -36,7 +36,7 @@ class SalmonellaTest(models.Model):
         blank=True, null=True)
 
     salmonella_many = models.ManyToManyField('auth.User',
-        related_name='salmonella_many', blank=True, null=True)
+        related_name='salmonella_many', blank=True)
 
     salmonella_fk_direct_pk = models.ForeignKey(DirectPrimaryKeyModel,
         related_name='salmonella_fk_direct_pk', blank=True, null=True)
