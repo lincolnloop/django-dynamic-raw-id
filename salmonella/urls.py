@@ -1,8 +1,9 @@
 from django.conf.urls import *
+from salmonella.views import label_view
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/multiple/$',
-        'salmonella.views.label_view',
+        label_view,
         {
             'multi': True,
             'template_object_name': 'objects',
@@ -10,9 +11,9 @@ urlpatterns = patterns('',
         },
         name="salmonella_multi_label"),
     url(r'^(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/$',
-        'salmonella.views.label_view',
+        label_view,
         {
             'template_name': 'salmonella/label.html'
         },
         name="salmonella_label"),
-)
+]

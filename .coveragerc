@@ -1,0 +1,13 @@
+[run]
+source = salmonella
+branch = True
+omit =
+    salmonella/tests/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+
+[html]
+directory = /tmp/coverage_html_report

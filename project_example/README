@@ -1,8 +1,0 @@
-This a django project example that can be used to quickly undertsand how
-`django-salmonella` can be used.
-
-In order to get started :
-
-* Create a virtualenv
-* Install Salmonella
-* Install this project example
