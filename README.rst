@@ -2,8 +2,9 @@
 django-salmonella
 =================
 
-A raw_id_fields widget replacement that handles display of an object's string
-value on change and can be overridden via a template. See this example:
+A Django admin raw_id_fields widget replacement that handles display of an
+object's string value on change and can be overridden via a template.
+See this example:
 
 .. image:: http://d.pr/i/10GtM.png
     :target: http://d.pr/i/1kv7d.png
@@ -11,7 +12,7 @@ value on change and can be overridden via a template. See this example:
 Installation
 ============
 
-Install the package with ``pip``:
+Install the package with ``pip``::
 
     $ pip install django-salmonella
 
