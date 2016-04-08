@@ -5,6 +5,7 @@ from django.http import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import render_to_response
 from django.apps import apps
 
+
 @user_passes_test(lambda u: u.is_staff)
 def label_view(request, app_name, model_name, template_name="", multi=False,
                template_object_name="object"):
