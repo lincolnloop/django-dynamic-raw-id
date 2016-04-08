@@ -1,3 +1,9 @@
+.. image:: https://travis-ci.org/lincolnloop/django-salmonella.svg?branch=master
+    :target: https://travis-ci.org/lincolnloop/django-salmonella
+
+.. image:: https://codecov.io/github/lincolnloop/django-salmonella/coverage.svg?branch=master
+    :target: https://codecov.io/github/lincolnloop/django-salmonella?branch=master
+
 =================
 django-salmonella
 =================
