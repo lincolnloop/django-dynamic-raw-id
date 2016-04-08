@@ -31,8 +31,9 @@ def label_view(request, app_name, model_name, template_name="", multi=False,
     # Make sure this model exists and the user has 'change' permission for it.
     # If he doesnt have this permission, Django would not display the
     # change_list in the popup and the user were never able to select objects.
-    model = apps.get_model(app_name, model_name)
-    if not model:
+    try:
+        model = apps.get_model(app_name, model_name)
+    except LookupError:
         msg = 'Model %s.%s does not exist.' % (app_name, model_name)
         return HttpResponseBadRequest(settings.DEBUG and msg or '')
 

@@ -4,6 +4,7 @@ import sys
 from django.conf import settings
 
 SETTINGS = {
+    'DEBUG': True,
     'DATABASES': {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -25,6 +26,7 @@ SETTINGS = {
                 'context_processors': [
                     'django.template.context_processors.debug',
                     'django.template.context_processors.request',
+                    'django.contrib.auth.context_processors.auth',
                 ],
             },
         },
@@ -40,6 +42,7 @@ SETTINGS = {
     ],
     'MIDDLEWARE_CLASSES': (
         'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.middleware.common.CommonMiddleware',
     ),
     'STATIC_ROOT': '/tmp/salmonella_static/',
