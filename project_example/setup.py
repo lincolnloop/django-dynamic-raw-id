@@ -9,6 +9,5 @@ setup(
     author_email='info@lincolnloop.com',
     url='',
     packages=find_packages(),
-    package_data={'project_example': ['static/*.*', 'templates/*.*']},
     scripts=['manage.py'],
 )

@@ -10,12 +10,8 @@ setup(
                  "string value on change and can be overridden via a template."),
     packages=find_packages(),
     package_data={'salmonella': [
-        'static/salmonella/js/*.js',
-        'static/salmonella/img/*.gif',
-        'templates/salmonella/*.html',
-        'templates/salmonella/admin/*.html',
-        'templates/salmonella/admin/widgets/*.html',
-        'templates/salmonella/admin/filters/*.html'
+        'static/*',
+        'templates/*',
     ]},
     include_package_data=True,
     url="http://github.com/lincolnloop/django-salmonella/",

@@ -3,9 +3,14 @@ from django.db import models
 class DirectPrimaryKeyModel(models.Model):
     num = models.IntegerField("Number", primary_key=True)
 
+    def __str__(self):
+        return str(self.num)
+
 class CharPrimaryKeyModel(models.Model):
     chr = models.CharField(max_length=20, primary_key=True)
 
+    def __str__(self):
+        return self.chr
 
 class SalmonellaTest(models.Model):
     rawid_fk = models.ForeignKey('auth.User',
