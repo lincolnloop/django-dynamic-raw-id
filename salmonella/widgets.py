@@ -22,7 +22,8 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
         try:
             related_url = reverse('admin:%s_%s_changelist' % (
                 self.rel.to._meta.app_label,
-                self.rel.to._meta.object_name.lower()))
+                self.rel.to._meta.object_name.lower()),
+                current_app=self.admin_site.name)
         except NoReverseMatch:
             raise SalmonellaImproperlyConfigured('The model %s.%s is not '
                 'registered in the admin.' % (self.rel.to._meta.app_label,
@@ -38,7 +39,7 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
         app_name = self.rel.to._meta.app_label.strip()
         model_name = self.rel.to._meta.object_name.lower().strip()
         hidden_input = super(widgets.ForeignKeyRawIdWidget, self).render(name, value, attrs)
-        
+
         extra_context = {
             'hidden_input': hidden_input,
             'name': name,
