@@ -1,3 +1,16 @@
+This is a fork of Django Salmonella.
+
+This fork adds preserving of the order inside the raw_id fields.
+
+That makes salmonella work with ordered many to many relationship made by django-sortedm2m.
+
+
+Original readme file below.
+
+
+~~~~
+
+
 .. image:: https://travis-ci.org/lincolnloop/django-salmonella.svg?branch=master
     :target: https://travis-ci.org/lincolnloop/django-salmonella
 
