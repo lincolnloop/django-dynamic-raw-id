@@ -1,15 +1,22 @@
 // Overwrite Django's `dismissRelatedLookupPopup` to trigger a change event
-// on the value change, so Salmonella can catch it and update the associated
-// label.
-function dismissRelatedLookupPopup(win, chosenId) {
+// on the value change, so Salmonella can catch it and update the associated label.
+// if an image is to be inserted call the .
+function dismissRelatedLookupPopup(win, chosenId, chosenObj) {
     var name = windowname_to_id(win.name);
     var elem = document.getElementById(name);
-    if (elem.className.indexOf('vManyToManyRawIdAdminField') != -1 && elem.value) {
-        elem.value += ',' + chosenId;
-    } else {
-        elem.value = chosenId;
+
+    if (name === 'id_image_embed' && chosenObj){
+      insertAssetIntoMDE(name, chosenObj);
     }
-    django.jQuery(elem).trigger('change');
+    else {
+      if (elem.className.indexOf('vManyToManyRawIdAdminField') != -1 && elem.value) {
+        elem.value += ',' + chosenId;
+      } else {
+        elem.value = chosenId;
+      }
+      django.jQuery(elem).trigger('change');
+    }
+
     win.close();
 }
 
