@@ -44,12 +44,13 @@ def label_view(request, app_name, model_name, template_name="", multi=False,
         if multi:
             model_template = "salmonella/%s/multi_%s.html" % (app_name, model_name)
             objs = model.objects.filter(pk__in=object_list)
-            objects = []
+            unsorted_objects = {}
             for obj in objs:
                 change_url = reverse("admin:%s_%s_change" % (app_name, model_name),
                                      args=[obj.pk])
-                obj = (obj, change_url)
-                objects.append(obj)
+                unsorted_objects[str(obj.pk)] = (obj, change_url)
+
+            objects = [unsorted_objects.get(i) for i in object_list]
             extra_context = {
                 template_object_name: objects,
             }
