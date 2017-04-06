@@ -55,7 +55,7 @@ function dismissRelatedLookupPopup(win, chosenId) {
 
         $(".vForeignKeyRawIdAdminField").change(function(e){
             var $this = $(this);
-            update_salmonella_label($this, mutli=false);
+            update_salmonella_label($this, multi=false);
             e.stopPropagation();
         });
 
