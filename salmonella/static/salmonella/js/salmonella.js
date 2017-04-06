@@ -84,7 +84,16 @@ function dismissRelatedLookupPopup(win, chosenId) {
         });
 
         // Fire the event to update the solmonella fields on loads
-        $(".vManyToManyRawIdAdminField").trigger('change');
-        $(".vForeignKeyRawIdAdminField").trigger('change');
+        // $(".vManyToManyRawIdAdminField").trigger('change');
+        // $(".vForeignKeyRawIdAdminField").trigger('change');
+
+        // Update the salmonella fields on loads
+        $(".vManyToManyRawIdAdminField").each(function() {
+            update_salmonella_label($(this), multi=true);
+        });
+        $(".vForeignKeyRawIdAdminField").each(function() {
+            update_salmonella_label($(this), multi=false);
+        });
+
     });
 })(django.jQuery);
