@@ -69,8 +69,9 @@ function dismissRelatedLookupPopup(win, chosenId) {
         // Clear both the input field and the labels
         $(".salmonella-clear-field").click(function(e){
             var $this = $(this);
-            $this.parent().find('.vForeignKeyRawIdAdminField, .vManyToManyRawIdAdminField').val("");
-            $this.parent().find(".salmonella_label").empty();
+            $this.parent().find('.vForeignKeyRawIdAdminField, .vManyToManyRawIdAdminField').val("").trigger('change');
+            //$this.parent().find(".salmonella_label").empty();
+            $this.parent().find(".salmonella_label").html("&nbsp;");
         });
 
         // Open up the pop up window and set the focus in the input field
