@@ -55,7 +55,7 @@ function dismissRelatedLookupPopup(win, chosenId) {
 
         $(".vForeignKeyRawIdAdminField").change(function(e){
             var $this = $(this);
-            update_salmonella_label($this, mutli=false);
+            update_salmonella_label($this, multi=false);
             e.stopPropagation();
         });
 
@@ -69,8 +69,9 @@ function dismissRelatedLookupPopup(win, chosenId) {
         // Clear both the input field and the labels
         $(".salmonella-clear-field").click(function(e){
             var $this = $(this);
-            $this.parent().find('.vForeignKeyRawIdAdminField, .vManyToManyRawIdAdminField').val("");
-            $this.parent().find(".salmonella_label").empty();
+            $this.parent().find('.vForeignKeyRawIdAdminField, .vManyToManyRawIdAdminField').val("").trigger('change');
+            //$this.parent().find(".salmonella_label").empty();
+            $this.parent().find(".salmonella_label").html("&nbsp;");
         });
 
         // Open up the pop up window and set the focus in the input field
@@ -84,7 +85,16 @@ function dismissRelatedLookupPopup(win, chosenId) {
         });
 
         // Fire the event to update the solmonella fields on loads
-        $(".vManyToManyRawIdAdminField").trigger('change');
-        $(".vForeignKeyRawIdAdminField").trigger('change');
+        // $(".vManyToManyRawIdAdminField").trigger('change');
+        // $(".vForeignKeyRawIdAdminField").trigger('change');
+
+        // Update the salmonella fields on loads
+        $(".vManyToManyRawIdAdminField").each(function() {
+            update_salmonella_label($(this), multi=true);
+        });
+        $(".vForeignKeyRawIdAdminField").each(function() {
+            update_salmonella_label($(this), multi=false);
+        });
+
     });
 })(django.jQuery);
