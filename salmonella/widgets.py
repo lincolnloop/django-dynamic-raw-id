@@ -15,9 +15,10 @@ class SalmonellaImproperlyConfigured(ImproperlyConfigured):
 
 
 class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
-    def render(self, name, value, attrs=None, multi=False):
-        if attrs is None:
-            attrs = {}
+    template_name = 'salmonella/admin/widgets/salmonella_field.html'
+
+    def get_context(self, name, value, attrs):
+        context = super(SalmonellaIdWidget, self).get_context(name, value, attrs)
 
         try:
             related_url = reverse('admin:%s_%s_changelist' % (
@@ -38,19 +39,16 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
             attrs['class'] = 'vForeignKeyRawIdAdminField'  # The JavaScript looks for this hook.
         app_name = self.rel.to._meta.app_label.strip()
         model_name = self.rel.to._meta.object_name.lower().strip()
-        hidden_input = super(widgets.ForeignKeyRawIdWidget, self).render(name, value, attrs)
 
-        extra_context = {
-            'hidden_input': hidden_input,
+        context.update({
             'name': name,
             'app_name': app_name,
             'model_name': model_name,
             'related_url': related_url,
             'url': url,
             'SALMONELLA_STATIC': settings.STATIC_URL + 'salmonella/'
-        }
-        return render_to_string('salmonella/admin/widgets/salmonella_field.html',
-                                extra_context)
+        })
+        return context
 
     class Media:
         js = (settings.STATIC_URL + "salmonella/js/salmonella.js",)
@@ -62,13 +60,7 @@ class SalmonellaMultiIdWidget(SalmonellaIdWidget):
         if value:
             return value.split(',')
 
-    def render(self, name, value, attrs=None):
-        if attrs is None:
-            attrs = {}
+    def render(self, name, value, attrs):
         attrs['class'] = 'vManyToManyRawIdAdminField'
-        if value:
-            value = ','.join([force_text(v) for v in value])
-        else:
-            value = ''
-        return super(SalmonellaMultiIdWidget, self).render(name, value,
-                                                           attrs, multi=True)
+        value = ','.join([force_text(v) for v in value]) if value else ''
+        return super(SalmonellaMultiIdWidget, self).render(name, value, attrs)

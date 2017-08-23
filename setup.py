@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='django-salmonella',
-    version='1.10.0',
+    version='1.11.0',
     author='Lincoln Loop: Seth Buntin, Yann Malet',
     author_email='info@lincolnloop.com',
     description=("raw_id_fields widget replacement that handles display of an object's "
@@ -27,7 +27,7 @@ setup(
     },
     include_package_data=True,
     install_requires=[
-        'django>=1.8',
+        'django>=1.11',
         'typing>=3.6.2',
     ],
 )
