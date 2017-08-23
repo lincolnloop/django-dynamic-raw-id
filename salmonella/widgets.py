@@ -24,7 +24,7 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
         """
         if VERSION[0] >= 1 and VERSION[1] >= 11:
             return super(SalmonellaIdWidget, self).render(name, value, attrs, renderer=None)
-        
+
         if attrs is None:
             attrs = {}
 
