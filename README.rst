@@ -78,3 +78,40 @@ display as ``Firstname Lastname``, I would create the template
 ``salmonella/auth/user.html`` with::
 
     <span>{{ object.0.first_name }} {{ object.0.last_name }}</span>
+
+A custom admin URL prefix
+=========================
+
+If you have your admin *and* the Salmonella scripts located on a different
+prefix than ``/admin/salmonella/`` you need adjust the ``SALMONELLA_MOUNT_URL``
+JS variable.
+
+Example::
+
+    # In case the script is setup at /foobar/salmonella/
+    url(r'^foobar/salmonella/', include('salmonella.urls')),
+
+    # Provide a
+    <script>
+        window.SALMONELLA_MOUNT_URL = "{% url "admin:index" %}";
+    </script>
+
+An ideal place is the admin ``base_site.html`` template. Full example::
+
+    {% extends "admin/base.html" %}
+
+    {% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+    {% block extrahead %}
+      {{ block.super }}
+      <script>
+        window.SALMONELLA_MOUNT_URL = "{% url "admin:index" %}";
+      </script>
+    {% endblock %}
+
+    {% block branding %}
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+    {% endblock %}
+
+    {% block nav-global %}{% endblock %}
+
