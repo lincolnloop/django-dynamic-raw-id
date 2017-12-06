@@ -4,6 +4,8 @@ cache: pip
 
 python:
   - 2.7
+  - 3.4
+  - 3.5
   - 3.6
 
 env:
@@ -11,6 +13,13 @@ env:
   - DJANGO=1.9.*
   - DJANGO=1.10.*
   - DJANGO=1.11.*
+  - DJANGO=2.0.*
+
+  exclude:
+    - python: 2.7
+      env: DJANGO=2.0.*
+
+env: DJANGO_VERSION=1.4.20
 
 before_install:
   - pip install codecov
