@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.admin import widgets
-from django.core.urlresolvers import reverse, NoReverseMatch
+from django.urls import reverse, NoReverseMatch
 from django.core.exceptions import ImproperlyConfigured
 from django.template.loader import render_to_string
 from django import VERSION
