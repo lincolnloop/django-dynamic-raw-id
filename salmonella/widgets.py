@@ -1,9 +1,13 @@
 from django.conf import settings
 from django.contrib.admin import widgets
-from django.urls import reverse, NoReverseMatch
 from django.core.exceptions import ImproperlyConfigured
 from django.template.loader import render_to_string
 from django import VERSION
+
+try:
+    from django.urls import reverse, NoReverseMatch
+except ImportError:
+    from django.core.urlresolvers import reverse, NoReverseMatch
 
 try:
     from django.utils.encoding import force_text
