@@ -24,8 +24,8 @@ before_install:
   - pip install codecov
 
 install:
-  - pip install -e .
   - pip install django==$DJANGO
+  - pip install -e .
 
 script:
   - coverage run runtests.py
