@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import sys
 
 from django.conf import settings
@@ -45,6 +44,11 @@ SETTINGS = {
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.middleware.common.CommonMiddleware',
     ),
+    'MIDDLEWARE': (
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.middleware.common.CommonMiddleware',
+    ),
     'STATIC_ROOT': '/tmp/salmonella_static/',
     'STATIC_URL': '/static/',
     'ROOT_URLCONF': 'salmonella.tests.testapp.urls'
@@ -57,7 +61,7 @@ def runtests(*test_args):
 
     from django import setup
     from django.test.runner import DiscoverRunner as TestRunner
-    
+
     setup()
     test_runner = TestRunner(verbosity=1)
     failures = test_runner.run_tests(['salmonella'])

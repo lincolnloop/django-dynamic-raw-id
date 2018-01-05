@@ -28,7 +28,7 @@ install:
   - pip install -e .
 
 script:
-  - coverage run runtests.py
+  - coverage run python runtests.py
 
 after_success:
   - codecov

@@ -115,3 +115,8 @@ An ideal place is the admin ``base_site.html`` template. Full example::
 
     {% block nav-global %}{% endblock %}
 
+Testing
+=======
+
+$ python2 ./runtests.py
+$ python3 ./runtests.py
