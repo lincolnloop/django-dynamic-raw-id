@@ -1,10 +1,15 @@
-from django.core.urlresolvers import reverse
 from django.test.testcases import TestCase
 from django.contrib.auth.models import User
 
 from salmonella.tests.testapp.models import (CharPrimaryKeyModel,
                                              DirectPrimaryKeyModel,
                                              SalmonellaTest)
+
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
+
 
 class SalmonellaTestCase(TestCase):
     """
