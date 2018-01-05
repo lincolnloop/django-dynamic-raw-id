@@ -20,8 +20,6 @@ matrix:
     - python: "2.7"
       env: DJANGO=2.0.*
 
-env: DJANGO_VERSION=1.4.20
-
 before_install:
   - pip install codecov
 
