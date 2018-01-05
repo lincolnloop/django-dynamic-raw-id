@@ -14,32 +14,39 @@ class CharPrimaryKeyModel(models.Model):
 
 class SalmonellaTest(models.Model):
     rawid_fk = models.ForeignKey('auth.User',
-        related_name='rawid_fk', blank=True, null=True)
+        related_name='rawid_fk', blank=True, null=True,
+        on_delete=models.CASCADE)
 
     rawid_fk_limited = models.ForeignKey('auth.User',
         related_name='rawid_fk_limited',
         limit_choices_to={'is_staff': True},
-        blank=True, null=True)
+        blank=True, null=True,
+        on_delete=models.CASCADE)
 
     rawid_many = models.ManyToManyField('auth.User',
         related_name='rawid_many', blank=True)
 
     rawid_fk_direct_pk = models.ForeignKey(DirectPrimaryKeyModel,
-        related_name='rawid_fk_direct_pk', blank=True, null=True)
+        related_name='rawid_fk_direct_pk', blank=True, null=True,
+        on_delete=models.CASCADE)
 
     salmonella_fk = models.ForeignKey('auth.User',
-        related_name='salmonella_fk', blank=True, null=True)
+        related_name='salmonella_fk', blank=True, null=True,
+        on_delete=models.CASCADE)
 
     salmonella_fk_limited = models.ForeignKey('auth.User',
         related_name='salmonella_fk_limited',
         limit_choices_to={'is_staff': True},
-        blank=True, null=True)
+        blank=True, null=True,
+        on_delete=models.CASCADE)
 
     salmonella_many = models.ManyToManyField('auth.User',
         related_name='salmonella_many', blank=True)
 
     salmonella_fk_direct_pk = models.ForeignKey(DirectPrimaryKeyModel,
-        related_name='salmonella_fk_direct_pk', blank=True, null=True)
+        related_name='salmonella_fk_direct_pk', blank=True, null=True,
+        on_delete=models.CASCADE)
 
     salmonella_fk_char_pk = models.ForeignKey(CharPrimaryKeyModel,
-            related_name='salmonella_fk_char_pk', blank=True, null=True)
+            related_name='salmonella_fk_char_pk', blank=True, null=True,
+            on_delete=models.CASCADE)
