@@ -10,6 +10,12 @@ from salmonella.tests.testapp.models import (CharPrimaryKeyModel,
                                              DirectPrimaryKeyModel,
                                              SalmonellaTest)
 
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
+
+
 class SalmonellaTestCase(TestCase):
     """
     Test the basic integrity of the app. We can't test the Javascript side
