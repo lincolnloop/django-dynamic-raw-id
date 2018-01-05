@@ -1,6 +1,10 @@
-from django.core.urlresolvers import reverse
 from django.test.testcases import TestCase
 from django.contrib.auth.models import User
+
+try:
+    from django.urls import reverse, NoReverseMatch
+except ImportError:
+    from django.core.urlresolvers import reverse, NoReverseMatch
 
 from salmonella.tests.testapp.models import (CharPrimaryKeyModel,
                                              DirectPrimaryKeyModel,
