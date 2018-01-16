@@ -31,7 +31,12 @@ class SalmonellaFilter(admin.filters.FieldListFilter):
         self.lookup_kwarg = '%s' % field_path
         super(SalmonellaFilter, self).__init__(
             field, request, params, model, model_admin, field_path)
-        self.form = self.get_form(request, field.rel, model_admin.admin_site)
+        if hasattr(field, 'remote_field'):
+            rel = field.remote_field
+        else:
+            rel = field.rel
+
+        self.form = self.get_form(request, rel, model_admin.admin_site)
 
     def choices(self, cl):
         """Filter choices are not available."""
