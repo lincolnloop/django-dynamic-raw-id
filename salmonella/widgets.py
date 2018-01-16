@@ -73,7 +73,7 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
 
         model = None
         if (VERSION[0] == 2):
-            model = self.remote_field.model
+            model = self.rel.model
         else:
             model = self.rel.to
 
