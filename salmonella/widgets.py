@@ -26,27 +26,21 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
         """
         Django <= 1.10 variant.
         """
-        if VERSION[0] >= 1 and VERSION[1] >= 11:
+        if (VERSION[0] == 1 and VERSION[1] >= 11) or (VERSION[0] >= 2):
             return super(SalmonellaIdWidget, self).render(name, value, attrs, renderer=None)
 
         if attrs is None:
             attrs = {}
 
-        rel = self.rel
-        if hasattr(rel, 'model'):
-            model = rel.model
-        else:
-            model = rel.to
-
         try:
             related_url = reverse('admin:%s_%s_changelist' % (
-                model._meta.app_label,
-                model._meta.object_name.lower()),
+                self.rel.to._meta.app_label,
+                self.rel.to._meta.object_name.lower()),
                 current_app=self.admin_site.name)
         except NoReverseMatch:
             raise SalmonellaImproperlyConfigured('The model %s.%s is not '
-                'registered in the admin.' % (model._meta.app_label,
-                                              model._meta.object_name))
+                'registered in the admin.' % (self.rel.to._meta.app_label,
+                                              self.rel.to._meta.object_name))
 
         params = self.url_parameters()
         if params:
@@ -55,8 +49,8 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
             url = u''
         if "class" not in attrs:
             attrs['class'] = 'vForeignKeyRawIdAdminField'  # The JavaScript looks for this hook.
-        app_name = model._meta.app_label.strip()
-        model_name = model._meta.object_name.lower().strip()
+        app_name = self.rel.to._meta.app_label.strip()
+        model_name = self.rel.to._meta.object_name.lower().strip()
         hidden_input = super(widgets.ForeignKeyRawIdWidget, self).render(name, value, attrs)
 
         extra_context = {
@@ -77,11 +71,11 @@ class SalmonellaIdWidget(widgets.ForeignKeyRawIdWidget):
         """
         context = super(SalmonellaIdWidget, self).get_context(name, value, attrs)
 
-        rel = self.rel
-        if hasattr(rel, 'model'):
-            model = rel.model
+        model = None
+        if (VERSION[0] == 2):
+            model = self.rel.model
         else:
-            model = rel.to
+            model = self.rel.to
 
         try:
             related_url = reverse('admin:%s_%s_changelist' % (

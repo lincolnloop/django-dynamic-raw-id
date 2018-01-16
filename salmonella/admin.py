@@ -1,4 +1,5 @@
 from salmonella.widgets import SalmonellaIdWidget, SalmonellaMultiIdWidget
+from django import VERSION
 
 
 class SalmonellaMixin(object):
@@ -6,7 +7,8 @@ class SalmonellaMixin(object):
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name in self.salmonella_fields:
-            if hasattr(db_field, 'model'):
+
+            if VERSION[0] == 2:
                 rel = db_field.model
             else:
                 rel = db_field.rel
@@ -18,7 +20,8 @@ class SalmonellaMixin(object):
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name in self.salmonella_fields:
-            if hasattr(db_field, 'model'):
+
+            if VERSION[0] == 2:
                 rel = db_field.model
             else:
                 rel = db_field.rel
