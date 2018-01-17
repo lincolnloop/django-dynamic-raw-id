@@ -4,6 +4,7 @@
 
 from django import forms
 from django.contrib import admin
+from django import VERSION
 from salmonella.widgets import SalmonellaIdWidget
 
 
@@ -31,7 +32,8 @@ class SalmonellaFilter(admin.filters.FieldListFilter):
         self.lookup_kwarg = '%s' % field_path
         super(SalmonellaFilter, self).__init__(
             field, request, params, model, model_admin, field_path)
-        if hasattr(field, 'remote_field'):
+
+        if VERSION[0] == 2:
             rel = field.remote_field
         else:
             rel = field.rel
