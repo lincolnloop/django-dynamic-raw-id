@@ -115,8 +115,36 @@ An ideal place is the admin ``base_site.html`` template. Full example::
 
     {% block nav-global %}{% endblock %}
 
-Testing
-=======
 
-$ python2 ./runtests.py
-$ python3 ./runtests.py
+Testing and Local Development
+=============================
+
+Run the testsuite in your local environment using::
+
+    $ cd django-salmonella/
+    $ pipenv install --dev
+    $ pipenv run python ./runtests.py
+
+Or use tox to test against various Django and Python versions::
+
+    $ tox -r
+
+You can also invoke the test suite or other 'manage.py' commands by calling
+the ``django-admin`` tool with the test app settings::
+
+    $ cd django-salmonella/
+    $ pipenv install --dev
+    $ pipenv run django-admin
+    $ pipenv run django-admin test
+
+This also allows you to run the internal testing app in a testserver, to
+preview a sample of what django-salmonella is doing::
+
+    $ pipenv run django-admin migrate
+    $ pipenv run django-admin createsuperuser
+    $ pipenv run django-admin runserver
+
+.. note:: The default settings file is set in the ``.env`` file which
+   pipenv automatically exposes::
+
+    DJANGO_SETTINGS_MODULE=salmonella.tests.testapp.settings
