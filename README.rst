@@ -1,8 +1,8 @@
-.. image:: https://travis-ci.org/lincolnloop/django-dynamic_rawid.svg?branch=master
-    :target: https://travis-ci.org/lincolnloop/django-dynamic_rawid
+.. image:: https://travis-ci.org/lincolnloop/django-dynamic-rawid.svg?branch=master
+    :target: https://travis-ci.org/lincolnloop/django-dynamic-rawid
 
-.. image:: https://codecov.io/github/lincolnloop/django-dynamic_rawid/coverage.svg?branch=master
-    :target: https://codecov.io/github/lincolnloop/django-dynamic_rawid?branch=master
+.. image:: https://codecov.io/github/lincolnloop/django-dynamic-rawid/coverage.svg?branch=master
+    :target: https://codecov.io/github/lincolnloop/django-dynamic-rawid?branch=master
 
 
 .. important:: django-salmonella was renamed to django-dynamic-rawid and
@@ -13,7 +13,7 @@
    - ``salmonella`` with ``dynamic_rawid``.
 
 ====================
-django-dynamic_rawid
+django-dynamic-rawid
 ====================
 
 A Django admin raw_id_fields widget replacement that handles display of an
@@ -50,7 +50,7 @@ And add the ``urlpattern``::
 Usage
 =====
 
-To start using django-dynamic_rawid in your application all you need to do is
+To start using django-dynamic-rawid in your application all you need to do is
 implement ``dynamic_rawidMixin`` in your  ``ModelAdmin`` class and add the desired
 fields to a list of ``dynamic_rawid_fields``::
 
@@ -73,12 +73,12 @@ You can use dynamic_rawid widgets in a Admin filter as well::
 Customizing the value of the dynamic widget
 ===========================================
 
-The coolest feature of django-dynamic_rawid is the ability to customize the output
+The coolest feature of django-dynamic-rawid is the ability to customize the output
 of the value displayed alongside the ``dynamic_rawidIdWidget``.  There is a basic
 implementation if all you want is your object's ``__unicode__`` value. To change
 the value displayed all you need to do is implement the correct template.
 
-Django-dynamic_rawid looks for this template structure ``dynamic_rawid/<app>/<model>.html``
+django-dynamic-rawid looks for this template structure ``dynamic_rawid/<app>/<model>.html``
 and ``dynamic_rawid/<app>/multi_<model>.html`` (for multi-value lookups).
 
 For instance, if I have a blog post with a ``User`` dynamic_rawid field that I want
@@ -129,7 +129,7 @@ Testing and Local Development
 
 Run the testsuite in your local environment using::
 
-    $ cd django-dynamic_rawid/
+    $ cd django-dynamic-rawid/
     $ pipenv install --dev
     $ pipenv run python ./runtests.py
 
@@ -140,13 +140,13 @@ Or use tox to test against various Django and Python versions::
 You can also invoke the test suite or other 'manage.py' commands by calling
 the ``django-admin`` tool with the test app settings::
 
-    $ cd django-dynamic_rawid/
+    $ cd django-dynamic-rawid/
     $ pipenv install --dev
     $ pipenv run django-admin
     $ pipenv run django-admin test
 
 This also allows you to run the internal testing app in a testserver, to
-preview a sample of what django-dynamic_rawid is doing::
+preview a sample of what django-dynamic-rawid is doing::
 
     $ pipenv run django-admin migrate
     $ pipenv run django-admin createsuperuser
