@@ -18,13 +18,13 @@ class Migration(migrations.Migration):
             field=models.IntegerField(primary_key=True, serialize=False, verbose_name='Number'),
         ),
         migrations.AlterField(
-            model_name='salmonellatest',
+            model_name='dynamic_rawidtest',
             name='rawid_fk_limited',
             field=models.ForeignKey(blank=True, limit_choices_to={'is_staff': True}, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='rawid_fk_limited', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
-            model_name='salmonellatest',
-            name='salmonella_fk_limited',
-            field=models.ForeignKey(blank=True, limit_choices_to={'is_staff': True}, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='salmonella_fk_limited', to=settings.AUTH_USER_MODEL),
+            model_name='dynamic_rawidtest',
+            name='dynamic_rawid_fk_limited',
+            field=models.ForeignKey(blank=True, limit_choices_to={'is_staff': True}, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='dynamic_rawid_fk_limited', to=settings.AUTH_USER_MODEL),
         ),
     ]

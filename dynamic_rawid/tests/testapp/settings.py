@@ -1,6 +1,6 @@
 DEBUG = True
 
-SECRET_KEY = "super-secret-salmonella-key"
+SECRET_KEY = "super-secret-dynamic_rawid-key"
 
 DATABASES = {
     'default': {
@@ -31,8 +31,8 @@ TEMPLATES = [
 ]
 
 INSTALLED_APPS = [
-    'salmonella',
-    'salmonella.tests.testapp',
+    'dynamic_rawid',
+    'dynamic_rawid.tests.testapp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sessions',
@@ -49,6 +49,6 @@ MIDDLEWARE_CLASSES = (
 
 MIDDLEWARE = MIDDLEWARE_CLASSES
 
-STATIC_ROOT = '/tmp/salmonella_static/'
+STATIC_ROOT = '/tmp/dynamic_rawid_static/'
 STATIC_URL = '/static/'
-ROOT_URLCONF = 'salmonella.tests.testapp.urls'
+ROOT_URLCONF = 'dynamic_rawid.tests.testapp.urls'

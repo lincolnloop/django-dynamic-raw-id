@@ -1,5 +1,5 @@
 from django.conf.urls import *
-from salmonella.views import label_view
+from dynamic_rawid.views import label_view
 
 urlpatterns = [
     url(r'^(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/multiple/$',
@@ -7,13 +7,13 @@ urlpatterns = [
         {
             'multi': True,
             'template_object_name': 'objects',
-            'template_name': 'salmonella/multi_label.html'
+            'template_name': 'dynamic_rawid/multi_label.html'
         },
-        name="salmonella_multi_label"),
+        name="dynamic_rawid_multi_label"),
     url(r'^(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/$',
         label_view,
         {
-            'template_name': 'salmonella/label.html'
+            'template_name': 'dynamic_rawid/label.html'
         },
-        name="salmonella_label"),
+        name="dynamic_rawid_label"),
 ]

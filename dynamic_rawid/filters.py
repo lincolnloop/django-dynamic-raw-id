@@ -1,36 +1,36 @@
 # coding: utf-8
 
-"""Salmonella filters."""
+"""dynamic_rawid filters."""
 
 from django import forms
 from django.contrib import admin
 from django import VERSION
-from salmonella.widgets import SalmonellaIdWidget
+from dynamic_rawid.widgets import dynamic_rawidIdWidget
 
 
-class SalmonellaFilterForm(forms.Form):
+class dynamic_rawidFilterForm(forms.Form):
 
-    """Form for Salmonella filter."""
+    """Form for dynamic_rawid filter."""
 
     def __init__(self, rel, admin_site, field_name, **kwargs):
         """Construct field for given field rel."""
-        super(SalmonellaFilterForm, self).__init__(**kwargs)
+        super(dynamic_rawidFilterForm, self).__init__(**kwargs)
 
         self.fields['%s' % field_name] = forms.IntegerField(
-            label='', widget=SalmonellaIdWidget(
+            label='', widget=dynamic_rawidIdWidget(
                 rel=rel, admin_site=admin_site), required=False)
 
 
-class SalmonellaFilter(admin.filters.FieldListFilter):
+class dynamic_rawidFilter(admin.filters.FieldListFilter):
 
     """Filter list queryset by primary key of related object."""
 
-    template = 'salmonella/admin/filters/salmonella_filter.html'
+    template = 'dynamic_rawid/admin/filters/dynamic_rawid_filter.html'
 
     def __init__(self, field, request, params, model, model_admin, field_path):
         """Use GET param for lookup and form initialization."""
         self.lookup_kwarg = '%s' % field_path
-        super(SalmonellaFilter, self).__init__(
+        super(dynamic_rawidFilter, self).__init__(
             field, request, params, model, model_admin, field_path)
 
         if VERSION[0] == 2:
@@ -50,7 +50,7 @@ class SalmonellaFilter(admin.filters.FieldListFilter):
 
     def get_form(self, request, rel, admin_site):
         """Return filter form."""
-        return SalmonellaFilterForm(admin_site=admin_site, rel=rel,
+        return dynamic_rawidFilterForm(admin_site=admin_site, rel=rel,
                                     field_name=self.field_path,
                                     data=self.used_parameters)
 

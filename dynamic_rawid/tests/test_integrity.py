@@ -6,9 +6,9 @@ try:
 except ImportError:
     from django.core.urlresolvers import reverse, NoReverseMatch
 
-from salmonella.tests.testapp.models import (CharPrimaryKeyModel,
+from dynamic_rawid.tests.testapp.models import (CharPrimaryKeyModel,
                                              DirectPrimaryKeyModel,
-                                             SalmonellaTest)
+                                             dynamic_rawidTest)
 
 try:
     from django.urls import reverse
@@ -16,11 +16,11 @@ except ImportError:
     from django.core.urlresolvers import reverse
 
 
-class SalmonellaTestCase(TestCase):
+class dynamic_rawidTestCase(TestCase):
     """
     Test the basic integrity of the app. We can't test the Javascript side
     and all those fancy popups, but we can load an admin view and check that
-    Salmonella was successfully loaded and displays items properly.
+    dynamic_rawid was successfully loaded and displays items properly.
     """
     def setUp(self):
         self.admin = User.objects.create_superuser('admin', '', 'admin')
@@ -30,9 +30,9 @@ class SalmonellaTestCase(TestCase):
         self.client.logout()
 
     def get_labelview_url(self, multi=False):
-        name = multi and 'salmonella_multi_label' or 'salmonella_label'
+        name = multi and 'dynamic_rawid_multi_label' or 'dynamic_rawid_label'
         return reverse(name, kwargs={
-            'app_name': 'testapp', 'model_name': 'salmonellatest'
+            'app_name': 'testapp', 'model_name': 'dynamic_rawidtest'
         })
 
     def create_sample_data(self):
@@ -44,35 +44,35 @@ class SalmonellaTestCase(TestCase):
         self.c1 = CharPrimaryKeyModel.objects.create(chr='helloworld')
         self.n1 = DirectPrimaryKeyModel.objects.create(num=12345)
 
-        self.obj = SalmonellaTest.objects.create(
+        self.obj = dynamic_rawidTest.objects.create(
             rawid_fk=self.u1,
             rawid_fk_limited=self.u1,
             rawid_fk_direct_pk=self.n1,
-            salmonella_fk=self.u1,
-            salmonella_fk_limited=self.u1,
-            salmonella_fk_direct_pk=self.n1,
-            salmonella_fk_char_pk=self.c1,
+            dynamic_rawid_fk=self.u1,
+            dynamic_rawid_fk_limited=self.u1,
+            dynamic_rawid_fk_direct_pk=self.n1,
+            dynamic_rawid_fk_char_pk=self.c1,
         )
         self.obj.rawid_many.add(self.u1, self.u2)
-        self.obj.salmonella_many.add(self.u1, self.u2)
+        self.obj.dynamic_rawid_many.add(self.u1, self.u2)
 
     def test_changelist_integrity(self):
         """
-        The `SalmonellaFilter` is hooked up in the right filter bar of the
+        The `dynamic_rawidFilter` is hooked up in the right filter bar of the
         testapp changelist view.
         """
         self.create_sample_data()
-        list_url = reverse('admin:testapp_salmonellatest_changelist')
+        list_url = reverse('admin:testapp_dynamic_rawidtest_changelist')
         response = self.client.get(list_url)
         self.assertEqual(response.status_code, 200)
 
     def test_change_integrity(self):
         """
-        The `SalmonellaFilter` is hooked up in the right filter bar of the
+        The `dynamic_rawidFilter` is hooked up in the right filter bar of the
         testapp changelist view.
         """
         self.create_sample_data()
-        list_url = reverse('admin:testapp_salmonellatest_change', args=(self.obj.pk,))
+        list_url = reverse('admin:testapp_dynamic_rawidtest_change', args=(self.obj.pk,))
         response = self.client.get(list_url)
         self.assertEqual(response.status_code, 200)
 

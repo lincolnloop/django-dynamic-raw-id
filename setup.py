@@ -2,14 +2,14 @@
 from setuptools import find_packages, setup
 
 setup(
-    name='django-salmonella',
-    version='1.2',
-    author='Lincoln Loop: Seth Buntin, Yann Malet',
+    name='django-dynamic-rawid',
+    version='2.0',
+    author='Martin Mahner, Seth Buntin, Yann Malet',
     author_email='info@lincolnloop.com',
     description=("raw_id_fields widget replacement that handles display of an object's "
                  "string value on change and can be overridden via a template."),
     long_description=open('README.rst').read(),
-    url='https://github.com/lincolnloop/django-salmonella/',
+    url='https://github.com/lincolnloop/django-dynamic-rawid/',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
@@ -22,7 +22,7 @@ setup(
     ],
     packages=find_packages(),
     package_data={
-        'salmonella': ['templates/*.*', 'static/*.*'],
+        'dynamic_rawid': ['templates/*.*', 'static/*.*'],
         'docs': ['*'],
     },
     include_package_data=True,

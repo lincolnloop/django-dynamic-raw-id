@@ -1,8 +1,8 @@
 [run]
-source = salmonella
+source = dynamic_rawid
 branch = True
 omit =
-    salmonella/tests/*
+    dynamic_rawid/tests/*
 
 [report]
 exclude_lines =

@@ -1,5 +1,5 @@
 // Overwrite Django's `dismissRelatedLookupPopup` to trigger a change event
-// on the value change, so Salmonella can catch it and update the associated
+// on the value change, so dynamic_rawid can catch it and update the associated
 // label.
 function dismissRelatedLookupPopup(win, chosenId) {
     var name = windowname_to_id(win.name);
@@ -16,12 +16,12 @@ function dismissRelatedLookupPopup(win, chosenId) {
 (function($) {
     $(document).ready(function($) {
 
-        function update_salmonella_label(element, multi){
+        function update_dynamic_rawid_label(element, multi){
             var name = element.next("a").attr("data-name"),
                 app = element.next("a").attr("data-app"),
                 model = element.next("a").attr("data-model"),
                 value = element.val(),
-                MOUNT_URL = window.SALMONELLA_MOUNT_URL || "/admin/salmonella",
+                MOUNT_URL = window.dynamic_rawid_MOUNT_URL || "/admin/dynamic_rawid",
                 admin_url_parts = window.location.pathname.split("/").slice(1, 4);
 
             var url = MOUNT_URL;
@@ -44,7 +44,7 @@ function dismissRelatedLookupPopup(win, chosenId) {
                         url: url,
                         data: {"id": value},
                         success: function(data){
-                            $("#" + name + "_salmonella_label").html(" " + data);
+                            $("#" + name + "_dynamic_rawid_label").html(" " + data);
                         }
                     });
                 }
@@ -55,27 +55,27 @@ function dismissRelatedLookupPopup(win, chosenId) {
 
         $(".vForeignKeyRawIdAdminField").change(function(e){
             var $this = $(this);
-            update_salmonella_label($this, multi=false);
+            update_dynamic_rawid_label($this, multi=false);
             e.stopPropagation();
         });
 
         // Handle ManyToManyRawIdAdminFields.
         $(".vManyToManyRawIdAdminField").change(function(e){
             var $this = $(this);
-            update_salmonella_label($this, multi=true);
+            update_dynamic_rawid_label($this, multi=true);
             e.stopPropagation();
         });
 
         // Clear both the input field and the labels
-        $(".salmonella-clear-field").click(function(e){
+        $(".dynamic_rawid-clear-field").click(function(e){
             var $this = $(this);
             $this.parent().find('.vForeignKeyRawIdAdminField, .vManyToManyRawIdAdminField').val("").trigger('change');
-            //$this.parent().find(".salmonella_label").empty();
-            $this.parent().find(".salmonella_label").html("&nbsp;");
+            //$this.parent().find(".dynamic_rawid_label").empty();
+            $this.parent().find(".dynamic_rawid_label").html("&nbsp;");
         });
 
         // Open up the pop up window and set the focus in the input field
-        $(".salmonella-related-lookup").click(function(e){
+        $(".dynamic_rawid-related-lookup").click(function(e){
             // Actual Django javascript function
             showRelatedObjectLookupPopup(this);
 
@@ -88,12 +88,12 @@ function dismissRelatedLookupPopup(win, chosenId) {
         // $(".vManyToManyRawIdAdminField").trigger('change');
         // $(".vForeignKeyRawIdAdminField").trigger('change');
 
-        // Update the salmonella fields on loads
+        // Update the dynamic_rawid fields on loads
         $(".vManyToManyRawIdAdminField").each(function() {
-            update_salmonella_label($(this), multi=true);
+            update_dynamic_rawid_label($(this), multi=true);
         });
         $(".vForeignKeyRawIdAdminField").each(function() {
-            update_salmonella_label($(this), multi=false);
+            update_dynamic_rawid_label($(this), multi=false);
         });
 
     });

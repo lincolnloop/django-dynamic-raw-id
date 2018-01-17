@@ -1,4 +1,4 @@
 include README.rst
 include LICENSE
-recursive-include salmonella/static *
-recursive-include salmonella/templates *
+recursive-include dynamic_rawid/static *
+recursive-include dynamic_rawid/templates *

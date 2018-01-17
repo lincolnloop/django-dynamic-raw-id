@@ -12,7 +12,7 @@ class CharPrimaryKeyModel(models.Model):
     def __str__(self):
         return self.chr
 
-class SalmonellaTest(models.Model):
+class dynamic_rawidTest(models.Model):
     rawid_fk = models.ForeignKey('auth.User',
         related_name='rawid_fk', blank=True, null=True,
         on_delete=models.CASCADE)
@@ -30,23 +30,23 @@ class SalmonellaTest(models.Model):
         related_name='rawid_fk_direct_pk', blank=True, null=True,
         on_delete=models.CASCADE)
 
-    salmonella_fk = models.ForeignKey('auth.User',
-        related_name='salmonella_fk', blank=True, null=True,
+    dynamic_rawid_fk = models.ForeignKey('auth.User',
+        related_name='dynamic_rawid_fk', blank=True, null=True,
         on_delete=models.CASCADE)
 
-    salmonella_fk_limited = models.ForeignKey('auth.User',
-        related_name='salmonella_fk_limited',
+    dynamic_rawid_fk_limited = models.ForeignKey('auth.User',
+        related_name='dynamic_rawid_fk_limited',
         limit_choices_to={'is_staff': True},
         blank=True, null=True,
         on_delete=models.CASCADE)
 
-    salmonella_many = models.ManyToManyField('auth.User',
-        related_name='salmonella_many', blank=True)
+    dynamic_rawid_many = models.ManyToManyField('auth.User',
+        related_name='dynamic_rawid_many', blank=True)
 
-    salmonella_fk_direct_pk = models.ForeignKey(DirectPrimaryKeyModel,
-        related_name='salmonella_fk_direct_pk', blank=True, null=True,
+    dynamic_rawid_fk_direct_pk = models.ForeignKey(DirectPrimaryKeyModel,
+        related_name='dynamic_rawid_fk_direct_pk', blank=True, null=True,
         on_delete=models.CASCADE)
 
-    salmonella_fk_char_pk = models.ForeignKey(CharPrimaryKeyModel,
-            related_name='salmonella_fk_char_pk', blank=True, null=True,
+    dynamic_rawid_fk_char_pk = models.ForeignKey(CharPrimaryKeyModel,
+            related_name='dynamic_rawid_fk_char_pk', blank=True, null=True,
             on_delete=models.CASCADE)

@@ -14,13 +14,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='salmonellatest',
+            model_name='dynamic_rawidtest',
             name='rawid_many',
             field=models.ManyToManyField(blank=True, related_name='rawid_many', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
-            model_name='salmonellatest',
-            name='salmonella_many',
-            field=models.ManyToManyField(blank=True, related_name='salmonella_many', to=settings.AUTH_USER_MODEL),
+            model_name='dynamic_rawidtest',
+            name='dynamic_rawid_many',
+            field=models.ManyToManyField(blank=True, related_name='dynamic_rawid_many', to=settings.AUTH_USER_MODEL),
         ),
     ]

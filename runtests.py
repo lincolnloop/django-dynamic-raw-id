@@ -9,13 +9,13 @@ from django.test.runner import DiscoverRunner
 def runtests(*test_args):
     # Setup settings
     if not settings.configured:
-        from salmonella.tests.testapp import settings as TEST_SETTINGS
+        from dynamic_rawid.tests.testapp import settings as TEST_SETTINGS
         settings.configure(**TEST_SETTINGS.__dict__)
 
     setup()
 
     test_runner = DiscoverRunner(verbosity=1)
-    failures = test_runner.run_tests(['salmonella'])
+    failures = test_runner.run_tests(['dynamic_rawid'])
     if failures:
         sys.exit(failures)
 
