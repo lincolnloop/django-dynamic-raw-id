@@ -1,20 +1,17 @@
-.. image:: https://travis-ci.org/lincolnloop/django-dynamic-rawid.svg?branch=master
-    :target: https://travis-ci.org/lincolnloop/django-dynamic-rawid
+.. image:: https://travis-ci.org/lincolnloop/django-dynamic-raw-id.svg?branch=master
+    :target: https://travis-ci.org/lincolnloop/django-dynamic-raw-id
 
-.. image:: https://codecov.io/github/lincolnloop/django-dynamic-rawid/coverage.svg?branch=master
-    :target: https://codecov.io/github/lincolnloop/django-dynamic-rawid?branch=master
+.. image:: https://codecov.io/github/lincolnloop/django-dynamic-raw-id/coverage.svg?branch=master
+    :target: https://codecov.io/github/lincolnloop/django-dynamic-raw-id?branch=master
 
 
-.. important:: django-salmonella was renamed to django-dynamic-rawid and
-   re-released as version 2.0. The latest django-salmonella version was 1.2.
-   You can upgrade your code by simply replacing:
+.. important:: django-salmonella was renamed to django-dynamic-raw-id and
+   re-released as version 2.1. The latest django-salmonella version was 1.2.
+   Please upgrade your code, see Installation and Usage below.
 
-   - ``django-salmonella`` with ``django-dynamic-rawid``
-   - ``salmonella`` with ``dynamic_raw_id``.
-
-====================
-django-dynamic-rawid
-====================
+=====================
+django-dynamic-raw-id
+=====================
 
 A Django admin raw_id_fields widget replacement that handles display of an
 object's string value on change and can be overridden via a template.
@@ -28,7 +25,7 @@ Installation
 
 Install the package with ``pip``::
 
-    $ pip install django-dynamic-rawid
+    $ pip install django-dynamic-raw-id
 
 Put ``dynamic_raw_id`` to your list of ``INSTALLED_APPS``::
 
@@ -50,7 +47,7 @@ And add the ``urlpattern``::
 Usage
 =====
 
-To start using django-dynamic-rawid in your application all you need to do is
+To start using django-dynamic-raw-id in your application all you need to do is
 implement ``DynamicRawIDMixin`` in your  ``ModelAdmin`` class and add the desired
 fields to a list of ``dynamic_raw_id_fields``::
 
@@ -73,12 +70,12 @@ You can use dynamic_raw_id widgets in a Admin filter as well::
 Customizing the value of the dynamic widget
 ===========================================
 
-The coolest feature of django-dynamic-rawid is the ability to customize the output
+The coolest feature of django-dynamic-raw-id is the ability to customize the output
 of the value displayed alongside the ``DynamicRawIDWidget``.  There is a basic
 implementation if all you want is your object's ``__unicode__`` value. To change
 the value displayed all you need to do is implement the correct template.
 
-django-dynamic-rawid looks for this template structure ``dynamic_raw_id/<app>/<model>.html``
+django-dynamic-raw-id looks for this template structure ``dynamic_raw_id/<app>/<model>.html``
 and ``dynamic_raw_id/<app>/multi_<model>.html`` (for multi-value lookups).
 
 For instance, if I have a blog post with a ``User`` dynamic_raw_id field that I want
@@ -135,7 +132,7 @@ Homebrew::
 
 Run the testsuite in your local environment using::
 
-    $ cd django-dynamic-rawid/
+    $ cd django-dynamic-raw-id/
     $ pipenv install --dev
     $ pipenv run python ./runtests.py
 
@@ -146,13 +143,13 @@ Or use tox to test against various Django and Python versions::
 You can also invoke the test suite or other 'manage.py' commands by calling
 the ``django-admin`` tool with the test app settings::
 
-    $ cd django-dynamic-rawid/
+    $ cd django-dynamic-raw-id/
     $ pipenv install --dev
     $ pipenv run django-admin
     $ pipenv run django-admin test
 
 This also allows you to run the internal testing app in a testserver, to
-preview a sample of what django-dynamic-rawid is doing::
+preview a sample of what django-dynamic-raw-id is doing::
 
     $ pipenv run django-admin migrate
     $ pipenv run django-admin createsuperuser

@@ -2,14 +2,14 @@
 from setuptools import find_packages, setup
 
 setup(
-    name='django-dynamic-rawid',
-    version='2.0.2',
+    name='django-dynamic-raw-id',
+    version='2.1',
     author='Martin Mahner, Seth Buntin, Yann Malet',
     author_email='info@lincolnloop.com',
     description=("raw_id_fields widget replacement that handles display of an object's "
                  "string value on change and can be overridden via a template."),
     long_description=open('README.rst').read(),
-    url='https://github.com/lincolnloop/django-dynamic-rawid/',
+    url='https://github.com/lincolnloop/django-dynamic-raw-id/',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',

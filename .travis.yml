@@ -1,5 +1,8 @@
 language: python
 
+addons:
+  firefox: latest
+
 cache: pip
 
 python:
@@ -9,11 +12,15 @@ python:
   - 3.6
 
 env:
-  - DJANGO=1.8.*
-  - DJANGO=1.9.*
-  - DJANGO=1.10.*
-  - DJANGO=1.11.*
-  - DJANGO=2.0.*
+  global:
+    - GECKODRIVER_VERSION=0.19.1
+    - MOZ_HEADLESS=1
+  matrix:
+    - DJANGO=1.8.*
+    - DJANGO=1.9.*
+    - DJANGO=1.10.*
+    - DJANGO=1.11.*
+    - DJANGO=2.0.*
 
 matrix:
   exclude:
@@ -23,9 +30,15 @@ matrix:
 before_install:
   - pip install codecov
 
+  # Geckodriver
+  - wget https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz
+  - mkdir geckodriver
+  - tar -xzf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -C geckodriver
+  - export PATH=$PATH:$PWD/geckodriver
+
 install:
   - pip install django==$DJANGO
-  - pip install -e .
+  - pip install -e .[tests]
 
 script:
   - python runtests.py
