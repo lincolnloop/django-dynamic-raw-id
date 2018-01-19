@@ -16,3 +16,4 @@ coverage = "*"
 
 django = "==1.8.*"
 six = "*"
+coverage = "*"
