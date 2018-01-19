@@ -1,8 +1,8 @@
 [run]
-source = dynamic_rawid
+source = dynamic_raw_id
 branch = True
 omit =
-    dynamic_rawid/tests/*
+    dynamic_raw_id/tests/*
 
 [report]
 exclude_lines =

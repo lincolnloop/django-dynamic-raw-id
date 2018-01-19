@@ -46,7 +46,7 @@ def label_view(request, app_name, model_name, template_name="", multi=False,
 
     try:
         if multi:
-            model_template = "dynamic_rawid/%s/multi_%s.html" % (app_name, model_name)
+            model_template = "dynamic_raw_id/%s/multi_%s.html" % (app_name, model_name)
             objs = model.objects.filter(pk__in=object_list)
             objects = []
             for obj in objs:
@@ -58,7 +58,7 @@ def label_view(request, app_name, model_name, template_name="", multi=False,
                 template_object_name: objects,
             }
         else:
-            model_template = "dynamic_rawid/%s/%s.html" % (app_name, model_name)
+            model_template = "dynamic_raw_id/%s/%s.html" % (app_name, model_name)
             obj = model.objects.get(pk=object_list[0])
             change_url = reverse("admin:%s_%s_change" % (app_name, model_name),
                                  args=[obj.pk])

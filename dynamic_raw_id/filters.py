@@ -1,36 +1,36 @@
 # coding: utf-8
 
-"""dynamic_rawid filters."""
+"""dynamic_raw_id filters."""
 
 from django import forms
 from django.contrib import admin
 from django import VERSION
-from dynamic_rawid.widgets import dynamic_rawidIdWidget
+from dynamic_raw_id.widgets import DynamicRawIDWidget
 
 
-class dynamic_rawidFilterForm(forms.Form):
+class DynamicRawIDFilterForm(forms.Form):
 
-    """Form for dynamic_rawid filter."""
+    """Form for dynamic_raw_id filter."""
 
     def __init__(self, rel, admin_site, field_name, **kwargs):
         """Construct field for given field rel."""
-        super(dynamic_rawidFilterForm, self).__init__(**kwargs)
+        super(DynamicRawIDFilterForm, self).__init__(**kwargs)
 
         self.fields['%s' % field_name] = forms.IntegerField(
-            label='', widget=dynamic_rawidIdWidget(
+            label='', widget=DynamicRawIDWidget(
                 rel=rel, admin_site=admin_site), required=False)
 
 
-class dynamic_rawidFilter(admin.filters.FieldListFilter):
+class DynamicRawIDFilter(admin.filters.FieldListFilter):
 
     """Filter list queryset by primary key of related object."""
 
-    template = 'dynamic_rawid/admin/filters/dynamic_rawid_filter.html'
+    template = 'dynamic_raw_id/admin/filters/dynamic_raw_id_filter.html'
 
     def __init__(self, field, request, params, model, model_admin, field_path):
         """Use GET param for lookup and form initialization."""
         self.lookup_kwarg = '%s' % field_path
-        super(dynamic_rawidFilter, self).__init__(
+        super(DynamicRawIDFilter, self).__init__(
             field, request, params, model, model_admin, field_path)
 
         if VERSION[0] == 2:
@@ -50,7 +50,7 @@ class dynamic_rawidFilter(admin.filters.FieldListFilter):
 
     def get_form(self, request, rel, admin_site):
         """Return filter form."""
-        return dynamic_rawidFilterForm(admin_site=admin_site, rel=rel,
+        return DynamicRawIDFilterForm(admin_site=admin_site, rel=rel,
                                     field_name=self.field_path,
                                     data=self.used_parameters)
 

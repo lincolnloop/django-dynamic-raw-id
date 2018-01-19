@@ -1,26 +1,20 @@
-from django.test.testcases import TestCase
 from django.contrib.auth.models import User
+from django.test.testcases import TestCase
+
+from dynamic_raw_id.tests.testapp.models import CharPrimaryKeyModel, \
+    DirectPrimaryKeyModel, TestModel
 
 try:
     from django.urls import reverse, NoReverseMatch
 except ImportError:
     from django.core.urlresolvers import reverse, NoReverseMatch
 
-from dynamic_rawid.tests.testapp.models import (CharPrimaryKeyModel,
-                                             DirectPrimaryKeyModel,
-                                             dynamic_rawidTest)
 
-try:
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse
-
-
-class dynamic_rawidTestCase(TestCase):
+class DynamicRawIDTestCase(TestCase):
     """
     Test the basic integrity of the app. We can't test the Javascript side
     and all those fancy popups, but we can load an admin view and check that
-    dynamic_rawid was successfully loaded and displays items properly.
+    dynamic_raw_id was successfully loaded and displays items properly.
     """
     def setUp(self):
         self.admin = User.objects.create_superuser('admin', '', 'admin')
@@ -30,9 +24,10 @@ class dynamic_rawidTestCase(TestCase):
         self.client.logout()
 
     def get_labelview_url(self, multi=False):
-        name = multi and 'dynamic_rawid_multi_label' or 'dynamic_rawid_label'
+        name = multi and 'dynamic_raw_id_multi_label' or 'dynamic_raw_id_label'
         return reverse(name, kwargs={
-            'app_name': 'testapp', 'model_name': 'dynamic_rawidtest'
+            'app_name': 'testapp',
+            'model_name': 'testmodel'
         })
 
     def create_sample_data(self):
@@ -44,35 +39,35 @@ class dynamic_rawidTestCase(TestCase):
         self.c1 = CharPrimaryKeyModel.objects.create(chr='helloworld')
         self.n1 = DirectPrimaryKeyModel.objects.create(num=12345)
 
-        self.obj = dynamic_rawidTest.objects.create(
+        self.obj = TestModel.objects.create(
             rawid_fk=self.u1,
             rawid_fk_limited=self.u1,
             rawid_fk_direct_pk=self.n1,
-            dynamic_rawid_fk=self.u1,
-            dynamic_rawid_fk_limited=self.u1,
-            dynamic_rawid_fk_direct_pk=self.n1,
-            dynamic_rawid_fk_char_pk=self.c1,
+            dynamic_raw_id_fk=self.u1,
+            dynamic_raw_id_fk_limited=self.u1,
+            dynamic_raw_id_fk_direct_pk=self.n1,
+            dynamic_raw_id_fk_char_pk=self.c1,
         )
         self.obj.rawid_many.add(self.u1, self.u2)
-        self.obj.dynamic_rawid_many.add(self.u1, self.u2)
+        self.obj.dynamic_raw_id_many.add(self.u1, self.u2)
 
     def test_changelist_integrity(self):
         """
-        The `dynamic_rawidFilter` is hooked up in the right filter bar of the
+        The `DynamicRawIDFilter` is hooked up in the right filter bar of the
         testapp changelist view.
         """
         self.create_sample_data()
-        list_url = reverse('admin:testapp_dynamic_rawidtest_changelist')
+        list_url = reverse('admin:testapp_testmodel_changelist')
         response = self.client.get(list_url)
         self.assertEqual(response.status_code, 200)
 
     def test_change_integrity(self):
         """
-        The `dynamic_rawidFilter` is hooked up in the right filter bar of the
+        The `DynamicRawIDFilter` is hooked up in the right filter bar of the
         testapp changelist view.
         """
         self.create_sample_data()
-        list_url = reverse('admin:testapp_dynamic_rawidtest_change', args=(self.obj.pk,))
+        list_url = reverse('admin:testapp_testmodel_change', args=(self.obj.pk,))
         response = self.client.get(list_url)
         self.assertEqual(response.status_code, 200)
 

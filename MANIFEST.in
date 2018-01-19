@@ -1,4 +1,4 @@
 include README.rst
 include LICENSE
-recursive-include dynamic_rawid/static *
-recursive-include dynamic_rawid/templates *
+recursive-include dynamic_raw_id/static *
+recursive-include dynamic_raw_id/templates *

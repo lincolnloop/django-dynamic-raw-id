@@ -7,8 +7,12 @@ name = "pypi"
 
 [dev-packages]
 
+selenium = "*"
+ipdb = "*"
+coverage = "*"
 
 
 [packages]
 
-django = "*"
+django = "==1.8.*"
+six = "*"

@@ -22,11 +22,17 @@ setup(
     ],
     packages=find_packages(),
     package_data={
-        'dynamic_rawid': ['templates/*.*', 'static/*.*'],
+        'dynamic_raw_id': ['templates/*.*', 'static/*.*'],
         'docs': ['*'],
     },
     include_package_data=True,
     install_requires=[
         'django>=1.8',
+        'six',
     ],
+    extras_require={
+        'tests': [
+            'selenium',
+        ]
+    },
 )

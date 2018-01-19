@@ -10,7 +10,7 @@
    You can upgrade your code by simply replacing:
 
    - ``django-salmonella`` with ``django-dynamic-rawid``
-   - ``salmonella`` with ``dynamic_rawid``.
+   - ``salmonella`` with ``dynamic_raw_id``.
 
 ====================
 django-dynamic-rawid
@@ -30,43 +30,43 @@ Install the package with ``pip``::
 
     $ pip install django-dynamic-rawid
 
-Put ``dynamic_rawid`` to your list of ``INSTALLED_APPS``::
+Put ``dynamic_raw_id`` to your list of ``INSTALLED_APPS``::
 
     INSTALLED_APPS = (
         # ... other apps
-        'dynamic_rawid',
+        'dynamic_raw_id',
     )
 
 And add the ``urlpattern``::
 
     urlpatterns = [
         # ...
-        url(r'^admin/dynamic_rawid/', include('dynamic_rawid.urls')),
+        url(r'^admin/dynamic_raw_id/', include('dynamic_raw_id.urls')),
     ]
 
-``dynamic_rawid`` comes with some static files so don't forget to run
+``dynamic_raw_id`` comes with some static files so don't forget to run
 ``manage.py collectstatic``.
 
 Usage
 =====
 
 To start using django-dynamic-rawid in your application all you need to do is
-implement ``dynamic_rawidMixin`` in your  ``ModelAdmin`` class and add the desired
-fields to a list of ``dynamic_rawid_fields``::
+implement ``DynamicRawIDMixin`` in your  ``ModelAdmin`` class and add the desired
+fields to a list of ``dynamic_raw_id_fields``::
 
-    from dynamic_rawid.admin import dynamic_rawidMixin
+    from dynamic_raw_id.admin import DynamicRawIDMixin
 
-    class UserProfileAdmin(dynamic_rawidMixin, admin.ModelAdmin):
-        dynamic_rawid_fields = ('user',)
+    class UserProfileAdmin(DynamicRawIDMixin, admin.ModelAdmin):
+        dynamic_raw_id_fields = ('user',)
 
-You can use dynamic_rawid widgets in a Admin filter as well::
+You can use dynamic_raw_id widgets in a Admin filter as well::
 
-    from dynamic_rawid.admin import dynamic_rawidMixin
-    from dynamic_rawid.filters import dynamic_rawidFilter
+    from dynamic_raw_id.admin import DynamicRawIDMixin
+    from dynamic_raw_id.filters import DynamicRawIDFilter
 
-    class UserProfileAdmin(dynamic_rawidMixin, admin.ModelAdmin):
+    class UserProfileAdmin(DynamicRawIDMixin, admin.ModelAdmin):
        list_filter = (
-           ('dynamic_rawid_fk', dynamic_rawidFilter),
+           ('dynamic_raw_id_fk', DynamicRawIDFilter),
        )
 
 
@@ -74,34 +74,34 @@ Customizing the value of the dynamic widget
 ===========================================
 
 The coolest feature of django-dynamic-rawid is the ability to customize the output
-of the value displayed alongside the ``dynamic_rawidIdWidget``.  There is a basic
+of the value displayed alongside the ``DynamicRawIDWidget``.  There is a basic
 implementation if all you want is your object's ``__unicode__`` value. To change
 the value displayed all you need to do is implement the correct template.
 
-django-dynamic-rawid looks for this template structure ``dynamic_rawid/<app>/<model>.html``
-and ``dynamic_rawid/<app>/multi_<model>.html`` (for multi-value lookups).
+django-dynamic-rawid looks for this template structure ``dynamic_raw_id/<app>/<model>.html``
+and ``dynamic_raw_id/<app>/multi_<model>.html`` (for multi-value lookups).
 
-For instance, if I have a blog post with a ``User`` dynamic_rawid field that I want
+For instance, if I have a blog post with a ``User`` dynamic_raw_id field that I want
 display as ``Firstname Lastname``, I would create the template
-``dynamic_rawid/auth/user.html`` with::
+``dynamic_raw_id/auth/user.html`` with::
 
     <span>{{ object.0.first_name }} {{ object.0.last_name }}</span>
 
 A custom admin URL prefix
 =========================
 
-If you have your admin *and* the dynamic_rawid scripts located on a different
-prefix than ``/admin/dynamic_rawid/`` you need adjust the ``dynamic_rawid_MOUNT_URL``
+If you have your admin *and* the dynamic_raw_id scripts located on a different
+prefix than ``/admin/dynamic_raw_id/`` you need adjust the ``DYNAMIC_RAW_ID_MOUNT_URL``
 JS variable.
 
 Example::
 
-    # In case the script is setup at /foobar/dynamic_rawid/
-    url(r'^foobar/dynamic_rawid/', include('dynamic_rawid.urls')),
+    # In case the script is setup at /foobar/dynamic_raw_id/
+    url(r'^foobar/dynamic_raw_id/', include('dynamic_raw_id.urls')),
 
     # Provide a
     <script>
-        window.dynamic_rawid_MOUNT_URL = "{% url "admin:index" %}";
+        window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url "admin:index" %}";
     </script>
 
 An ideal place is the admin ``base_site.html`` template. Full example::
@@ -113,7 +113,7 @@ An ideal place is the admin ``base_site.html`` template. Full example::
     {% block extrahead %}
       {{ block.super }}
       <script>
-        window.dynamic_rawid_MOUNT_URL = "{% url "admin:index" %}";
+        window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url "admin:index" %}";
       </script>
     {% endblock %}
 
@@ -126,6 +126,12 @@ An ideal place is the admin ``base_site.html`` template. Full example::
 
 Testing and Local Development
 =============================
+
+The testsuite uses Selenium to do frontend tests, we require Firefox and
+geckodriver_ to be installed. You can install geckodriver on OS X with
+Homebrew::
+
+    $ brew install geckodriver
 
 Run the testsuite in your local environment using::
 
@@ -155,4 +161,7 @@ preview a sample of what django-dynamic-rawid is doing::
 .. note:: The default settings file is set in the ``.env`` file which
    pipenv automatically exposes::
 
-    DJANGO_SETTINGS_MODULE=dynamic_rawid.tests.testapp.settings
+    DJANGO_SETTINGS_MODULE=dynamic_raw_id.tests.testapp.settings
+
+
+.. _geckodriver: https://github.com/mozilla/geckodriver
