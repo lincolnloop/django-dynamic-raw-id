@@ -40,7 +40,8 @@ install:
   - pip install -e .[tests]
 
 script:
-  - python runtests.py
+  - django-admin collectstatic --noinput -v0
+  - coverage run --append ./runtests.py
 
 after_success:
   - codecov

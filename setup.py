@@ -33,6 +33,7 @@ setup(
     extras_require={
         'tests': [
             'selenium',
+            'coverage',
         ]
     },
 )
