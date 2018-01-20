@@ -15,7 +15,6 @@ class DynamicRawIDFilterForm(forms.Form):
     def __init__(self, rel, admin_site, field_name, **kwargs):
         """Construct field for given field rel."""
         super(DynamicRawIDFilterForm, self).__init__(**kwargs)
-
         self.fields['%s' % field_name] = forms.IntegerField(
             label='', widget=DynamicRawIDWidget(
                 rel=rel, admin_site=admin_site), required=False)
@@ -32,12 +31,7 @@ class DynamicRawIDFilter(admin.filters.FieldListFilter):
         self.lookup_kwarg = '%s' % field_path
         super(DynamicRawIDFilter, self).__init__(
             field, request, params, model, model_admin, field_path)
-
-        if VERSION[0] == 2:
-            rel = field.remote_field
-        else:
-            rel = field.rel
-
+        rel = field.remote_field if VERSION[0] == 2 else field.rel
         self.form = self.get_form(request, rel, model_admin.admin_site)
 
     def choices(self, cl):
@@ -50,16 +44,15 @@ class DynamicRawIDFilter(admin.filters.FieldListFilter):
 
     def get_form(self, request, rel, admin_site):
         """Return filter form."""
-        return DynamicRawIDFilterForm(admin_site=admin_site, rel=rel,
-                                    field_name=self.field_path,
-                                    data=self.used_parameters)
+        return DynamicRawIDFilterForm(
+            admin_site=admin_site, rel=rel, field_name=self.field_path,
+            data=self.used_parameters)
 
     def queryset(self, request, queryset):
         """Filter queryset using params from the form."""
         if self.form.is_valid():
             # get no null params
-            filter_params = dict(filter(lambda x: bool(x[1]),
-                                        self.form.cleaned_data.items()))
+            filter_params = dict(
+                filter(lambda x: bool(x[1]), self.form.cleaned_data.items()))
             return queryset.filter(**filter_params)
-        else:
-            return queryset
+        return queryset

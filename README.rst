@@ -92,7 +92,7 @@ JS variable.
 
 Example::
 
-    # In case the script is setup at /foobar/dynamic_raw_id/
+    # In case the app is setup at /foobar/dynamic_raw_id/
     url(r'^foobar/dynamic_raw_id/', include('dynamic_raw_id.urls')),
 
     # Provide a

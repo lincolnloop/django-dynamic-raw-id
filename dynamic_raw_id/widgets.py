@@ -28,15 +28,10 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
         if attrs is None:
             attrs = {}
 
-        try:
-            related_url = reverse('admin:%s_%s_changelist' % (
-                self.rel.to._meta.app_label,
-                self.rel.to._meta.object_name.lower()),
-                current_app=self.admin_site.name)
-        except NoReverseMatch:
-            raise DynamicRawIDImproperlyConfigured(
-                'The model %s.%s is not registered in the admin.' % (
-                    self.rel.to._meta.app_label, self.rel.to._meta.object_name))
+        related_url = reverse('admin:%s_%s_changelist' % (
+            self.rel.to._meta.app_label,
+            self.rel.to._meta.object_name.lower()),
+            current_app=self.admin_site.name)
 
         params = self.url_parameters()
         if params:
@@ -56,7 +51,6 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
             'model_name': model_name,
             'related_url': related_url,
             'url': url,
-            'dynamic_raw_id_STATIC': settings.STATIC_URL + 'dynamic_raw_id/'
         }
         return render_to_string('dynamic_raw_id/admin/widgets/dynamic_raw_id_field.html',
                                 extra_context)
@@ -66,22 +60,11 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
         Django >= 1.11 variant.
         """
         context = super(DynamicRawIDWidget, self).get_context(name, value, attrs)
-
-        model = None
-        if (VERSION[0] == 2):
-            model = self.rel.model
-        else:
-            model = self.rel.to
-
-        try:
-            related_url = reverse('admin:%s_%s_changelist' % (
-                model._meta.app_label,
-                model._meta.object_name.lower()),
-                current_app=self.admin_site.name)
-        except NoReverseMatch:
-            raise DynamicRawIDImproperlyConfigured('The model %s.%s is not '
-                'registered in the admin.' % (model._meta.app_label,
-                                              model._meta.object_name))
+        model = self.rel.model if VERSION[0] == 2 else self.rel.to
+        related_url = reverse('admin:%s_%s_changelist' % (
+            model._meta.app_label,
+            model._meta.object_name.lower()),
+            current_app=self.admin_site.name)
 
         params = self.url_parameters()
         if params:
@@ -99,12 +82,11 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
             'model_name': model_name,
             'related_url': related_url,
             'url': url,
-            'dynamic_raw_id_STATIC': settings.STATIC_URL + 'dynamic_raw_id/'
         })
         return context
 
     class Media:
-        js = (settings.STATIC_URL + "dynamic_raw_id/js/dynamic_raw_id.js",)
+        js = ("dynamic_raw_id/js/dynamic_raw_id.js",)
 
 
 class DynamicRawIDMultiIdWidget(DynamicRawIDWidget):
