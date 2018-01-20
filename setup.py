@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='django-dynamic-raw-id',
-    version='2.1',
+    version='2.2',
     author='Martin Mahner, Seth Buntin, Yann Malet',
     author_email='info@lincolnloop.com',
     description=("raw_id_fields widget replacement that handles display of an object's "
