@@ -16,3 +16,4 @@ coverage = "*"
 
 django = "*"
 six = "*"
+"e1839a8" = {path = ".", extras = ["tests"], editable = true}
