@@ -94,6 +94,16 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         # Activate default window
         self.wd.switch_to.window(self.wd.window_handles[0])
 
+    def _save_and_continue(self):
+        """
+        Hit "Save and continue editing" and make sure
+        the response has no error.
+        """
+        self.wd.find_element_by_css_selector('input[name=_continue]').click()
+
+        # Wait until page is loaded and success message is displayed
+        self.assertTrue(self.wd.find_element_by_css_selector('li.success').is_displayed())
+
     def test_dynamic_foreignkey(self):
         """
         dynamic_raw_id on a regular ForeignKey field
@@ -113,6 +123,8 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         self.assertEqual(self.wd.find_element_by_id(
             '{0}_dynamic_raw_id_label'.format(row_id)).text, user_to_test.username)
 
+        self._save_and_continue()
+
     def test_dynamic_foreignkey_limited(self):
         """
         dynamic_raw_id on a regular ForeignKey field with `limit_choices_to`
@@ -131,6 +143,8 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         # username is displayed next to the element
         self.assertEqual(self.wd.find_element_by_id(
             '{0}_dynamic_raw_id_label'.format(row_id)).text, user_to_test.username)
+
+        self._save_and_continue()
 
     def test_dynamic_many2many(self):
         """
@@ -157,6 +171,8 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         self.assertEqual(self.wd.find_element_by_id(
             '{0}_dynamic_raw_id_label'.format(row_id)).text, expected)
 
+        self._save_and_continue()
+
     def test_dynamic_direct_charfield(self):
         """
         dynamic_raw_id on a custom Model with a CharField
@@ -179,6 +195,8 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         self.assertEqual(self.wd.find_element_by_id(
             '{0}_dynamic_raw_id_label'.format(row_id)).text, custom_obj.chr)
 
+        self._save_and_continue()
+
     def test_dynamic_direct_integerfield(self):
         """
         dynamic_raw_id on a custom Model with an IntegerField
@@ -200,6 +218,8 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         # object label is now be displayed next to the form field
         self.assertEqual(self.wd.find_element_by_id(
             '{0}_dynamic_raw_id_label'.format(row_id)).text, str(custom_obj.num))
+
+        self._save_and_continue()
 
 
     # Django 1.8 has some odd behavior with Selenium where the

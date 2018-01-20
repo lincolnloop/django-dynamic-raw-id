@@ -2,17 +2,13 @@ from django.conf import settings
 from django.contrib.admin import widgets
 from django.core.exceptions import ImproperlyConfigured
 from django.template.loader import render_to_string
+from django.utils.encoding import force_text
 from django import VERSION
 
 try:
     from django.urls import reverse, NoReverseMatch
 except ImportError:
     from django.core.urlresolvers import reverse, NoReverseMatch
-
-try:
-    from django.utils.encoding import force_text
-except ImportError:
-    from django.utils.encoding import force_unicode as force_text
 
 
 class DynamicRawIDImproperlyConfigured(ImproperlyConfigured):
@@ -38,9 +34,9 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
                 self.rel.to._meta.object_name.lower()),
                 current_app=self.admin_site.name)
         except NoReverseMatch:
-            raise DynamicRawIDImproperlyConfigured('The model %s.%s is not '
-                'registered in the admin.' % (self.rel.to._meta.app_label,
-                                              self.rel.to._meta.object_name))
+            raise DynamicRawIDImproperlyConfigured(
+                'The model %s.%s is not registered in the admin.' % (
+                    self.rel.to._meta.app_label, self.rel.to._meta.object_name))
 
         params = self.url_parameters()
         if params:
