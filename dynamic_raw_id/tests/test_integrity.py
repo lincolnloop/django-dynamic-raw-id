@@ -126,6 +126,15 @@ class DynamicRawIDTestCase(TestCase):
                                    follow=True)
         self.assertEqual(response.status_code, 400)
 
+    def test_id_does_not_exist(self):
+        """
+        Test model primary key does not exist.
+        """
+        self.create_sample_data()
+        response = self.client.get(self.get_labelview_url(), {'id': '123456'},
+                                   follow=True)
+        self.assertEqual(response.status_code, 400)
+
     def test_no_id(self):
         """
         Test invalid app/model name.

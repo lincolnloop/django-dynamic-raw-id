@@ -27,11 +27,6 @@ def label_view(request, app_name, model_name, template_name="", multi=False,
     for pk in request.GET['id'].split(","):
         object_list.append(pk.strip())
 
-    # Check if at least one value survived this cleanup.
-    if len(object_list) == 0:
-        msg = 'No list or only invalid ids of objects given'
-        return HttpResponseBadRequest(settings.DEBUG and msg or '')
-
     # Make sure this model exists and the user has 'change' permission for it.
     # If he doesnt have this permission, Django would not display the
     # change_list in the popup and the user were never able to select objects.
