@@ -17,8 +17,14 @@ class DynamicRawIDTestCase(TestCase):
     dynamic_raw_id was successfully loaded and displays items properly.
     """
     def setUp(self):
+        # Create admin and login by default
         self.admin = User.objects.create_superuser('admin', '', 'admin')
         self.client.login(username='admin', password='admin')
+
+        # Create additional staff user without any app permissions
+        self.user_noperm = User.objects.create_user('user', '', 'user')
+        self.user_noperm.is_staff = True
+        self.user_noperm.save()
 
     def tearDown(self):
         self.client.logout()
@@ -78,6 +84,18 @@ class DynamicRawIDTestCase(TestCase):
         self.client.logout()
         response = self.client.get(self.get_labelview_url(), follow=True)
         self.assertEqual(response.status_code, 404)
+
+    def test_labelview_no_permission(self):
+        """
+        Valid Label view request is denied if user has
+        no change permisson for the app.
+        """
+        self.client.logout()
+        self.client.login(username='user', password='user')
+        self.create_sample_data()
+        response = self.client.get(self.get_labelview_url(multi=True),
+                                   {'id': self.obj.pk}, follow=True)
+        self.assertEqual(response.status_code, 403)
 
     def test_labelview(self):
         """

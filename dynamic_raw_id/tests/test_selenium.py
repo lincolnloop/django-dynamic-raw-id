@@ -221,7 +221,6 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
 
         self._save_and_continue()
 
-
     # Django 1.8 has some odd behavior with Selenium where the
     # click event on the Glass icon in the filter does not work.
     # It's working fine in a manual test. Since Django 1.8 is at the end of

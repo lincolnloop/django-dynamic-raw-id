@@ -1,9 +1,8 @@
 .. image:: https://travis-ci.org/lincolnloop/django-dynamic-raw-id.svg?branch=master
-    :target: https://travis-ci.org/lincolnloop/django-dynamic-raw-id
+   :target: https://travis-ci.org/lincolnloop/django-dynamic-raw-id
 
-.. image:: https://codecov.io/github/lincolnloop/django-dynamic-raw-id/coverage.svg?branch=master
-    :target: https://codecov.io/github/lincolnloop/django-dynamic-raw-id?branch=master
-
+.. image:: https://codecov.io/gh/lincolnloop/django-dynamic-raw-id/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/lincolnloop/django-dynamic-raw-id
 
 .. important:: django-salmonella was renamed to django-dynamic-raw-id and
    re-released as version 2.1. The latest django-salmonella version was 1.2.
