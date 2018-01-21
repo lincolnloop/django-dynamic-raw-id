@@ -23,20 +23,21 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
         """
         Django <= 1.10 variant.
         """
-        if (VERSION[0] == 1 and VERSION[1] >= 11) or (VERSION[0] >= 2):
+        DJANGO_111_OR_UP = (VERSION[0] == 1 and VERSION[1] >= 11) or (VERSION[0] >= 2)
+        if DJANGO_111_OR_UP:
             return super(DynamicRawIDWidget, self).render(name, value, attrs, renderer=None)
 
         if attrs is None:
             attrs = {}
 
-        related_url = reverse('admin:%s_%s_changelist' % (
+        related_url = reverse('admin:{0}_{1}_changelist'.format(
             self.rel.to._meta.app_label,
             self.rel.to._meta.object_name.lower()),
             current_app=self.admin_site.name)
 
         params = self.url_parameters()
         if params:
-            url = u'?' + u'&'.join([u'%s=%s' % (k, v) for k, v in params.items()])
+            url = u'?' + u'&'.join([u'{0}={1}'.format(k, v) for k, v in params.items()])
         else:
             url = u''
         if "class" not in attrs:
@@ -62,14 +63,14 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
         """
         context = super(DynamicRawIDWidget, self).get_context(name, value, attrs)
         model = self.rel.model if VERSION[0] == 2 else self.rel.to
-        related_url = reverse('admin:%s_%s_changelist' % (
+        related_url = reverse('admin:{0}_{1}_changelist'.format(
             model._meta.app_label,
             model._meta.object_name.lower()),
             current_app=self.admin_site.name)
 
         params = self.url_parameters()
         if params:
-            url = u'?' + u'&'.join([u'%s=%s' % (k, v) for k, v in params.items()])
+            url = u'?' + u'&'.join([u'{0}={1}'.format(k, v) for k, v in params.items()])
         else:
             url = u''
         if "class" not in attrs:
@@ -89,22 +90,21 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
     @property
     def media(self):
         extra = '' if settings.DEBUG else '.min'
-        js = [
-            'admin/js/vendor/jquery/jquery%s.js' % extra,
+        return forms.Media(js=[
+            'admin/js/vendor/jquery/jquery{0}.js'.format(extra),
             'admin/js/jquery.init.js',
             'admin/js/core.js',
             "dynamic_raw_id/js/dynamic_raw_id.js"
-            ]
-        return forms.Media(js=js)
+        ])
 
 
 class DynamicRawIDMultiIdWidget(DynamicRawIDWidget):
     def value_from_datadict(self, data, files, name):
         value = data.get(name)
         if value:
-            return value.split(',')
+            return value.split(u',')
 
     def render(self, name, value, attrs):
         attrs['class'] = 'vManyToManyRawIdAdminField'
-        value = ','.join([force_text(v) for v in value]) if value else ''
+        value = u','.join([force_text(v) for v in value]) if value else ''
         return super(DynamicRawIDMultiIdWidget, self).render(name, value, attrs)
