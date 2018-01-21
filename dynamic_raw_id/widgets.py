@@ -1,4 +1,5 @@
 from django.conf import settings
+from django import forms
 from django.contrib.admin import widgets
 from django.core.exceptions import ImproperlyConfigured
 from django.template.loader import render_to_string
@@ -85,8 +86,16 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
         })
         return context
 
-    class Media:
-        js = ("dynamic_raw_id/js/dynamic_raw_id.js",)
+    @property
+    def media(self):
+        extra = '' if settings.DEBUG else '.min'
+        js = [
+            'admin/js/vendor/jquery/jquery%s.js' % extra,
+            'admin/js/jquery.init.js',
+            'admin/js/core.js',
+            "dynamic_raw_id/js/dynamic_raw_id.js"
+            ]
+        return forms.Media(js=js)
 
 
 class DynamicRawIDMultiIdWidget(DynamicRawIDWidget):
