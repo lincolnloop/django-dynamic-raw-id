@@ -1,4 +1,5 @@
 from django.conf import settings
+from django import forms
 from django.contrib.admin import widgets
 from django.core.exceptions import ImproperlyConfigured
 from django.template.loader import render_to_string
