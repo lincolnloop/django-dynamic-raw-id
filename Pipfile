@@ -10,6 +10,7 @@ name = "pypi"
 selenium = "*"
 ipdb = "*"
 coverage = "*"
+"e1839a8" = {path = ".", extras = ["tests"]}
 
 
 [packages]

@@ -54,3 +54,9 @@ MIDDLEWARE = MIDDLEWARE_CLASSES
 STATIC_ROOT = '/tmp/dynamic_raw_id_static/'
 STATIC_URL = '/static/'
 ROOT_URLCONF = 'dynamic_raw_id.tests.testapp.urls'
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
