@@ -10,10 +10,10 @@ name = "pypi"
 selenium = "*"
 ipdb = "*"
 coverage = "*"
-"e1839a8" = {path = ".", extras = ["tests"]}
+"e1839a8" = {path = ".", editable = true}
 
 
 [packages]
 
-django = "*"
+django = ">=1.8"
 six = "*"
