@@ -22,18 +22,24 @@ See this example:
 Installation
 ============
 
-Install the package with ``pip``::
+Install the package with ``pip``:
+
+.. code-block:: bash
 
     $ pip install django-dynamic-raw-id
 
-Put ``dynamic_raw_id`` to your list of ``INSTALLED_APPS``::
+Put ``dynamic_raw_id`` to your list of ``INSTALLED_APPS``:
+
+.. code-block:: python
 
     INSTALLED_APPS = (
         # ... other apps
         'dynamic_raw_id',
     )
 
-And add the ``urlpattern``::
+And add the ``urlpattern``:
+
+.. code-block:: python
 
     urlpatterns = [
         # ...
@@ -48,14 +54,18 @@ Usage
 
 To start using django-dynamic-raw-id in your application all you need to do is
 implement ``DynamicRawIDMixin`` in your  ``ModelAdmin`` class and add the desired
-fields to a list of ``dynamic_raw_id_fields``::
+fields to a list of ``dynamic_raw_id_fields``:
+
+.. code-block:: python
 
     from dynamic_raw_id.admin import DynamicRawIDMixin
 
     class UserProfileAdmin(DynamicRawIDMixin, admin.ModelAdmin):
         dynamic_raw_id_fields = ('user',)
 
-You can use dynamic_raw_id widgets in a Admin filter as well::
+You can use dynamic_raw_id widgets in a Admin filter as well:
+
+.. code-block:: python
 
     from dynamic_raw_id.admin import DynamicRawIDMixin
     from dynamic_raw_id.filters import DynamicRawIDFilter
@@ -79,7 +89,9 @@ and ``dynamic_raw_id/<app>/multi_<model>.html`` (for multi-value lookups).
 
 For instance, if I have a blog post with a ``User`` dynamic_raw_id field that I want
 display as ``Firstname Lastname``, I would create the template
-``dynamic_raw_id/auth/user.html`` with::
+``dynamic_raw_id/auth/user.html`` with:
+
+.. code-block:: html+django
 
     <span>{{ object.0.first_name }} {{ object.0.last_name }}</span>
 
@@ -90,7 +102,9 @@ If you have your admin *and* the dynamic_raw_id scripts located on a different
 prefix than ``/admin/dynamic_raw_id/`` you need adjust the ``DYNAMIC_RAW_ID_MOUNT_URL``
 JS variable.
 
-Example::
+Example:
+
+.. code-block:: guess
 
     # In case the app is setup at /foobar/dynamic_raw_id/
     url(r'^foobar/dynamic_raw_id/', include('dynamic_raw_id.urls')),
@@ -100,7 +114,9 @@ Example::
         window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url "admin:index" %}";
     </script>
 
-An ideal place is the admin ``base_site.html`` template. Full example::
+An ideal place is the admin ``base_site.html`` template. Full example:
+
+.. code-block:: html+django
 
     {% extends "admin/base.html" %}
 
@@ -125,22 +141,30 @@ Testing and Local Development
 
 The testsuite uses Selenium to do frontend tests, we require Firefox and
 geckodriver_ to be installed. You can install geckodriver on OS X with
-Homebrew::
+Homebrew:
+
+.. code-block:: bash
 
     $ brew install geckodriver
 
-Run the testsuite in your local environment using::
+Run the testsuite in your local environment using:
+
+.. code-block:: bash
 
     $ cd django-dynamic-raw-id/
     $ pipenv install --dev
     $ pipenv run python ./runtests.py
 
-Or use tox to test against various Django and Python versions::
+Or use tox to test against various Django and Python versions:
+
+.. code-block:: bash
 
     $ tox -r
 
 You can also invoke the test suite or other 'manage.py' commands by calling
-the ``django-admin`` tool with the test app settings::
+the ``django-admin`` tool with the test app settings:
+
+.. code-block:: bash
 
     $ cd django-dynamic-raw-id/
     $ pipenv install --dev
@@ -148,14 +172,18 @@ the ``django-admin`` tool with the test app settings::
     $ pipenv run django-admin test
 
 This also allows you to run the internal testing app in a testserver, to
-preview a sample of what django-dynamic-raw-id is doing::
+preview a sample of what django-dynamic-raw-id is doing:
+
+.. code-block:: bash
 
     $ pipenv run django-admin migrate
     $ pipenv run django-admin createsuperuser
     $ pipenv run django-admin runserver
 
 .. note:: The default settings file is set in the ``.env`` file which
-   pipenv automatically exposes::
+   pipenv automatically exposes:
+
+.. code-block:: bash
 
     DJANGO_SETTINGS_MODULE=dynamic_raw_id.tests.testapp.settings
 
