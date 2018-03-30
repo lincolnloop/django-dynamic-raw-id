@@ -22,7 +22,7 @@ function dismissRelatedLookupPopup(win, chosenId) {
         model = element.next("a").attr("data-model"),
         value = element.val(),
         ADMIN_URL = window.DYNAMIC_RAW_ID_MOUNT_URL || "/admin/",
-        MOUNT_URL = ADMIN_URL + 'salmonella',
+        MOUNT_URL = ADMIN_URL + "salmonella",
         admin_url_parts = window.location.pathname.split("/").slice(1, 4);
 
       var url = MOUNT_URL;
