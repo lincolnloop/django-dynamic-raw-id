@@ -21,7 +21,8 @@ function dismissRelatedLookupPopup(win, chosenId) {
         app = element.next("a").attr("data-app"),
         model = element.next("a").attr("data-model"),
         value = element.val(),
-        MOUNT_URL = window.DYNAMIC_RAW_ID_MOUNT_URL || "/admin/dynamic_raw_id",
+        ADMIN_URL = window.DYNAMIC_RAW_ID_MOUNT_URL || "/admin/",
+        MOUNT_URL = ADMIN_URL + "dynamic_raw_id",
         admin_url_parts = window.location.pathname.split("/").slice(1, 4);
 
       var url = MOUNT_URL;
