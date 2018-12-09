@@ -1,48 +1,36 @@
 language: python
 
-addons:
-  firefox: latest
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+    - python: 3.7
+      dist: xenial
+      sudo: true
 
 cache: pip
 
-python:
-  - 2.7
-  - 3.5
-  - 3.6
+addons:
+  firefox: latest
 
 env:
   global:
     - GECKODRIVER_VERSION=0.19.1
     - MOZ_HEADLESS=1
-    - DJANGO_SETTINGS_MODULE=dynamic_raw_id.tests.testapp.settings
-  matrix:
-    - DJANGO=1.8.*
-    - DJANGO=1.9.*
-    - DJANGO=1.10.*
-    - DJANGO=1.11.*
-    - DJANGO=2.0.*
-
-matrix:
-  exclude:
-    - python: 2.7
-      env: DJANGO=2.0.*
 
 before_install:
   - pip install codecov
-
   # Geckodriver
   - wget https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz
   - mkdir geckodriver
   - tar -xzf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -C geckodriver
   - export PATH=$PATH:$PWD/geckodriver
 
-install:
-  - pip install django==$DJANGO
-  - pip install -e .[tests]
+install: pip install tox-travis coverage codacy-coverage
 
-script:
-  - django-admin collectstatic --noinput -v0
-  - coverage run --append ./runtests.py
+script: tox
 
 after_success:
-  - codecov
+  - coverage xml
+  - python-codacy-coverage -r coverage.xml
