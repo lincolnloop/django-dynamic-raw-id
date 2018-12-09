@@ -7,7 +7,6 @@ from unittest import skipIf
 import django
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from django.test import skipIfDBFeature
 
 from dynamic_raw_id.tests.testapp.models import CharPrimaryKeyModel, \
     DirectPrimaryKeyModel, TestModel
@@ -21,9 +20,11 @@ logger = getLogger(__file__)
 
 IS_DJANGO_18 = django.get_version().startswith('1.8')
 
+
 def get_webdriver():
     from selenium.webdriver.firefox.webdriver import WebDriver
     return WebDriver()
+
 
 class BaseSeleniumTests(StaticLiveServerTestCase):
     def setUp(self):
@@ -68,7 +69,7 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         self.wd.find_element_by_css_selector('input[type=submit]').click()
 
         # Wait until index page is loaded
-        self.wd.find_element_by_link_text("Testapp")
+        self.wd.find_element_by_link_text('Testapp' if IS_DJANGO_18 else 'TESTAPP')
 
     def _goto_add_page(self):
         """
