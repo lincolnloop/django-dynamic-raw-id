@@ -22,6 +22,9 @@ See this example:
 Installation
 ============
 
+The app is compatible and tested with Python 2.7 → 3.7 and all versions
+of Django between 1.8 → 2.1.
+
 Install the package with ``pip``:
 
 .. code-block:: bash
