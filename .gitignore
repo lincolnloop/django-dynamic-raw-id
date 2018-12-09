@@ -1,3 +1,4 @@
 *.pyc
 dev.db
 geckodriver.log
+coverage_report
