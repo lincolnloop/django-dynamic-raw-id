@@ -19,13 +19,13 @@ class DynamicRawIDImproperlyConfigured(ImproperlyConfigured):
 class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
     template_name = 'dynamic_raw_id/admin/widgets/dynamic_raw_id_field_dj111.html'
 
-    def render(self, name, value, attrs=None, multi=False):
+    def render(self, name, value, attrs=None, multi=False, renderer=None):
         """
         Django <= 1.10 variant.
         """
         DJANGO_111_OR_UP = (VERSION[0] == 1 and VERSION[1] >= 11) or (VERSION[0] >= 2)
         if DJANGO_111_OR_UP:
-            return super(DynamicRawIDWidget, self).render(name, value, attrs, renderer=None)
+            return super(DynamicRawIDWidget, self).render(name, value, attrs, renderer=renderer)
 
         if attrs is None:
             attrs = {}
@@ -104,7 +104,7 @@ class DynamicRawIDMultiIdWidget(DynamicRawIDWidget):
         if value:
             return value.split(u',')
 
-    def render(self, name, value, attrs):
+    def render(self, name, value, attrs, renderer=None):
         attrs['class'] = 'vManyToManyRawIdAdminField'
         value = u','.join([force_text(v) for v in value]) if value else ''
-        return super(DynamicRawIDMultiIdWidget, self).render(name, value, attrs)
+        return super(DynamicRawIDMultiIdWidget, self).render(name, value, attrs, renderer=renderer)
