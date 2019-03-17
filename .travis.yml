@@ -1,5 +1,8 @@
 language: python
 
+addons:
+  firefox: latest
+
 # https://github.com/travis-ci/travis-ci/issues/9815#issuecomment-411073985
 matrix:
   include:
@@ -10,6 +13,20 @@ matrix:
     - python: 3.7
       dist: xenial
       sudo: true
+
+cache: pip
+
+env:
+  global:
+    - GECKODRIVER_VERSION=0.19.1
+    - MOZ_HEADLESS=1
+
+before_install:
+  # Geckodriver
+  - wget https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz
+  - mkdir geckodriver
+  - tar -xzf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -C geckodriver
+  - export PATH=$PATH:$PWD/geckodriver
 
 install: pip install tox-travis coverage codacy-coverage
 
