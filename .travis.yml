@@ -21,6 +21,7 @@ env:
     - GECKODRIVER_VERSION=0.19.1
     - MOZ_HEADLESS=1
     - MOZ_CRASHREPORTER_SHUTDOWN=1
+    - DISPLAY=:0
 
 before_install:
   # Geckodriver
