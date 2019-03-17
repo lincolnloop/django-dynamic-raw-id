@@ -1,5 +1,8 @@
-include README.rst
-include CHANGELOG.rst
+include *.js
+include *.py
+include *.rst
 include LICENSE
-recursive-include dynamic_raw_id/static *
-recursive-include dynamic_raw_id/templates *
+include tox.ini
+recursive-include dynamic_raw_id *.gif
+recursive-include dynamic_raw_id *.html
+recursive-include dynamic_raw_id *.js

@@ -5,7 +5,7 @@ SECRET_KEY = "super-secret-dynamic_raw_id-key"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'dev.db',
+        'NAME': 'testapp.db',
     },
     # 'default': {
     #     'ENGINE': 'django.db.backends.mysql',

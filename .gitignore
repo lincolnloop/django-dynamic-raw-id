@@ -1,4 +1,4 @@
 *.pyc
-dev.db
+testapp.db
 geckodriver.log
-coverage_report
+
