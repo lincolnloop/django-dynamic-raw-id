@@ -4,9 +4,13 @@
 .. image:: https://codecov.io/gh/lincolnloop/django-dynamic-raw-id/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/lincolnloop/django-dynamic-raw-id
 
+----
+
 .. important:: django-salmonella was renamed to django-dynamic-raw-id and
    re-released as version 2.1. The latest django-salmonella version was 1.2.
    Please upgrade your code, see Installation and Usage below.
+
+----
 
 =====================
 django-dynamic-raw-id
@@ -156,7 +160,7 @@ Run the testsuite in your local environment using:
 
     $ cd django-dynamic-raw-id/
     $ pipenv install --dev
-    $ pipenv run python ./runtests.py
+    $ pipenv run test
 
 Or use tox to test against various Django and Python versions:
 

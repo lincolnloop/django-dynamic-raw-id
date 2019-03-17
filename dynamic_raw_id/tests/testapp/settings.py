@@ -3,10 +3,7 @@ DEBUG = True
 SECRET_KEY = "super-secret-dynamic_raw_id-key"
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'testapp.db',
-    },
+    'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': 'testapp.db'},
     # 'default': {
     #     'ENGINE': 'django.db.backends.mysql',
     #     'NAME': 'dpaste',
@@ -26,9 +23,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
+            ]
         },
-    },
+    }
 ]
 
 INSTALLED_APPS = [
@@ -59,4 +56,3 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
-

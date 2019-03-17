@@ -1,8 +1,11 @@
 from django.contrib.auth.models import User
 from django.test.testcases import TestCase
 
-from dynamic_raw_id.tests.testapp.models import CharPrimaryKeyModel, \
-    DirectPrimaryKeyModel, TestModel
+from dynamic_raw_id.tests.testapp.models import (
+    CharPrimaryKeyModel,
+    DirectPrimaryKeyModel,
+    TestModel,
+)
 
 try:
     from django.urls import reverse, NoReverseMatch
@@ -16,6 +19,7 @@ class DynamicRawIDTestCase(TestCase):
     and all those fancy popups, but we can load an admin view and check that
     dynamic_raw_id was successfully loaded and displays items properly.
     """
+
     def setUp(self):
         # Create admin and login by default
         self.admin = User.objects.create_superuser('admin', '', 'admin')
@@ -31,10 +35,9 @@ class DynamicRawIDTestCase(TestCase):
 
     def get_labelview_url(self, multi=False):
         name = multi and 'dynamic_raw_id_multi_label' or 'dynamic_raw_id_label'
-        return reverse(name, kwargs={
-            'app_name': 'testapp',
-            'model_name': 'testmodel'
-        })
+        return reverse(
+            name, kwargs={'app_name': 'testapp', 'model_name': 'testmodel'}
+        )
 
     def create_sample_data(self):
         """
@@ -73,7 +76,9 @@ class DynamicRawIDTestCase(TestCase):
         testapp changelist view.
         """
         self.create_sample_data()
-        list_url = reverse('admin:testapp_testmodel_change', args=(self.obj.pk,))
+        list_url = reverse(
+            'admin:testapp_testmodel_change', args=(self.obj.pk,)
+        )
         response = self.client.get(list_url)
         self.assertEqual(response.status_code, 200)
 
@@ -93,8 +98,9 @@ class DynamicRawIDTestCase(TestCase):
         self.client.logout()
         self.client.login(username='user', password='user')
         self.create_sample_data()
-        response = self.client.get(self.get_labelview_url(multi=True),
-                                   {'id': self.obj.pk}, follow=True)
+        response = self.client.get(
+            self.get_labelview_url(multi=True), {'id': self.obj.pk}, follow=True
+        )
         self.assertEqual(response.status_code, 403)
 
     def test_labelview(self):
@@ -103,8 +109,9 @@ class DynamicRawIDTestCase(TestCase):
         and check for proper response.
         """
         self.create_sample_data()
-        response = self.client.get(self.get_labelview_url(), {'id': self.obj.pk},
-                                   follow=True)
+        response = self.client.get(
+            self.get_labelview_url(), {'id': self.obj.pk}, follow=True
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_multi_labelview(self):
@@ -113,8 +120,9 @@ class DynamicRawIDTestCase(TestCase):
         and check for proper response.
         """
         self.create_sample_data()
-        response = self.client.get(self.get_labelview_url(multi=True),
-                                   {'id': self.obj.pk}, follow=True)
+        response = self.client.get(
+            self.get_labelview_url(multi=True), {'id': self.obj.pk}, follow=True
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_invalid_id(self):
@@ -122,8 +130,9 @@ class DynamicRawIDTestCase(TestCase):
         Test invalid id.
         """
         self.create_sample_data()
-        response = self.client.get(self.get_labelview_url(), {'id': 'wrong'},
-                                   follow=True)
+        response = self.client.get(
+            self.get_labelview_url(), {'id': 'wrong'}, follow=True
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_id_does_not_exist(self):
@@ -131,8 +140,9 @@ class DynamicRawIDTestCase(TestCase):
         Test model primary key does not exist.
         """
         self.create_sample_data()
-        response = self.client.get(self.get_labelview_url(), {'id': '123456'},
-                                   follow=True)
+        response = self.client.get(
+            self.get_labelview_url(), {'id': '123456'}, follow=True
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_no_id(self):

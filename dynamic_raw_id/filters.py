@@ -2,9 +2,9 @@
 
 """dynamic_raw_id filters."""
 
-from django import forms
+from django import VERSION, forms
 from django.contrib import admin
-from django import VERSION
+
 from dynamic_raw_id.widgets import DynamicRawIDWidget
 
 
@@ -16,8 +16,10 @@ class DynamicRawIDFilterForm(forms.Form):
         """Construct field for given field rel."""
         super(DynamicRawIDFilterForm, self).__init__(**kwargs)
         self.fields['%s' % field_name] = forms.IntegerField(
-            label='', widget=DynamicRawIDWidget(
-                rel=rel, admin_site=admin_site), required=False)
+            label='',
+            widget=DynamicRawIDWidget(rel=rel, admin_site=admin_site),
+            required=False,
+        )
 
 
 class DynamicRawIDFilter(admin.filters.FieldListFilter):
@@ -30,7 +32,8 @@ class DynamicRawIDFilter(admin.filters.FieldListFilter):
         """Use GET param for lookup and form initialization."""
         self.lookup_kwarg = '%s' % field_path
         super(DynamicRawIDFilter, self).__init__(
-            field, request, params, model, model_admin, field_path)
+            field, request, params, model, model_admin, field_path
+        )
         rel = field.remote_field if VERSION[0] == 2 else field.rel
         self.form = self.get_form(request, rel, model_admin.admin_site)
 
@@ -45,14 +48,18 @@ class DynamicRawIDFilter(admin.filters.FieldListFilter):
     def get_form(self, request, rel, admin_site):
         """Return filter form."""
         return DynamicRawIDFilterForm(
-            admin_site=admin_site, rel=rel, field_name=self.field_path,
-            data=self.used_parameters)
+            admin_site=admin_site,
+            rel=rel,
+            field_name=self.field_path,
+            data=self.used_parameters,
+        )
 
     def queryset(self, request, queryset):
         """Filter queryset using params from the form."""
         if self.form.is_valid():
             # get no null params
             filter_params = dict(
-                filter(lambda x: bool(x[1]), self.form.cleaned_data.items()))
+                filter(lambda x: bool(x[1]), self.form.cleaned_data.items())
+            )
             return queryset.filter(**filter_params)
         return queryset

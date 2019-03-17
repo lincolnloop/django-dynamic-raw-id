@@ -1,8 +1,8 @@
+from django.apps import apps
 from django.conf import settings
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import render_to_response
-from django.apps import apps
 
 try:
     from django.urls import reverse
@@ -11,8 +11,14 @@ except ImportError:
 
 
 @user_passes_test(lambda u: u.is_staff)
-def label_view(request, app_name, model_name, template_name="", multi=False,
-               template_object_name="object"):
+def label_view(
+    request,
+    app_name,
+    model_name,
+    template_name="",
+    multi=False,
+    template_object_name="object",
+):
 
     # The list of to obtained objects is in GET.id. No need to resume if we
     # didnt get it.
@@ -41,25 +47,29 @@ def label_view(request, app_name, model_name, template_name="", multi=False,
 
     try:
         if multi:
-            model_template = "dynamic_raw_id/%s/multi_%s.html" % (app_name, model_name)
+            model_template = "dynamic_raw_id/%s/multi_%s.html" % (
+                app_name,
+                model_name,
+            )
             objs = model.objects.filter(pk__in=object_list)
             objects = []
             for obj in objs:
-                change_url = reverse("admin:%s_%s_change" % (app_name, model_name),
-                                     args=[obj.pk])
+                change_url = reverse(
+                    "admin:%s_%s_change" % (app_name, model_name), args=[obj.pk]
+                )
                 obj = (obj, change_url)
                 objects.append(obj)
-            extra_context = {
-                template_object_name: objects,
-            }
+            extra_context = {template_object_name: objects}
         else:
-            model_template = "dynamic_raw_id/%s/%s.html" % (app_name, model_name)
+            model_template = "dynamic_raw_id/%s/%s.html" % (
+                app_name,
+                model_name,
+            )
             obj = model.objects.get(pk=object_list[0])
-            change_url = reverse("admin:%s_%s_change" % (app_name, model_name),
-                                 args=[obj.pk])
-            extra_context = {
-                template_object_name: (obj, change_url),
-            }
+            change_url = reverse(
+                "admin:%s_%s_change" % (app_name, model_name), args=[obj.pk]
+            )
+            extra_context = {template_object_name: (obj, change_url)}
     # most likely the pk wasn't convertable
     except ValueError:
         msg = 'ValueError during lookup'

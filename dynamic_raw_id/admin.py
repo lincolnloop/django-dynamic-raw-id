@@ -1,5 +1,6 @@
-from dynamic_raw_id.widgets import DynamicRawIDWidget, DynamicRawIDMultiIdWidget
 from django import VERSION
+
+from dynamic_raw_id.widgets import DynamicRawIDMultiIdWidget, DynamicRawIDWidget
 
 
 class DynamicRawIDMixin(object):
@@ -11,7 +12,8 @@ class DynamicRawIDMixin(object):
             kwargs['widget'] = DynamicRawIDWidget(rel, self.admin_site)
             return db_field.formfield(**kwargs)
         return super(DynamicRawIDMixin, self).formfield_for_foreignkey(
-            db_field, request, **kwargs)
+            db_field, request, **kwargs
+        )
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name in self.dynamic_raw_id_fields:
@@ -20,4 +22,5 @@ class DynamicRawIDMixin(object):
             kwargs['help_text'] = ''
             return db_field.formfield(**kwargs)
         return super(DynamicRawIDMixin, self).formfield_for_manytomany(
-            db_field, request, **kwargs)
+            db_field, request, **kwargs
+        )
