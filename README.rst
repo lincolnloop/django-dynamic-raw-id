@@ -1,8 +1,14 @@
-.. image:: https://travis-ci.org/lincolnloop/django-dynamic-raw-id.svg?branch=master
-   :target: https://travis-ci.org/lincolnloop/django-dynamic-raw-id
+.. image:: https://img.shields.io/pypi/v/django-dynamic-raw-id.svg
+    :target: https://pypi.org/project/django-dynamic-raw-id/
 
-.. image:: https://codecov.io/gh/lincolnloop/django-dynamic-raw-id/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/lincolnloop/django-dynamic-raw-id
+.. image:: https://travis-ci.org/bartTC/django-dynamic-raw-id.svg?branch=master
+    :target: https://travis-ci.org/bartTC/django-dynamic-raw-id
+
+.. image:: https://api.codacy.com/project/badge/Coverage/bb93482e6a6348058b993a42951a9f19
+    :target: https://www.codacy.com/app/bartTC/django-dynamic-raw-id
+
+.. image:: https://api.codacy.com/project/badge/Grade/bb93482e6a6348058b993a42951a9f19
+    :target: https://www.codacy.com/app/bartTC/django-dynamic-raw-id
 
 ----
 

@@ -2,6 +2,12 @@
 Changelog
 =========
 
+(master)
+========
+
+- General code cleanup.
+- Pipenv support for local development.
+
 v2.5 (2018-12-09)
 =================
 
