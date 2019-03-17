@@ -20,6 +20,7 @@ env:
   global:
     - GECKODRIVER_VERSION=0.19.1
     - MOZ_HEADLESS=1
+    - MOZ_CRASHREPORTER_SHUTDOWN=1
 
 before_install:
   # Geckodriver
@@ -35,3 +36,6 @@ script: tox
 after_success:
   - coverage xml
   - python-codacy-coverage -r coverage.xml
+
+after_failure:
+  - cat geckodriver.log
