@@ -18,10 +18,8 @@ cache: pip
 
 env:
   global:
-    - GECKODRIVER_VERSION=0.19.1
+    - GECKODRIVER_VERSION=0.24.0
     - MOZ_HEADLESS=1
-    - MOZ_CRASHREPORTER_SHUTDOWN=1
-    - DISPLAY=:0
 
 before_install:
   # Geckodriver
@@ -40,3 +38,5 @@ after_success:
 
 after_failure:
   - cat geckodriver.log
+  - firefox --version --headless
+  - geckodriver --version

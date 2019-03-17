@@ -26,7 +26,6 @@ IS_DJANGO_18 = django.get_version().startswith('1.8')
 
 def get_webdriver():
     from selenium.webdriver.firefox.webdriver import WebDriver
-
     return WebDriver()
 
 
