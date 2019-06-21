@@ -5,6 +5,9 @@ Changelog
 (master)
 ========
 
+- BACKWARDS INCOMPATIBLE: Dropped support for Django <1.11.
+- BACKWARDS INCOMPATIBLE: Dropped support for Python 3.4.
+- Django 2.2 compatibility and tests.
 - General code cleanup.
 - Pipenv support for local development.
 
@@ -22,7 +25,7 @@ v2.4 (2018-04-09)
 v2.3 (2018-01-18)
 =================
 
-- BACKWARDS INCOMPATIBLE: Renamed the project to `django-dynamic-raw-id`
+- BACKWARDS INCOMPATIBLE: Renamed the project to `django-dynamic-raw-id`.
   to reflect what it's  actually doing.
 - Fixed glass lookup icon in Django 1.10 and below.
 - Specific ordering of media asset loading.

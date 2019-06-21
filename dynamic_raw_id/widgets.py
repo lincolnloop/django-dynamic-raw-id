@@ -2,13 +2,8 @@ from django import VERSION, forms
 from django.conf import settings
 from django.contrib.admin import widgets
 from django.core.exceptions import ImproperlyConfigured
-from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.encoding import force_text
-
-try:
-    from django.urls import reverse, NoReverseMatch
-except ImportError:
-    from django.core.urlresolvers import reverse, NoReverseMatch
 
 
 class DynamicRawIDImproperlyConfigured(ImproperlyConfigured):
@@ -16,69 +11,9 @@ class DynamicRawIDImproperlyConfigured(ImproperlyConfigured):
 
 
 class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
-    template_name = (
-        'dynamic_raw_id/admin/widgets/dynamic_raw_id_field_dj111.html'
-    )
-
-    def render(self, name, value, attrs=None, multi=False, renderer=None):
-        """
-        Django <= 1.10 variant.
-        """
-        DJANGO_111_OR_UP = (VERSION[0] == 1 and VERSION[1] >= 11) or (
-            VERSION[0] >= 2
-        )
-        if DJANGO_111_OR_UP:
-            return super(DynamicRawIDWidget, self).render(
-                name, value, attrs, renderer=renderer
-            )
-
-        if attrs is None:
-            attrs = {}
-
-        related_url = reverse(
-            'admin:{0}_{1}_changelist'.format(
-                self.rel.to._meta.app_label,
-                self.rel.to._meta.object_name.lower(),
-            ),
-            current_app=self.admin_site.name,
-        )
-
-        params = self.url_parameters()
-        if params:
-            url = u'?' + u'&'.join(
-                [u'{0}={1}'.format(k, v) for k, v in params.items()]
-            )
-        else:
-            url = u''
-        if "class" not in attrs:
-            attrs[
-                'class'
-            ] = (
-                'vForeignKeyRawIdAdminField'
-            )  # The JavaScript looks for this hook.
-        app_name = self.rel.to._meta.app_label.strip()
-        model_name = self.rel.to._meta.object_name.lower().strip()
-        hidden_input = super(widgets.ForeignKeyRawIdWidget, self).render(
-            name, value, attrs
-        )
-
-        extra_context = {
-            'hidden_input': hidden_input,
-            'name': name,
-            'app_name': app_name,
-            'model_name': model_name,
-            'related_url': related_url,
-            'url': url,
-        }
-        return render_to_string(
-            'dynamic_raw_id/admin/widgets/dynamic_raw_id_field.html',
-            extra_context,
-        )
+    template_name = 'dynamic_raw_id/admin/widgets/dynamic_raw_id_field.html'
 
     def get_context(self, name, value, attrs):
-        """
-        Django >= 1.11 variant.
-        """
         context = super(DynamicRawIDWidget, self).get_context(
             name, value, attrs
         )

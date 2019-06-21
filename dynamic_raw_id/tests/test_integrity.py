@@ -1,16 +1,12 @@
 from django.contrib.auth.models import User
 from django.test.testcases import TestCase
+from django.urls import reverse
 
 from dynamic_raw_id.tests.testapp.models import (
     CharPrimaryKeyModel,
     DirectPrimaryKeyModel,
     TestModel,
 )
-
-try:
-    from django.urls import reverse, NoReverseMatch
-except ImportError:
-    from django.core.urlresolvers import reverse, NoReverseMatch
 
 
 class DynamicRawIDTestCase(TestCase):

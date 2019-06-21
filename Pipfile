@@ -19,4 +19,3 @@ allow_prereleases = true
 [scripts]
 test = "./runtests.py"
 cleanup = "sh -c \"isort -rc dynamic_raw_id && black --skip-string-normalization --line-length=80 --exclude='/(migrations)/' dynamic_raw_id\""
-

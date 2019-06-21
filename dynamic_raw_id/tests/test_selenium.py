@@ -7,6 +7,7 @@ from unittest import skipIf
 import django
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.urls import reverse
 
 from dynamic_raw_id.tests.testapp.models import (
     CharPrimaryKeyModel,
@@ -14,18 +15,12 @@ from dynamic_raw_id.tests.testapp.models import (
     TestModel,
 )
 
-try:
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse
-
 logger = getLogger(__file__)
-
-IS_DJANGO_18 = django.get_version().startswith('1.8')
 
 
 def get_webdriver():
     from selenium.webdriver.firefox.webdriver import WebDriver
+
     return WebDriver()
 
 
@@ -83,9 +78,7 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         self.wd.find_element_by_css_selector('input[type=submit]').click()
 
         # Wait until index page is loaded
-        self.wd.find_element_by_link_text(
-            'Testapp' if IS_DJANGO_18 else 'TESTAPP'
-        )
+        self.wd.find_element_by_link_text('TESTAPP')
 
     def _goto_add_page(self):
         """
@@ -289,14 +282,6 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
 
         self._save_and_continue()
 
-    # Django 1.8 has some odd behavior with Selenium where the
-    # click event on the Glass icon in the filter does not work.
-    # It's working fine in a manual test. Since Django 1.8 is at the end of
-    # it's lifetime, we simply skip it.
-    @skipIf(
-        IS_DJANGO_18,
-        'Dynamic Filter and Selenium dont work together in Django 1.8',
-    )
     def test_dynamic_filter(self):
         """
         Create multiple dynamic_raw_id_fk instances

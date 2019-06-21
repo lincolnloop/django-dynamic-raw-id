@@ -4,12 +4,6 @@ SECRET_KEY = "super-secret-dynamic_raw_id-key"
 
 DATABASES = {
     'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': 'testapp.db'},
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'dpaste',
-    #     'USER': 'root',
-    #     'PASSWORD': '',
-    # }
 }
 
 TEMPLATES = [
@@ -29,24 +23,22 @@ TEMPLATES = [
 ]
 
 INSTALLED_APPS = [
-    'dynamic_raw_id',
-    'dynamic_raw_id.tests.testapp',
+    'django.contrib.contenttypes',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
-    'django.contrib.contenttypes',
     'django.contrib.messages',
+    'dynamic_raw_id',
+    'dynamic_raw_id.tests.testapp',
 ]
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
-
-MIDDLEWARE = MIDDLEWARE_CLASSES
 
 STATIC_ROOT = '/tmp/dynamic_raw_id_static/'
 STATIC_URL = '/static/'
