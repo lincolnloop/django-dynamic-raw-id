@@ -1,6 +1,10 @@
-// Overwrite Django's `dismissRelatedLookupPopup` to trigger a change event
-// on the value change, so dynamic_raw_id can catch it and update the associated
-// label.
+/* global django, console */
+
+/**
+ * Overwrite Django's `dismissRelatedLookupPopup` to trigger
+ * a change event on the value change, so dynamic_raw_id can
+ * catch it and update the associated label.
+ */
 function dismissRelatedLookupPopup(win, chosenId) {
   const name = windowname_to_id(win.name);
   const elem = document.getElementById(name);
@@ -69,15 +73,17 @@ function dismissRelatedLookupPopup(win, chosenId) {
 
     // Clear both the input field and the labels
     $('.dynamic_raw_id-clear-field').click(function(e) {
-      var $this = $(this);
-      $this.parent()
-           .find('.vForeignKeyRawIdAdminField, .vManyToManyRawIdAdminField')
-           .val('')
-           .trigger('change');
+      const $this = $(this);
+      $this
+        .parent()
+        .find('.vForeignKeyRawIdAdminField, .vManyToManyRawIdAdminField')
+        .val('')
+        .trigger('change');
 
-      $this.parent()
-           .find('.dynamic_raw_id_label')
-           .html('&nbsp;');
+      $this
+        .parent()
+        .find('.dynamic_raw_id_label')
+        .html('&nbsp;');
     });
 
     // Open up the pop up window and set the focus in the input field
@@ -87,6 +93,7 @@ function dismissRelatedLookupPopup(win, chosenId) {
 
       // Set the focus into the input field
       $(this).parent().find('input').focus();
+      
       return false;
     });
 

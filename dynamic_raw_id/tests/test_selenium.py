@@ -1,13 +1,11 @@
 from __future__ import unicode_literals
 
 import time
-from logging import getLogger
-from unittest import skipIf
 
-import django
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
+from logging import getLogger
 
 from dynamic_raw_id.tests.testapp.models import (
     CharPrimaryKeyModel,
