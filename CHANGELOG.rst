@@ -2,14 +2,15 @@
 Changelog
 =========
 
-(master)
-========
+v2.6 (2019-06-21)
+=================
 
 - BACKWARDS INCOMPATIBLE: Dropped support for Django <1.11.
 - BACKWARDS INCOMPATIBLE: Dropped support for Python 3.4.
 - Django 2.2 compatibility and tests.
 - General code cleanup.
 - Pipenv support for local development.
+- Some visual fixes around icons and alignment.
 
 v2.5 (2018-12-09)
 =================

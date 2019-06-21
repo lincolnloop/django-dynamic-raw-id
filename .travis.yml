@@ -3,15 +3,13 @@ language: python
 addons:
   firefox: latest
 
-# https://github.com/travis-ci/travis-ci/issues/9815#issuecomment-411073985
+dist: xenial
+
 matrix:
   include:
-    - python: 2.7
-    - python: 3.4
     - python: 3.5
     - python: 3.6
     - python: 3.7
-      dist: xenial
       sudo: true
 
 cache: pip
