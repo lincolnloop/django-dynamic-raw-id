@@ -1,4 +1,4 @@
-/* global django, console */
+/* global django, console, showRelatedObjectLookupPopup */
 
 /**
  * Overwrite Django's `dismissRelatedLookupPopup` to trigger
@@ -72,7 +72,7 @@ function dismissRelatedLookupPopup(win, chosenId) {
     });
 
     // Clear both the input field and the labels
-    $('.dynamic_raw_id-clear-field').click(function(e) {
+    $('.dynamic_raw_id-clear-field').click(function() {
       const $this = $(this);
       $this
         .parent()
@@ -93,7 +93,7 @@ function dismissRelatedLookupPopup(win, chosenId) {
 
       // Set the focus into the input field
       $(this).parent().find('input').focus();
-      
+
       return false;
     });
 
