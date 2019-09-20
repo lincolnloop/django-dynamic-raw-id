@@ -34,7 +34,7 @@ class DynamicRawIDFilter(admin.filters.FieldListFilter):
         super(DynamicRawIDFilter, self).__init__(
             field, request, params, model, model_admin, field_path
         )
-        rel = field.remote_field if VERSION[0] == 2 else field.rel
+        rel = field.remote_field if VERSION[0] >= 2 else field.rel
         self.form = self.get_form(request, rel, model_admin.admin_site)
 
     def choices(self, cl):

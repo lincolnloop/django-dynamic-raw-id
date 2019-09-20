@@ -17,7 +17,7 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
         context = super(DynamicRawIDWidget, self).get_context(
             name, value, attrs
         )
-        model = self.rel.model if VERSION[0] == 2 else self.rel.to
+        model = self.rel.model if VERSION[0] >= 2 else self.rel.to
         related_url = reverse(
             'admin:{0}_{1}_changelist'.format(
                 model._meta.app_label, model._meta.object_name.lower()
