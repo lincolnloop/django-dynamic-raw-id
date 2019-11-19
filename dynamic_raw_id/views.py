@@ -38,8 +38,13 @@ def label_view(
         msg = 'Model %s.%s does not exist.' % (app_name, model_name)
         return HttpResponseBadRequest(settings.DEBUG and msg or '')
 
-    if not request.user.has_perm('%s.change_%s' % (app_name, model_name)):
-        return HttpResponseForbidden()
+    # Check 'view' or 'change' permission depending to Django's version
+    if VERSION[0] >= 2 and VERSION[1] >= 1:
+        if not request.user.has_perm('%s.view_%s' % (app_name, model_name)):
+            return HttpResponseForbidden()
+    else:
+        if not request.user.has_perm('%s.change_%s' % (app_name, model_name)):
+            return HttpResponseForbidden()
 
     try:
         if multi:
