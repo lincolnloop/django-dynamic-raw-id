@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import render_to_response
 from django.urls import reverse
-
+from django import VERSION
 
 @user_passes_test(lambda u: u.is_staff)
 def label_view(
