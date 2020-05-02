@@ -9,6 +9,10 @@ codacy-coverage = "*"
 ipdb = "*"
 isort = "*"
 black = "*"
+pylint = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-django = "*"
 
 [packages]
 django-dynamic-raw-id = {editable = true,extras = ["tests"],path = "."}
@@ -17,5 +21,4 @@ django-dynamic-raw-id = {editable = true,extras = ["tests"],path = "."}
 allow_prereleases = true
 
 [scripts]
-test = "./runtests.py"
 cleanup = "sh -c \"isort -rc dynamic_raw_id && black --skip-string-normalization --line-length=80 --exclude='/(migrations)/' dynamic_raw_id\""

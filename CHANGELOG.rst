@@ -4,11 +4,9 @@ Changelog
 
 v2.7 (2020-05-02)
 =======================
-- Django 3.0alpha compatibility
-- Replace `render_to_response` with `render`
-- Replace `django.utils.six` with `six`
-- Remove unneeded "dunder" methods from test settings in `runtests.py`
-- Replace `staticfiles` and `admin_static`
+
+- Django 3.0 compatibility and tests.
+
 
 v2.6 (2019-06-21)
 =================

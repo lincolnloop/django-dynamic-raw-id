@@ -166,7 +166,7 @@ Run the testsuite in your local environment using:
 
     $ cd django-dynamic-raw-id/
     $ pipenv install --dev
-    $ pipenv run test
+    $ pipenv run pytest
 
 Or use tox to test against various Django and Python versions:
 
@@ -181,8 +181,7 @@ the ``django-admin`` tool with the test app settings:
 
     $ cd django-dynamic-raw-id/
     $ pipenv install --dev
-    $ pipenv run django-admin
-    $ pipenv run django-admin test
+    $ pipenv run pytest
 
 This also allows you to run the internal testing app in a testserver, to
 preview a sample of what django-dynamic-raw-id is doing:

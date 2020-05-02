@@ -1,11 +1,11 @@
 from __future__ import unicode_literals
 
 import time
+from logging import getLogger
 
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
-from logging import getLogger
 
 from dynamic_raw_id.tests.testapp.models import (
     CharPrimaryKeyModel,
@@ -148,8 +148,8 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         dynamic_raw_id on a regular ForeignKey field with `limit_choices_to`
         """
         row_id = (
-            'dynamic_raw_id_fk_limited'
-        )  # The admin row ID/indicator we test
+            'dynamic_raw_id_fk_limited'  # The admin row ID/indicator we test
+        )
         user_to_test = self.jane
 
         self._login_admin()
@@ -217,8 +217,8 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         dynamic_raw_id on a custom Model with a CharField
         """
         row_id = (
-            'dynamic_raw_id_fk_char_pk'
-        )  # The admin row ID/indicator we test
+            'dynamic_raw_id_fk_char_pk'  # The admin row ID/indicator we test
+        )
         username = 'Hello World'
 
         # Add a test model instances
@@ -251,8 +251,8 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         dynamic_raw_id on a custom Model with an IntegerField
         """
         row_id = (
-            'dynamic_raw_id_fk_direct_pk'
-        )  # The admin row ID/indicator we test
+            'dynamic_raw_id_fk_direct_pk'  # The admin row ID/indicator we test
+        )
         username = '12345'
 
         # Add a test model instances

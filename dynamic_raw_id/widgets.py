@@ -35,9 +35,7 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
         if "class" not in attrs:
             attrs[
                 'class'
-            ] = (
-                'vForeignKeyRawIdAdminField'
-            )  # The JavaScript looks for this hook.
+            ] = 'vForeignKeyRawIdAdminField'  # The JavaScript looks for this hook.
         app_name = model._meta.app_label.strip()
         model_name = model._meta.object_name.lower().strip()
 

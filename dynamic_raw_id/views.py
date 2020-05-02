@@ -1,10 +1,11 @@
+from django import VERSION
 from django.apps import apps
 from django.conf import settings
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import render
 from django.urls import reverse
-from django import VERSION
+
 
 @user_passes_test(lambda u: u.is_staff)
 def label_view(
