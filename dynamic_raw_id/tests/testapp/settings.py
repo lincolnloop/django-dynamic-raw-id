@@ -48,3 +48,16 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
+
+TEST_SETTINGS = {
+    'DEBUG': DEBUG,
+    'SECRET_KEY': SECRET_KEY,
+    'DATABASES': DATABASES,
+    'TEMPLATES': TEMPLATES,
+    'INSTALLED_APPS': INSTALLED_APPS,
+    'MIDDLEWARE': MIDDLEWARE,
+    'STATIC_ROOT': STATIC_ROOT,
+    'STATIC_URL': STATIC_URL,
+    'ROOT_URLCONF': ROOT_URLCONF,
+    'STATICFILES_FINDERS': STATICFILES_FINDERS,
+}

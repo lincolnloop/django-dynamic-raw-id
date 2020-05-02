@@ -2,7 +2,7 @@ from django.apps import apps
 from django.conf import settings
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.urls import reverse
 
 
@@ -74,4 +74,4 @@ def label_view(
         msg = 'Model instance does not exist'
         return HttpResponseBadRequest(settings.DEBUG and msg or '')
 
-    return render_to_response((model_template, template_name), extra_context)
+    return render(request, (model_template, template_name), extra_context)

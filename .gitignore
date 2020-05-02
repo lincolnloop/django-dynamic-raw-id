@@ -2,3 +2,4 @@
 testapp.db
 geckodriver.log
 coverage_report
+.coverage

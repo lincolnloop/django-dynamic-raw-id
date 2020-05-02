@@ -9,8 +9,8 @@ from django.test.runner import DiscoverRunner
 def runtests(*test_args):
     # Setup settings
     if not settings.configured:
-        from dynamic_raw_id.tests.testapp import settings as TEST_SETTINGS
-        settings.configure(**TEST_SETTINGS.__dict__)
+        from dynamic_raw_id.tests.testapp.settings import TEST_SETTINGS
+        settings.configure(**TEST_SETTINGS)
 
     setup()
 
