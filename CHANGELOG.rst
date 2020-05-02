@@ -2,7 +2,7 @@
 Changelog
 =========
 
-v2.7 (2019-09-19)
+v2.7 (2020-05-02)
 =======================
 - Django 3.0alpha compatibility
 - Replace `render_to_response` with `render`
