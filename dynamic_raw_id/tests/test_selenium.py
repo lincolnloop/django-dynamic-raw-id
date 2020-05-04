@@ -18,7 +18,6 @@ logger = getLogger(__file__)
 
 def get_webdriver():
     from selenium.webdriver.firefox.webdriver import WebDriver
-
     return WebDriver()
 
 

@@ -17,7 +17,7 @@ cache: pip
 
 env:
   global:
-    - GECKODRIVER_VERSION=0.24.0
+    - GECKODRIVER_VERSION=0.26.0
     - MOZ_HEADLESS=1
 
 before_install:
