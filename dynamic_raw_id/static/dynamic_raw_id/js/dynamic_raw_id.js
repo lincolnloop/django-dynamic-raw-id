@@ -6,8 +6,7 @@
  * catch it and update the associated label.
  */
 function dismissRelatedLookupPopup(win, chosenId) {
-  const name = windowname_to_id(win.name);
-  const elem = document.getElementById(name);
+  const elem = document.getElementById(win.name);
   if (elem.className.indexOf('vManyToManyRawIdAdminField') !== -1 && elem.value) {
     elem.value += `,${chosenId}`;
   } else {
