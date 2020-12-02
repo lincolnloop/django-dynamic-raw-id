@@ -18,11 +18,11 @@ class DynamicRawIDTestCase(TestCase):
 
     def setUp(self):
         # Create admin and login by default
-        self.admin = User.objects.create_superuser('admin', '', 'admin')
-        self.client.login(username='admin', password='admin')
+        self.admin = User.objects.create_superuser("admin", "", "admin")
+        self.client.login(username="admin", password="admin")
 
         # Create additional staff user without any app permissions
-        self.user_noperm = User.objects.create_user('user', '', 'user')
+        self.user_noperm = User.objects.create_user("user", "", "user")
         self.user_noperm.is_staff = True
         self.user_noperm.save()
 
@@ -30,18 +30,16 @@ class DynamicRawIDTestCase(TestCase):
         self.client.logout()
 
     def get_labelview_url(self, multi=False):
-        name = multi and 'dynamic_raw_id_multi_label' or 'dynamic_raw_id_label'
-        return reverse(
-            name, kwargs={'app_name': 'testapp', 'model_name': 'testmodel'}
-        )
+        name = multi and "dynamic_raw_id_multi_label" or "dynamic_raw_id_label"
+        return reverse(name, kwargs={"app_name": "testapp", "model_name": "testmodel"})
 
     def create_sample_data(self):
         """
         Create a bit of sample data we can use to assign.
         """
-        self.u1 = User.objects.create_superuser('jon', 'jon@example.com', '')
-        self.u2 = User.objects.create_superuser('jim', 'jim@example.com', '')
-        self.c1 = CharPrimaryKeyModel.objects.create(chr='helloworld')
+        self.u1 = User.objects.create_superuser("jon", "jon@example.com", "")
+        self.u2 = User.objects.create_superuser("jim", "jim@example.com", "")
+        self.c1 = CharPrimaryKeyModel.objects.create(chr="helloworld")
         self.n1 = DirectPrimaryKeyModel.objects.create(num=12345)
 
         self.obj = TestModel.objects.create(
@@ -62,7 +60,7 @@ class DynamicRawIDTestCase(TestCase):
         testapp changelist view.
         """
         self.create_sample_data()
-        list_url = reverse('admin:testapp_testmodel_changelist')
+        list_url = reverse("admin:testapp_testmodel_changelist")
         response = self.client.get(list_url)
         self.assertEqual(response.status_code, 200)
 
@@ -72,9 +70,7 @@ class DynamicRawIDTestCase(TestCase):
         testapp changelist view.
         """
         self.create_sample_data()
-        list_url = reverse(
-            'admin:testapp_testmodel_change', args=(self.obj.pk,)
-        )
+        list_url = reverse("admin:testapp_testmodel_change", args=(self.obj.pk,))
         response = self.client.get(list_url)
         self.assertEqual(response.status_code, 200)
 
@@ -92,10 +88,10 @@ class DynamicRawIDTestCase(TestCase):
         no change permisson for the app.
         """
         self.client.logout()
-        self.client.login(username='user', password='user')
+        self.client.login(username="user", password="user")
         self.create_sample_data()
         response = self.client.get(
-            self.get_labelview_url(multi=True), {'id': self.obj.pk}, follow=True
+            self.get_labelview_url(multi=True), {"id": self.obj.pk}, follow=True
         )
         self.assertEqual(response.status_code, 403)
 
@@ -106,7 +102,7 @@ class DynamicRawIDTestCase(TestCase):
         """
         self.create_sample_data()
         response = self.client.get(
-            self.get_labelview_url(), {'id': self.obj.pk}, follow=True
+            self.get_labelview_url(), {"id": self.obj.pk}, follow=True
         )
         self.assertEqual(response.status_code, 200)
 
@@ -117,7 +113,7 @@ class DynamicRawIDTestCase(TestCase):
         """
         self.create_sample_data()
         response = self.client.get(
-            self.get_labelview_url(multi=True), {'id': self.obj.pk}, follow=True
+            self.get_labelview_url(multi=True), {"id": self.obj.pk}, follow=True
         )
         self.assertEqual(response.status_code, 200)
 
@@ -127,7 +123,7 @@ class DynamicRawIDTestCase(TestCase):
         """
         self.create_sample_data()
         response = self.client.get(
-            self.get_labelview_url(), {'id': 'wrong'}, follow=True
+            self.get_labelview_url(), {"id": "wrong"}, follow=True
         )
         self.assertEqual(response.status_code, 400)
 
@@ -137,7 +133,7 @@ class DynamicRawIDTestCase(TestCase):
         """
         self.create_sample_data()
         response = self.client.get(
-            self.get_labelview_url(), {'id': '123456'}, follow=True
+            self.get_labelview_url(), {"id": "123456"}, follow=True
         )
         self.assertEqual(response.status_code, 400)
 
@@ -154,6 +150,6 @@ class DynamicRawIDTestCase(TestCase):
         Test invalid app/model name.
         """
         self.create_sample_data()
-        url = self.get_labelview_url().replace('testapp', 'foobar')
-        response = self.client.get(url, {'id': self.obj.pk}, follow=True)
+        url = self.get_labelview_url().replace("testapp", "foobar")
+        response = self.client.get(url, {"id": self.obj.pk}, follow=True)
         self.assertEqual(response.status_code, 400)

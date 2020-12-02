@@ -21,4 +21,4 @@ django-dynamic-raw-id = {editable = true,extras = ["tests"],path = "."}
 allow_prereleases = true
 
 [scripts]
-cleanup = "sh -c \"isort -rc dynamic_raw_id && black --skip-string-normalization --line-length=80 --exclude='/(migrations)/' dynamic_raw_id\""
+cleanup = "sh -c \"isort -rc dynamic_raw_id && black --exclude='/(migrations)/' dynamic_raw_id\""

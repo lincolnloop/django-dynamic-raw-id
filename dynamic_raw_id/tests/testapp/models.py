@@ -21,58 +21,58 @@ class CharPrimaryKeyModel(models.Model):
 @python_2_unicode_compatible
 class TestModel(models.Model):
     rawid_fk = models.ForeignKey(
-        'auth.User',
-        related_name='rawid_fk',
+        "auth.User",
+        related_name="rawid_fk",
         blank=True,
         null=True,
         on_delete=models.CASCADE,
     )
 
     rawid_fk_limited = models.ForeignKey(
-        'auth.User',
-        related_name='rawid_fk_limited',
-        limit_choices_to={'is_staff': True},
+        "auth.User",
+        related_name="rawid_fk_limited",
+        limit_choices_to={"is_staff": True},
         blank=True,
         null=True,
         on_delete=models.CASCADE,
     )
 
     rawid_many = models.ManyToManyField(
-        'auth.User', related_name='rawid_many', blank=True
+        "auth.User", related_name="rawid_many", blank=True
     )
 
     rawid_fk_direct_pk = models.ForeignKey(
         DirectPrimaryKeyModel,
-        related_name='rawid_fk_direct_pk',
+        related_name="rawid_fk_direct_pk",
         blank=True,
         null=True,
         on_delete=models.CASCADE,
     )
 
     dynamic_raw_id_fk = models.ForeignKey(
-        'auth.User',
-        related_name='dynamic_raw_id_fk',
+        "auth.User",
+        related_name="dynamic_raw_id_fk",
         blank=True,
         null=True,
         on_delete=models.CASCADE,
     )
 
     dynamic_raw_id_fk_limited = models.ForeignKey(
-        'auth.User',
-        related_name='dynamic_raw_id_fk_limited',
-        limit_choices_to={'is_staff': True},
+        "auth.User",
+        related_name="dynamic_raw_id_fk_limited",
+        limit_choices_to={"is_staff": True},
         blank=True,
         null=True,
         on_delete=models.CASCADE,
     )
 
     dynamic_raw_id_many = models.ManyToManyField(
-        'auth.User', related_name='dynamic_raw_id_many', blank=True
+        "auth.User", related_name="dynamic_raw_id_many", blank=True
     )
 
     dynamic_raw_id_fk_direct_pk = models.ForeignKey(
         DirectPrimaryKeyModel,
-        related_name='dynamic_raw_id_fk_direct_pk',
+        related_name="dynamic_raw_id_fk_direct_pk",
         blank=True,
         null=True,
         on_delete=models.CASCADE,
@@ -80,7 +80,7 @@ class TestModel(models.Model):
 
     dynamic_raw_id_fk_char_pk = models.ForeignKey(
         CharPrimaryKeyModel,
-        related_name='dynamic_raw_id_fk_char_pk',
+        related_name="dynamic_raw_id_fk_char_pk",
         blank=True,
         null=True,
         on_delete=models.CASCADE,
@@ -89,4 +89,4 @@ class TestModel(models.Model):
     def __str__(self):
         if self.dynamic_raw_id_fk:
             return self.dynamic_raw_id_fk.username
-        return 'Unnamed Test Instance'
+        return "Unnamed Test Instance"
