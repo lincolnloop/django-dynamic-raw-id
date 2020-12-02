@@ -5,6 +5,14 @@
  * a change event on the value change, so dynamic_raw_id can
  * catch it and update the associated label.
  */
+if (!windowname_to_id) {
+  function windowname_to_id(text) {
+    text = text.replace(/__dot__/g, '.');
+    text = text.replace(/__dash__/g, '-');
+    return text;
+  }
+}
+
 function dismissRelatedLookupPopup(win, chosenId) {
   const name = windowname_to_id(win.name);
   const elem = document.getElementById(name);
