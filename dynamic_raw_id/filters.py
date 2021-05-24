@@ -8,14 +8,42 @@ from django.contrib import admin
 from dynamic_raw_id.widgets import DynamicRawIDWidget
 
 
-class DynamicRawIDFilterForm(forms.Form):
+class DynamicRawIDFilterIntegerPKForm(forms.Form):
 
-    """Form for dynamic_raw_id filter."""
+    """Form for integer PK dynamic_raw_id filter."""
 
     def __init__(self, rel, admin_site, field_name, **kwargs):
         """Construct field for given field rel."""
-        super(DynamicRawIDFilterForm, self).__init__(**kwargs)
+        super(DynamicRawIDFilterIntegerPKForm, self).__init__(**kwargs)
         self.fields["%s" % field_name] = forms.IntegerField(
+            label="",
+            widget=DynamicRawIDWidget(rel=rel, admin_site=admin_site),
+            required=False,
+        )
+
+
+class DynamicRawIDFilterStringPKForm(forms.Form):
+
+    """Form for string PK dynamic_raw_id filter."""
+
+    def __init__(self, rel, admin_site, field_name, **kwargs):
+        """Construct field for given field rel."""
+        super(DynamicRawIDFilterStringPKForm, self).__init__(**kwargs)
+        self.fields["%s" % field_name] = forms.CharField(
+            label="",
+            widget=DynamicRawIDWidget(rel=rel, admin_site=admin_site),
+            required=False,
+        )
+
+
+class DynamicRawIDFilterUUIDPKForm(forms.Form):
+
+    """Form for UUID PK dynamic_raw_id filter."""
+
+    def __init__(self, rel, admin_site, field_name, **kwargs):
+        """Construct field for given field rel."""
+        super(DynamicRawIDFilterUUIDPKForm, self).__init__(**kwargs)
+        self.fields["%s" % field_name] = forms.UUIDField(
             label="",
             widget=DynamicRawIDWidget(rel=rel, admin_site=admin_site),
             required=False,
@@ -47,7 +75,7 @@ class DynamicRawIDFilter(admin.filters.FieldListFilter):
 
     def get_form(self, request, rel, admin_site):
         """Return filter form."""
-        return DynamicRawIDFilterForm(
+        return DynamicRawIDFilterIntegerPKForm(
             admin_site=admin_site,
             rel=rel,
             field_name=self.field_path,
@@ -63,3 +91,45 @@ class DynamicRawIDFilter(admin.filters.FieldListFilter):
             )
             return queryset.filter(**filter_params)
         return queryset
+
+
+class DynamicRawIDIntegerFilter(DynamicRawIDFilter):
+
+    """Filter list queryset by integer primary key of related object."""
+
+    def get_form(self, request, rel, admin_site):
+        """Return filter form."""
+        return DynamicRawIDFilterIntegerPKForm(
+            admin_site=admin_site,
+            rel=rel,
+            field_name=self.field_path,
+            data=self.used_parameters,
+        )
+
+
+class DynamicRawIDStringFilter(DynamicRawIDFilter):
+
+    """Filter list queryset by string primary key of related object."""
+
+    def get_form(self, request, rel, admin_site):
+        """Return filter form."""
+        return DynamicRawIDFilterStringPKForm(
+            admin_site=admin_site,
+            rel=rel,
+            field_name=self.field_path,
+            data=self.used_parameters,
+        )
+
+
+class DynamicRawIDUUIDFilter(DynamicRawIDFilter):
+
+    """Filter list queryset by UUID primary key of related object."""
+
+    def get_form(self, request, rel, admin_site):
+        """Return filter form."""
+        return DynamicRawIDFilterUUIDPKForm(
+            admin_site=admin_site,
+            rel=rel,
+            field_name=self.field_path,
+            data=self.used_parameters,
+        )
