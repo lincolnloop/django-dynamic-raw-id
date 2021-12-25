@@ -3,8 +3,7 @@ from django.conf import settings
 from django.contrib.admin import widgets
 from django.core.exceptions import ImproperlyConfigured
 from django.urls import reverse
-from django.utils.encoding import force_text
-
+from django.utils.encoding import force_str
 
 class DynamicRawIDImproperlyConfigured(ImproperlyConfigured):
     pass
@@ -67,7 +66,7 @@ class DynamicRawIDMultiIdWidget(DynamicRawIDWidget):
 
     def render(self, name, value, attrs, renderer=None):
         attrs["class"] = "vManyToManyRawIdAdminField"
-        value = u",".join([force_text(v) for v in value]) if value else ""
+        value = u",".join([force_str(v) for v in value]) if value else ""
         return super(DynamicRawIDMultiIdWidget, self).render(
             name, value, attrs, renderer=renderer
         )
