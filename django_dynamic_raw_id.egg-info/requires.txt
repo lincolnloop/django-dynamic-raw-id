@@ -1,9 +1,0 @@
-django>=1.11
-six>=1.10.0
-
-[tests]
-coverage
-pytest
-pytest-cov
-pytest-django
-selenium
