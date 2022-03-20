@@ -46,13 +46,15 @@ Put ``dynamic_raw_id`` to your list of ``INSTALLED_APPS``:
         'dynamic_raw_id',
     )
 
-And add the ``urlpattern``:
+And add the ``urlpattern``. Make sure its listed *before* the generic
+``admin.site.urls`` urlpattern include:
 
 .. code-block:: python
 
     urlpatterns = [
         # ...
-        url(r'^admin/dynamic_raw_id/', include('dynamic_raw_id.urls')),
+        path('admin/dynamic_raw_id/', include('dynamic_raw_id.urls')),
+        path("admin/", admin.site.urls),
     ]
 
 ``dynamic_raw_id`` comes with some static files so don't forget to run

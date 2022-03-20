@@ -1,10 +1,12 @@
-from django.urls import re_path
+from django.urls import path
 
 from dynamic_raw_id.views import label_view
 
+app_name = 'dynamic_raw_id'
+
 urlpatterns = [
-    re_path(
-        r"^(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/multiple/$",
+    path(
+        "<slug:app_name>/<slug:model_name>/multiple/",
         label_view,
         {
             "multi": True,
@@ -13,8 +15,8 @@ urlpatterns = [
         },
         name="dynamic_raw_id_multi_label",
     ),
-    re_path(
-        r"^(?P<app_name>[\w-]+)/(?P<model_name>[\w-]+)/$",
+    path(
+        "<slug:app_name>/<slug:model_name>/",
         label_view,
         {"template_name": "dynamic_raw_id/label.html"},
         name="dynamic_raw_id_label",
