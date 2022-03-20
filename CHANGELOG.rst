@@ -2,7 +2,7 @@
 Changelog
 =========
 
-v3.x (main)
+v3.0 (2022-03-20)
 =======================
 
 - Django 4.0 compatibility and tests.
