@@ -7,7 +7,7 @@ v3.x (main)
 
 - Django 4.0 compatibility and tests.
 - Requires Django 3.2 or up.
-- Requires Python 3.6 or up.
+- Requires Python 3.7 or up.
 - *Note:* You may now need to change the order and put the dynamic-raw-id
   include before the generic admin include. See Readme for details.
 
