@@ -8,7 +8,6 @@ from dynamic_raw_id.tests.testapp.models import (
     TestModel,
 )
 
-
 class DynamicRawIDTestCase(TestCase):
     """
     Test the basic integrity of the app. We can't test the Javascript side
@@ -31,7 +30,7 @@ class DynamicRawIDTestCase(TestCase):
 
     def get_labelview_url(self, multi=False):
         name = multi and "dynamic_raw_id_multi_label" or "dynamic_raw_id_label"
-        return reverse(name, kwargs={"app_name": "testapp", "model_name": "testmodel"})
+        return reverse("dynamic_raw_id:{}".format(name), kwargs={"app_name": "testapp", "model_name": "testmodel"})
 
     def create_sample_data(self):
         """
