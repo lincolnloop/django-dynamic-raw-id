@@ -12,12 +12,6 @@
 
 ----
 
-.. important:: django-salmonella was renamed to django-dynamic-raw-id and
-   re-released as version 2.1. The latest django-salmonella version was 1.2.
-   Please upgrade your code, see Installation and Usage below.
-
-----
-
 =====================
 django-dynamic-raw-id
 =====================
@@ -29,11 +23,16 @@ See this example:
 .. image:: http://d.pr/i/10GtM.png
     :target: http://d.pr/i/1kv7d.png
 
+========= === === === === ====
+Py/Dj     3.6 3.7 3.8 3.9 3.10
+========= === === === === ====
+3.2        ✓   ✓   ✓   ✓   ✓
+4.0        ✓   ✓   ✓   ✓   ✓
+========= === === === === ====
+
 Installation
 ============
 
-The app is compatible and tested with Python 2.7 → 3.7 and all versions
-of Django between 1.8 → 2.1.
 
 Install the package with ``pip``:
 
