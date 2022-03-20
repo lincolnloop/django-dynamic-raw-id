@@ -4,6 +4,7 @@
 
 from django import forms
 from django.contrib import admin
+from django.db.models import CharField, IntegerField, UUIDField
 
 from dynamic_raw_id.widgets import DynamicRawIDWidget
 
@@ -15,7 +16,16 @@ class DynamicRawIDFilterForm(forms.Form):
     def __init__(self, rel, admin_site, field_name, **kwargs):
         """Construct field for given field rel."""
         super(DynamicRawIDFilterForm, self).__init__(**kwargs)
-        self.fields["%s" % field_name] = forms.IntegerField(
+
+        related_field = rel.get_related_field()
+        if isinstance(related_field, UUIDField):
+            FormField = forms.UUIDField
+        elif isinstance(related_field, CharField):
+            FormField = forms.CharField
+        else:
+            FormField = forms.IntegerField
+
+        self.fields["%s" % field_name] = FormField(
             label="",
             widget=DynamicRawIDWidget(rel=rel, admin_site=admin_site),
             required=False,
