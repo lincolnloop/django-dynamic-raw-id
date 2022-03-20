@@ -17,6 +17,9 @@ See this example:
 .. image:: http://d.pr/i/10GtM.png
     :target: http://d.pr/i/1kv7d.png
 
+Compatibility Matrix:
+=====================
+
 ========= === === === === ====
 Py/Dj     3.6 3.7 3.8 3.9 3.10
 ========= === === === === ====
