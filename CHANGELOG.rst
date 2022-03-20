@@ -1,10 +1,12 @@
 =========
 Changelog
 =========
-v2.9 (2020-12-02)
+v3.x (main)
 =======================
 
 - Django 4.0 compatibility and tests.
+- Requires Django 3.2 or up.
+- Requires Python 3.6 or up.
 
 v2.8 (2020-12-02)
 =======================

@@ -1,8 +1,6 @@
 from django.db import models
-from six import python_2_unicode_compatible
 
 
-@python_2_unicode_compatible
 class DirectPrimaryKeyModel(models.Model):
     num = models.IntegerField("Number", primary_key=True)
 
@@ -10,7 +8,6 @@ class DirectPrimaryKeyModel(models.Model):
         return str(self.num)
 
 
-@python_2_unicode_compatible
 class CharPrimaryKeyModel(models.Model):
     chr = models.CharField(max_length=20, primary_key=True)
 
@@ -18,7 +15,6 @@ class CharPrimaryKeyModel(models.Model):
         return self.chr
 
 
-@python_2_unicode_compatible
 class TestModel(models.Model):
     rawid_fk = models.ForeignKey(
         "auth.User",
