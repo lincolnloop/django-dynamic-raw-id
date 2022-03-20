@@ -1,4 +1,3 @@
-from django import VERSION
 from django.apps import apps
 from django.conf import settings
 from django.contrib.auth.decorators import user_passes_test
@@ -40,16 +39,15 @@ def label_view(
         return HttpResponseBadRequest(settings.DEBUG and msg or "")
 
     # Check 'view' or 'change' permission depending to Django's version
-    if VERSION[0] >= 2 and VERSION[1] >= 1:
-        if not request.user.has_perm("%s.view_%s" % (app_name, model_name)):
-            return HttpResponseForbidden()
-    else:
-        if not request.user.has_perm("%s.change_%s" % (app_name, model_name)):
-            return HttpResponseForbidden()
+    if not request.user.has_perm("%s.view_%s" % (app_name, model_name)):
+        return HttpResponseForbidden()
 
     try:
         if multi:
-            model_template = "dynamic_raw_id/%s/multi_%s.html" % (app_name, model_name,)
+            model_template = "dynamic_raw_id/%s/multi_%s.html" % (
+                app_name,
+                model_name,
+            )
             objs = model.objects.filter(pk__in=object_list)
             objects = []
             for obj in objs:
@@ -60,7 +58,10 @@ def label_view(
                 objects.append(obj)
             extra_context = {template_object_name: objects}
         else:
-            model_template = "dynamic_raw_id/%s/%s.html" % (app_name, model_name,)
+            model_template = "dynamic_raw_id/%s/%s.html" % (
+                app_name,
+                model_name,
+            )
             obj = model.objects.get(pk=object_list[0])
             change_url = reverse(
                 "admin:%s_%s_change" % (app_name, model_name), args=[obj.pk]

@@ -1,4 +1,4 @@
-from django import VERSION, forms
+from django import forms
 from django.conf import settings
 from django.contrib.admin import widgets
 from django.core.exceptions import ImproperlyConfigured
@@ -15,7 +15,7 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
 
     def get_context(self, name, value, attrs):
         context = super(DynamicRawIDWidget, self).get_context(name, value, attrs)
-        model = self.rel.model if VERSION[0] >= 2 else self.rel.to
+        model = self.rel.model
         related_url = reverse(
             "admin:{0}_{1}_changelist".format(
                 model._meta.app_label, model._meta.object_name.lower()
