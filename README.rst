@@ -27,6 +27,15 @@ Py/Dj     3.7 3.8 3.9 3.10
 4.0         ✓   ✓   ✓   ✓
 ========= === === === ====
 
+Rationale
+=========
+
+By default, Django’s admin loads all possible related instances into a select-box interface (<select>) for fields that are ForeignKey. This can result in long load times and unresponsive admin pages for models with thousands of instances, or with multiple ForeinKeys.
+
+The normal fix is to use Django's ModelAdmin.raw_id_fields_, but by default it *only* shows the raw id of the related model instance, which is somewhat unhelpful.
+
+This package improve the user experience by providing the string representation or other customized text for the related instance, linked to that instance's admin change form, in addition to the raw id itself.
+
 Installation
 ============
 
@@ -199,3 +208,4 @@ preview a sample of what django-dynamic-raw-id is doing:
 
 
 .. _geckodriver: https://github.com/mozilla/geckodriver
+.. _ModelAdmin.raw_id_fields: https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.raw_id_fields
