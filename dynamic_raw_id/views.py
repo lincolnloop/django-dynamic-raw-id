@@ -6,45 +6,74 @@ from django.shortcuts import render
 from django.urls import reverse
 
 
-@user_passes_test(lambda u: u.is_staff)
-def label_view(
+def dynamic_label_view(
+    admin_site='admin'
+):
+    @user_passes_test(lambda u: u.is_staff)
+    def label_view(
+        request,
+        app_name,
+        model_name,
+        template_name='',
+        multi=False,
+        template_object_name='object',
+    ):
+        object_list = []
+        for pk in request.GET['id'].split(','):
+            object_list.append(pk.strip())
+
+        try:
+            model = apps.get_model(app_name, model_name)
+        except LookupError:
+            msg = 'Model {0}.{1} does not exist.'.format(app_name, model_name)
+            return HttpResponseBadRequest(settings.DEBUG and msg or '')
+
+        else:
+            if not request.user.has_perm('{0}.change_{1}'.format(app_name, model_name)):
+                return HttpResponseForbidden()
+
+        try:
+            return get_change_view(
+                request=request,
+                app_name=app_name,
+                model_name=model_name,
+                model=model,
+                object_list=object_list,
+                admin_site=admin_site,
+                template_name=template_name,
+                multi=multi,
+                template_object_name=template_object_name,
+            )
+        except Exception as e:
+            return get_change_view(
+                request=request,
+                app_name=app_name,
+                model_name=model_name,
+                model=model,
+                object_list=object_list,
+                admin_site='admin',
+                template_name=template_name,
+                multi=multi,
+                template_object_name=template_object_name,
+            )
+
+    return label_view
+
+
+def get_change_view(
     request,
     app_name,
     model_name,
-    template_name="",
-    multi=False,
-    template_object_name="object",
+    model,
+    object_list,
+    admin_site,
+    template_name,
+    multi,
+    template_object_name,
 ):
-
-    # The list of to obtained objects is in GET.id. No need to resume if we
-    # didnt get it.
-    if not request.GET.get("id"):
-        msg = "No list of objects given"
-        return HttpResponseBadRequest(settings.DEBUG and msg or "")
-
-    # Given objects are either an integer or a comma-separated list of
-    # integers. Validate them and ignore invalid values. Also strip them
-    # in case the user entered values by hand, such as '1, 2,3'.
-    object_list = []
-    for pk in request.GET["id"].split(","):
-        object_list.append(pk.strip())
-
-    # Make sure this model exists and the user has 'change' permission for it.
-    # If he doesnt have this permission, Django would not display the
-    # change_list in the popup and the user were never able to select objects.
-    try:
-        model = apps.get_model(app_name, model_name)
-    except LookupError:
-        msg = "Model %s.%s does not exist." % (app_name, model_name)
-        return HttpResponseBadRequest(settings.DEBUG and msg or "")
-
-    # Check 'view' or 'change' permission depending to Django's version
-    if not request.user.has_perm("%s.view_%s" % (app_name, model_name)):
-        return HttpResponseForbidden()
-
     try:
         if multi:
-            model_template = "dynamic_raw_id/%s/multi_%s.html" % (
+            model_template = 'dynamic_raw_id/{0}/multi_{1}.html'.format(
                 app_name,
                 model_name,
             )
@@ -52,27 +81,34 @@ def label_view(
             objects = []
             for obj in objs:
                 change_url = reverse(
-                    "admin:%s_%s_change" % (app_name, model_name), args=[obj.pk]
+                    '{0}:{1}_{2}_change'.format(
+                        admin_site,
+                        app_name,
+                        model_name
+                    ), args=[obj.pk]
                 )
                 obj = (obj, change_url)
                 objects.append(obj)
             extra_context = {template_object_name: objects}
         else:
-            model_template = "dynamic_raw_id/%s/%s.html" % (
+            model_template = 'dynamic_raw_id/{0}/{1}.html'.format(
                 app_name,
                 model_name,
             )
             obj = model.objects.get(pk=object_list[0])
             change_url = reverse(
-                "admin:%s_%s_change" % (app_name, model_name), args=[obj.pk]
+                '{0}:{1}_{2}_change'.format(
+                    admin_site,
+                    app_name,
+                    model_name
+                ), args=[obj.pk]
             )
             extra_context = {template_object_name: (obj, change_url)}
-    # most likely the pk wasn't convertable
     except ValueError:
-        msg = "ValueError during lookup"
-        return HttpResponseBadRequest(settings.DEBUG and msg or "")
+        msg = 'ValueError during lookup'
+        return HttpResponseBadRequest(settings.DEBUG and msg or '')
     except model.DoesNotExist:
-        msg = "Model instance does not exist"
-        return HttpResponseBadRequest(settings.DEBUG and msg or "")
+        msg = 'Model instance does not exist'
+        return HttpResponseBadRequest(settings.DEBUG and msg or '')
 
     return render(request, (model_template, template_name), extra_context)
