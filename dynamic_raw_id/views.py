@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import render
 from django.urls import reverse
+from django.urls.exceptions import NoReverseMatch
 
 
 def dynamic_label_view(
@@ -32,30 +33,17 @@ def dynamic_label_view(
             if not request.user.has_perm('{0}.change_{1}'.format(app_name, model_name)):
                 return HttpResponseForbidden()
 
-        try:
-            return get_change_view(
-                request=request,
-                app_name=app_name,
-                model_name=model_name,
-                model=model,
-                object_list=object_list,
-                admin_site=admin_site,
-                template_name=template_name,
-                multi=multi,
-                template_object_name=template_object_name,
-            )
-        except Exception as e:
-            return get_change_view(
-                request=request,
-                app_name=app_name,
-                model_name=model_name,
-                model=model,
-                object_list=object_list,
-                admin_site='admin',
-                template_name=template_name,
-                multi=multi,
-                template_object_name=template_object_name,
-            )
+        return get_change_view(
+            request=request,
+            app_name=app_name,
+            model_name=model_name,
+            model=model,
+            object_list=object_list,
+            admin_site=admin_site,
+            template_name=template_name,
+            multi=multi,
+            template_object_name=template_object_name,
+        )
 
     return label_view
 
@@ -110,5 +98,19 @@ def get_change_view(
     except model.DoesNotExist:
         msg = 'Model instance does not exist'
         return HttpResponseBadRequest(settings.DEBUG and msg or '')
+    except NoReverseMatch as e:
+        if admin_site != 'admin':
+            return get_change_view(
+                request=request,
+                app_name=app_name,
+                model_name=model_name,
+                model=model,
+                object_list=object_list,
+                admin_site='admin',
+                template_name=template_name,
+                multi=multi,
+                template_object_name=template_object_name,
+            )
+        raise e
 
     return render(request, (model_template, template_name), extra_context)
