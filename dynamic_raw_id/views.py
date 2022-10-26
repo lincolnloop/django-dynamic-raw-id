@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import render
 from django.urls import reverse
+from django.urls.exceptions import NoReverseMatch
 
 
 @user_passes_test(lambda u: u.is_staff)
@@ -14,7 +15,13 @@ def label_view(
     template_name="",
     multi=False,
     template_object_name="object",
+    use_default_admin_site=True
 ):
+    admin_site = (
+        'admin' if
+        use_default_admin_site else
+        request.path.split('/')[1]
+    )
 
     # The list of to obtained objects is in GET.id. No need to resume if we
     # didnt get it.
@@ -68,6 +75,17 @@ def label_view(
             )
             extra_context = {template_object_name: (obj, change_url)}
     # most likely the pk wasn't convertable
+    except NoReverseMatch:
+        if use_default_admin_site:
+            return label_view(
+                request,
+                app_name,
+                model_name,
+                template_name=template_name,
+                multi=multi,
+                template_object_name=template_object_name,
+                use_default_admin_site=False
+            )
     except ValueError:
         msg = "ValueError during lookup"
         return HttpResponseBadRequest(settings.DEBUG and msg or "")
