@@ -59,7 +59,7 @@ def label_view(
             objects = []
             for obj in objs:
                 change_url = reverse(
-                    "admin:%s_%s_change" % (app_name, model_name), args=[obj.pk]
+                    "%s:%s_%s_change" % (admin_site, app_name, model_name), args=[obj.pk]
                 )
                 obj = (obj, change_url)
                 objects.append(obj)
@@ -71,7 +71,7 @@ def label_view(
             )
             obj = model.objects.get(pk=object_list[0])
             change_url = reverse(
-                "admin:%s_%s_change" % (app_name, model_name), args=[obj.pk]
+                "%s:%s_%s_change" % (admin_site, app_name, model_name), args=[obj.pk]
             )
             extra_context = {template_object_name: (obj, change_url)}
     # most likely the pk wasn't convertable
