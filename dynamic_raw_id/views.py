@@ -15,14 +15,8 @@ def label_view(
     template_name="",
     multi=False,
     template_object_name="object",
-    use_default_admin_site=True
+    admin_site_name="admin"
 ):
-    admin_site = (
-        'admin' if
-        use_default_admin_site else
-        request.path.split('/')[1]
-    )
-
     # The list of to obtained objects is in GET.id. No need to resume if we
     # didnt get it.
     if not request.GET.get("id"):
@@ -59,7 +53,7 @@ def label_view(
             objects = []
             for obj in objs:
                 change_url = reverse(
-                    "%s:%s_%s_change" % (admin_site, app_name, model_name), args=[obj.pk]
+                    "%s:%s_%s_change" % (admin_site_name, app_name, model_name), args=[obj.pk]
                 )
                 obj = (obj, change_url)
                 objects.append(obj)
@@ -71,21 +65,10 @@ def label_view(
             )
             obj = model.objects.get(pk=object_list[0])
             change_url = reverse(
-                "%s:%s_%s_change" % (admin_site, app_name, model_name), args=[obj.pk]
+                "%s:%s_%s_change" % (admin_site_name, app_name, model_name), args=[obj.pk]
             )
             extra_context = {template_object_name: (obj, change_url)}
     # most likely the pk wasn't convertable
-    except NoReverseMatch:
-        if use_default_admin_site:
-            return label_view(
-                request,
-                app_name,
-                model_name,
-                template_name=template_name,
-                multi=multi,
-                template_object_name=template_object_name,
-                use_default_admin_site=False
-            )
     except ValueError:
         msg = "ValueError during lookup"
         return HttpResponseBadRequest(settings.DEBUG and msg or "")
