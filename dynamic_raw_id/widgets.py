@@ -4,6 +4,7 @@ from django.contrib.admin import widgets
 from django.core.exceptions import ImproperlyConfigured
 from django.urls import reverse
 from django.utils.encoding import force_str
+from django.urls.exceptions import NoReverseMatch
 
 
 class DynamicRawIDImproperlyConfigured(ImproperlyConfigured):
@@ -16,12 +17,16 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
     def get_context(self, name, value, attrs):
         context = super(DynamicRawIDWidget, self).get_context(name, value, attrs)
         model = self.rel.model
-        related_url = reverse(
-            "admin:{0}_{1}_changelist".format(
-                model._meta.app_label, model._meta.object_name.lower()
-            ),
-            current_app=self.admin_site.name,
-        )
+        
+        try:
+            related_url = reverse(
+                "admin:{0}_{1}_changelist".format(
+                    model._meta.app_label, model._meta.object_name.lower()
+                ),
+                current_app=self.admin_site.name,
+            )
+        except NoReverseMatch:
+            related_url = None
 
         params = self.url_parameters()
         if params:
