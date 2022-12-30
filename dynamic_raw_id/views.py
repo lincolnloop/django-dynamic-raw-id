@@ -4,19 +4,18 @@ from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import render
 from django.urls import reverse
-from django.urls.exceptions import NoReverseMatch
-
 
 @user_passes_test(lambda u: u.is_staff)
 def label_view(
     request,
     app_name,
     model_name,
+    admin_site,
     template_name="",
     multi=False,
     template_object_name="object",
-    admin_site_name="admin"
 ):
+    admin_site_name = admin_site.name
     # The list of to obtained objects is in GET.id. No need to resume if we
     # didnt get it.
     if not request.GET.get("id"):
@@ -39,8 +38,12 @@ def label_view(
         msg = "Model %s.%s does not exist." % (app_name, model_name)
         return HttpResponseBadRequest(settings.DEBUG and msg or "")
 
-    # Check 'view' or 'change' permission depending to Django's version
-    if not request.user.has_perm("%s.view_%s" % (app_name, model_name)):
+    if model not in admin_site._registry:
+        msg = "Model %s.%s not registered." % (app_name, model_name)
+        return HttpResponseBadRequest(settings.DEBUG and msg or "")
+
+    model_admin = admin_site._registry[model]
+    if not model_admin.has_view_permission(request):
         return HttpResponseForbidden()
 
     try:
