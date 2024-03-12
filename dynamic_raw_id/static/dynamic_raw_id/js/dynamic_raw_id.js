@@ -15,7 +15,12 @@ if (!windowname_to_id) {
 
 function dismissRelatedLookupPopup(win, chosenId) {
   const name = windowname_to_id(win.name);
-  const elem = document.getElementById(name);
+  let elem = document.getElementById(name);
+  // In Django > 4.0.8, the element ID is suffixed with a number because multiple popups are allowed
+  if (!elem) {
+    let lookup_name = name.replace(/__\d+$/, '');
+    elem = document.getElementById(lookup_name);
+  }
   if (elem.className.indexOf('vManyToManyRawIdAdminField') !== -1 && elem.value) {
     elem.value += `,${chosenId}`;
   } else {
