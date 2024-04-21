@@ -1,6 +1,6 @@
 # Changelog
 
-## v4.0 (wip)
+## v4.0 (2024-04-21)
 
 - Django 4.2 compatibility and tests.
 - Django 5.0 compatibility and tests.
