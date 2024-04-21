@@ -4,7 +4,8 @@ from logging import getLogger
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
-from selenium.webdriver.remote.webdriver import BaseWebDriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.webdriver import WebDriver as FirefoxWebDriver
 
 from dynamic_raw_id.tests.testapp.models import (
     CharPrimaryKeyModel,
@@ -15,13 +16,9 @@ from dynamic_raw_id.tests.testapp.models import (
 logger = getLogger(__name__)
 
 
-def get_webdriver() -> BaseWebDriver:
-    from selenium.webdriver.firefox.webdriver import WebDriver
-
-    return WebDriver()
-
-
 class BaseSeleniumTests(StaticLiveServerTestCase):
+    wd: FirefoxWebDriver = FirefoxWebDriver()
+
     def setUp(self) -> None:
         super().setUp()
         self.admin_user = "jane"
@@ -39,7 +36,6 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
-        cls.wd = get_webdriver()
         cls.wd.implicitly_wait(10)
         cls.wd.set_page_load_timeout(10)
 
@@ -60,12 +56,12 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         :return:
         """
         self.wd.get("{}{}".format(self.live_server_url, reverse("admin:index")))
-        self.wd.find_element_by_name("username").send_keys("jane")
-        self.wd.find_element_by_name("password").send_keys("foobar")
-        self.wd.find_element_by_css_selector("input[type=submit]").click()
+        self.wd.find_element(By.NAME, "username").send_keys("jane")
+        self.wd.find_element(By.NAME, "password").send_keys("foobar")
+        self.wd.find_element(By.CSS_SELECTOR, "input[type=submit]").click()
 
         # Wait until index page is loaded
-        self.wd.find_element_by_link_text("TESTAPP")
+        self.wd.find_element(By.LINK_TEXT, "TESTAPP")
 
     def _goto_add_page(self) -> None:
         """
@@ -74,19 +70,19 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         """
         self.wd.get(self.add_testmodel_url)
 
-    def _click_lookup_and_choose(self, row_id: int, link_text: str) -> None:
+    def _click_lookup_and_choose(self, row_id: str, link_text: str) -> None:
         """
         Clicks on the little glass icon selector and waits until the
         selector popup opens. Then it selects the given link text.
         """
         # Click on the Glass icon with the id <lookup_id>.
-        self.wd.find_element_by_id(f"lookup_id_{row_id}").click()
+        self.wd.find_element(By.ID, f"lookup_id_{row_id}").click()
 
         #  Activate the popup window with the `window.name = <window_id>`
         self.wd.switch_to.window(self.wd.window_handles[1])
 
         # Click on the username/line item with the link text <link_text>.
-        self.wd.find_element_by_link_text(link_text).click()
+        self.wd.find_element(By.LINK_TEXT, link_text).click()
 
         # Activate default window
         self.wd.switch_to.window(self.wd.window_handles[0])
@@ -96,10 +92,10 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         Hit "Save and continue editing" and make sure
         the response has no error.
         """
-        self.wd.find_element_by_css_selector("input[name=_continue]").click()
+        self.wd.find_element(By.CSS_SELECTOR, "input[name=_continue]").click()
 
         # Wait until page is loaded and success message is displayed
-        assert self.wd.find_element_by_css_selector("li.success").is_displayed()
+        assert self.wd.find_element(By.CSS_SELECTOR, "li.success").is_displayed()
 
     def test_dynamic_foreignkey(self) -> None:
         """
@@ -113,13 +109,13 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         self._click_lookup_and_choose(row_id, user_to_test.username)
 
         # user id is inside the input field
-        assert self.wd.find_element_by_id(f"id_{row_id}").get_property("value") == str(
+        assert self.wd.find_element(By.ID, f"id_{row_id}").get_property("value") == str(
             user_to_test.pk
         )
 
         # username is displayed next to the element
         assert (
-            self.wd.find_element_by_id(f"{row_id}_dynamic_raw_id_label").text
+            self.wd.find_element(By.ID, f"{row_id}_dynamic_raw_id_label").text
             == user_to_test.username
         )
 
@@ -137,13 +133,13 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         self._click_lookup_and_choose(row_id, user_to_test.username)
 
         # user id is inside the input field
-        assert self.wd.find_element_by_id(f"id_{row_id}").get_property("value") == str(
+        assert self.wd.find_element(By.ID, f"id_{row_id}").get_property("value") == str(
             user_to_test.pk
         )
 
         # username is displayed next to the element
         assert (
-            self.wd.find_element_by_id(f"{row_id}_dynamic_raw_id_label").text
+            self.wd.find_element(By.ID, f"{row_id}_dynamic_raw_id_label").text
             == user_to_test.username
         )
 
@@ -165,7 +161,8 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         # the three user ids are inside the element
         expected = f"{self.tick.pk},{self.trick.pk},{self.track.pk}"
         assert (
-            self.wd.find_element_by_id(f"id_{row_id}").get_property("value") == expected
+            self.wd.find_element(By.ID, f"id_{row_id}").get_property("value")
+            == expected
         )
 
         # tick, trick and track are now be displayed next to the form field
@@ -174,7 +171,7 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
             f"{self.tick.username},  {self.trick.username},  {self.track.username}"
         )
         assert (
-            self.wd.find_element_by_id(f"{row_id}_dynamic_raw_id_label").text
+            self.wd.find_element(By.ID, f"{row_id}_dynamic_raw_id_label").text
             == expected
         )
 
@@ -195,13 +192,13 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         self._click_lookup_and_choose(row_id, username)
 
         # object id is inside the input field
-        assert self.wd.find_element_by_id(f"id_{row_id}").get_property("value") == str(
+        assert self.wd.find_element(By.ID, f"id_{row_id}").get_property("value") == str(
             custom_obj.pk
         )
 
         # object label is now be displayed next to the form field
         assert (
-            self.wd.find_element_by_id(f"{row_id}_dynamic_raw_id_label").text
+            self.wd.find_element(By.ID, f"{row_id}_dynamic_raw_id_label").text
             == custom_obj.chr
         )
 
@@ -222,14 +219,14 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         self._click_lookup_and_choose(row_id, username)
 
         # object id is inside the input field
-        assert self.wd.find_element_by_id(f"id_{row_id}").get_property("value") == str(
+        assert self.wd.find_element(By.ID, f"id_{row_id}").get_property("value") == str(
             custom_obj.pk
         )
 
         # object label is now be displayed next to the form field
-        assert self.wd.find_element_by_id(f"{row_id}_dynamic_raw_id_label").text == str(
-            custom_obj.num
-        )
+        assert self.wd.find_element(
+            By.ID, f"{row_id}_dynamic_raw_id_label"
+        ).text == str(custom_obj.num)
 
         self._save_and_continue()
 
@@ -252,20 +249,20 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         self.wd.get(changelist_url)
 
         # tick, trick and track are visible in the changelist table
-        assert self.wd.find_element_by_link_text("tick").is_displayed()
-        assert self.wd.find_element_by_link_text("trick").is_displayed()
-        assert self.wd.find_element_by_link_text("track").is_displayed()
+        assert self.wd.find_element(By.LINK_TEXT, "tick").is_displayed()
+        assert self.wd.find_element(By.LINK_TEXT, "trick").is_displayed()
+        assert self.wd.find_element(By.LINK_TEXT, "track").is_displayed()
 
         # Click on the filter glass icon and choose 'trick'
         self._click_lookup_and_choose("dynamic_raw_id_fk", "trick")
 
         # Click the submit icon of the filter panel
-        self.wd.find_element_by_css_selector(
-            "#changelist-filter input[type=submit]"
+        self.wd.find_element(
+            By.CSS_SELECTOR, "#changelist-filter input[type=submit]"
         ).click()
 
         # Only "trick" is visible in the changelist table
         self.wd.implicitly_wait(0)
-        assert self.wd.find_element_by_link_text("trick").is_displayed()
-        assert len(self.wd.find_elements_by_link_text("tick")) == 0
-        assert len(self.wd.find_elements_by_link_text("track")) == 0
+        assert self.wd.find_element(By.LINK_TEXT, "trick").is_displayed()
+        assert len(self.wd.find_elements(By.LINK_TEXT, "tick")) == 0
+        assert len(self.wd.find_elements(By.LINK_TEXT, "track")) == 0
