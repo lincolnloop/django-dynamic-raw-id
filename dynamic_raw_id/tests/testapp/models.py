@@ -23,7 +23,7 @@ class UUIDPrimaryKeyModel(models.Model):
         return str(self.uuid)
 
 
-class TestModel(models.Model):
+class ModelToTest(models.Model):
     # Regular RawID Fields -------------------------------------------------------------
     rawid_fk = models.ForeignKey(
         "auth.User",
@@ -93,4 +93,12 @@ class TestModel(models.Model):
     )
 
     def __str__(self) -> str:
+        if self.dynamic_raw_id_fk:
+            return str(self.dynamic_raw_id_fk)
+        if self.dynamic_raw_id_fk_int_pk:
+            return str(self.dynamic_raw_id_fk_int_pk)
+        if self.dynamic_raw_id_fk_char_pk:
+            return str(self.dynamic_raw_id_fk_char_pk)
+        if self.dynamic_raw_id_fk_uuid_pk:
+            return str(self.dynamic_raw_id_fk_uuid_pk)
         return "Test Instance"

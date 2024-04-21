@@ -76,9 +76,6 @@ python_files = [
 ]
 addopts = """
     --ds=dynamic_raw_id.tests.testapp.settings
-    --cov=./dynamic_raw_id
-    --cov-append
-    --cov-branch
     --nomigrations
     --reuse-db
 """

@@ -9,8 +9,9 @@ from selenium.webdriver.firefox.webdriver import WebDriver as FirefoxWebDriver
 
 from dynamic_raw_id.tests.testapp.models import (
     CharPrimaryKeyModel,
-    DirectPrimaryKeyModel,
-    TestModel,
+    IntPrimaryKeyModel,
+    ModelToTest,
+    UUIDPrimaryKeyModel,
 )
 
 logger = getLogger(__name__)
@@ -29,8 +30,8 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         self.trick = User.objects.create_user("trick", "trick@example.com", "foobar")
         self.track = User.objects.create_user("track", "track@example.com", "foobar")
 
-        self.add_testmodel_url = "{}{}".format(
-            self.live_server_url, reverse("admin:testapp_testmodel_add")
+        self.add_modeltotest_url = "{}{}".format(
+            self.live_server_url, reverse("admin:testapp_modeltotest_add")
         )
 
     @classmethod
@@ -68,7 +69,7 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         Go to the "TestApp" Add form page
         :return:
         """
-        self.wd.get(self.add_testmodel_url)
+        self.wd.get(self.add_modeltotest_url)
 
     def _click_lookup_and_choose(self, row_id: str, link_text: str) -> None:
         """
@@ -208,15 +209,15 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         """
         dynamic_raw_id on a custom Model with an IntegerField
         """
-        row_id = "dynamic_raw_id_fk_direct_pk"  # The admin row ID/indicator we test
-        username = "12345"
+        row_id = "dynamic_raw_id_fk_int_pk"  # The admin row ID/indicator we test
+        num = "12345"
 
         # Add a test model instances
-        custom_obj = DirectPrimaryKeyModel.objects.create(num=12345)
+        custom_obj = IntPrimaryKeyModel.objects.create(num=num)
 
         self._login_admin()
         self._goto_add_page()
-        self._click_lookup_and_choose(row_id, username)
+        self._click_lookup_and_choose(row_id, num)
 
         # object id is inside the input field
         assert self.wd.find_element(By.ID, f"id_{row_id}").get_property("value") == str(
@@ -226,7 +227,32 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         # object label is now be displayed next to the form field
         assert self.wd.find_element(
             By.ID, f"{row_id}_dynamic_raw_id_label"
-        ).text == str(custom_obj.num)
+        ).text == str(custom_obj.pk)
+
+        self._save_and_continue()
+
+    def test_dynamic_direct_uuidfield(self) -> None:
+        """
+        dynamic_raw_id on a custom Model with an UUIDField
+        """
+        row_id = "dynamic_raw_id_fk_uuid_pk"  # The admin row ID/indicator we test
+        uuid = "9a10987b-51ba-472f-9dfe-175286e2258a"
+        # Add a test model instances
+        custom_obj = UUIDPrimaryKeyModel.objects.create(uuid=uuid)
+
+        self._login_admin()
+        self._goto_add_page()
+        self._click_lookup_and_choose(row_id, uuid)
+
+        # object id is inside the input field
+        assert self.wd.find_element(By.ID, f"id_{row_id}").get_property("value") == str(
+            custom_obj.pk
+        )
+
+        # object label is now be displayed next to the form field
+        assert self.wd.find_element(
+            By.ID, f"{row_id}_dynamic_raw_id_label"
+        ).text == str(custom_obj.pk)
 
         self._save_and_continue()
 
@@ -236,15 +262,15 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         and then trigger the change list filter.
         """
         # Some Test instances
-        TestModel.objects.create(dynamic_raw_id_fk=self.tick)
-        TestModel.objects.create(dynamic_raw_id_fk=self.trick)
-        TestModel.objects.create(dynamic_raw_id_fk=self.track)
+        ModelToTest.objects.create(dynamic_raw_id_fk=self.tick)
+        ModelToTest.objects.create(dynamic_raw_id_fk=self.trick)
+        ModelToTest.objects.create(dynamic_raw_id_fk=self.track)
 
         self._login_admin()
 
         # Go to the change list page.
         changelist_url = "{}{}".format(
-            self.live_server_url, reverse("admin:testapp_testmodel_changelist")
+            self.live_server_url, reverse("admin:testapp_modeltotest_changelist")
         )
         self.wd.get(changelist_url)
 

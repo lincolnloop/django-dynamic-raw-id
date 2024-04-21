@@ -6,8 +6,8 @@ from dynamic_raw_id.filters import DynamicRawIDFilter
 from . import models
 
 
-@admin.register(models.TestModel)
-class TestModelAdmin(DynamicRawIDMixin, admin.ModelAdmin):
+@admin.register(models.ModelToTest)
+class ModelToTestlAdmin(DynamicRawIDMixin, admin.ModelAdmin):
     raw_id_fields = (
         "rawid_fk",
         "rawid_fk_limited",

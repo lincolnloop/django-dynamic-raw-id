@@ -8,6 +8,8 @@ DATABASES = {
     "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "testapp.db"},
 }
 
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",

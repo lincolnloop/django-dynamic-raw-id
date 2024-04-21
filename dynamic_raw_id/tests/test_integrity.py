@@ -4,8 +4,9 @@ from django.urls import reverse
 
 from dynamic_raw_id.tests.testapp.models import (
     CharPrimaryKeyModel,
-    DirectPrimaryKeyModel,
-    TestModel,
+    IntPrimaryKeyModel,
+    ModelToTest,
+    UUIDPrimaryKeyModel,
 )
 
 
@@ -33,29 +34,32 @@ class DynamicRawIDTestCase(TestCase):
         name = multi and "dynamic_raw_id_multi_label" or "dynamic_raw_id_label"
         return reverse(
             f"dynamic_raw_id:{name}",
-            kwargs={"app_name": "testapp", "model_name": "testmodel"},
+            kwargs={"app_name": "testapp", "model_name": "modeltotest"},
         )
 
     def create_sample_data(self) -> None:
         """
         Create a bit of sample data we can use to assign.
         """
-        self.u1 = User.objects.create_superuser("jon", "jon@example.com", "")
-        self.u2 = User.objects.create_superuser("jim", "jim@example.com", "")
-        self.c1 = CharPrimaryKeyModel.objects.create(chr="helloworld")
-        self.n1 = DirectPrimaryKeyModel.objects.create(num=12345)
-
-        self.obj = TestModel.objects.create(
-            rawid_fk=self.u1,
-            rawid_fk_limited=self.u1,
-            rawid_fk_direct_pk=self.n1,
-            dynamic_raw_id_fk=self.u1,
-            dynamic_raw_id_fk_limited=self.u1,
-            dynamic_raw_id_fk_direct_pk=self.n1,
-            dynamic_raw_id_fk_char_pk=self.c1,
+        user1 = User.objects.create_superuser("jon", "jon@example.com", "")
+        user2 = User.objects.create_superuser("jim", "jim@example.com", "")
+        char = CharPrimaryKeyModel.objects.create(chr="helloworld")
+        num = IntPrimaryKeyModel.objects.create(num=12345)
+        uuid = UUIDPrimaryKeyModel.objects.create(
+            uuid="9a10987b-51ba-472f-9dfe-175286e2258a"
         )
-        self.obj.rawid_many.add(self.u1, self.u2)
-        self.obj.dynamic_raw_id_many.add(self.u1, self.u2)
+
+        self.obj = ModelToTest.objects.create(
+            rawid_fk=user1,
+            rawid_fk_limited=user1,
+            dynamic_raw_id_fk=user1,
+            dynamic_raw_id_fk_limited=user1,
+            dynamic_raw_id_fk_int_pk=num,
+            dynamic_raw_id_fk_char_pk=char,
+            dynamic_raw_id_fk_uuid_pk=uuid,
+        )
+        self.obj.rawid_many.add(user1, user2)
+        self.obj.dynamic_raw_id_many.add(user1, user2)
 
     def test_changelist_integrity(self) -> None:
         """
@@ -63,7 +67,7 @@ class DynamicRawIDTestCase(TestCase):
         testapp changelist view.
         """
         self.create_sample_data()
-        list_url = reverse("admin:testapp_testmodel_changelist")
+        list_url = reverse("admin:testapp_modeltotest_changelist")
         response = self.client.get(list_url)
         assert response.status_code == 200
 
@@ -73,7 +77,7 @@ class DynamicRawIDTestCase(TestCase):
         testapp changelist view.
         """
         self.create_sample_data()
-        list_url = reverse("admin:testapp_testmodel_change", args=(self.obj.pk,))
+        list_url = reverse("admin:testapp_modeltotest_change", args=(self.obj.pk,))
         response = self.client.get(list_url)
         assert response.status_code == 200
 
