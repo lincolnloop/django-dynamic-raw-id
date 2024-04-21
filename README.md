@@ -12,14 +12,13 @@ See this example:
 
 ## Compatibility Matrix:
 
-```
-========= === === === ====
-Py/Dj     3.7 3.8 3.9 3.10
-========= === === === ====
-3.2         ✓   ✓   ✓   ✓
-4.0         ✓   ✓   ✓   ✓
-========= === === === ====
-```
+| Py/Dj     | 3.8 | 3.9 | 3.10 | 3.11 | 3.12 |
+|-----------|-----|-----|------|------|------|
+| 3.2 (LTS) | ✓   | ✓   | ✓    | ✓    | ✓    |
+| 4.0       | ✓   | ✓   | ✓    | ✓    | ✓    |
+| 4.1       | ✓   | ✓   | ✓    | ✓    | ✓    |
+| 4.2 (LTS) | ✓   | ✓   | ✓    | ✓    | ✓    |
+| 5.0       | —   | —   | ✓    | ✓    | ✓    |
 
 ## Rationale
 
@@ -28,8 +27,9 @@ interface (`<select>`) for fields that are ForeignKey. This can result in long l
 times and unresponsive admin pages for models with thousands of instances, or with
 multiple ForeinKeys.
 
-The normal fix is to use Django's ModelAdmin.raw_id_fields_, but by default it
-*only* shows the raw id of the related model instance, which is somewhat unhelpful.
+The normal fix is to use Django's [ModelAdmin.raw_id_fields](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.raw_id_fields),
+but by default it *only* shows the raw id of the related model instance, which is
+somewhat unhelpful.
 
 This package improves the user experience by providing the string representation or
 other customized text for the related instance, linked to that instance's admin
@@ -47,8 +47,8 @@ Put `dynamic_raw_id` to your list of `INSTALLED_APPS`:
 
 ```python
 INSTALLED_APPS = (
-    # ... other apps
-    'dynamic_raw_id',
+  # ... other apps
+  'dynamic_raw_id',
 )
 ```
 
@@ -57,12 +57,11 @@ urlpattern include:
 
 ```python
 urlpatterns = [
-    # ...
-    path('admin/dynamic_raw_id/', include('dynamic_raw_id.urls')),
-    path("admin/", admin.site.urls),
+  # ...
+  path('admin/dynamic_raw_id/', include('dynamic_raw_id.urls')),
+  path("admin/", admin.site.urls),
 ]
 ```
-
 
 `dynamic_raw_id` comes with some static files so don't forget to run
 `manage.py collectstatic`.
@@ -77,7 +76,7 @@ fields to a list of `dynamic_raw_id_fields``:
 from dynamic_raw_id.admin import DynamicRawIDMixin
 
 class UserProfileAdmin(DynamicRawIDMixin, admin.ModelAdmin):
-    dynamic_raw_id_fields = ('user',)
+  dynamic_raw_id_fields = ('user',)
 ```
 
 You can use dynamic_raw_id widgets in a Admin filter as well:
@@ -86,20 +85,22 @@ You can use dynamic_raw_id widgets in a Admin filter as well:
 from dynamic_raw_id.admin import DynamicRawIDMixin
 from dynamic_raw_id.filters import DynamicRawIDFilter
 
+
 class UserProfileAdmin(DynamicRawIDMixin, admin.ModelAdmin):
-    list_filter = (
-        ('dynamic_raw_id_fk', DynamicRawIDFilter),
-    )
+  list_filter = (
+    ('dynamic_raw_id_fk', DynamicRawIDFilter),
+  )
 ```
 
 ### Customizing the value of the dynamic widget
 
 The coolest feature of django-dynamic-raw-id is the ability to customize the output
-of the value displayed alongside the `DynamicRawIDWidget`.  There is a basic
+of the value displayed alongside the `DynamicRawIDWidget`. There is a basic
 implementation if all you want is your object's `__unicode__` value. To change
 the value displayed all you need to do is implement the correct template.
 
-django-dynamic-raw-id looks for this template structure `dynamic_raw_id/<app>/<model>.html``
+django-dynamic-raw-id looks for this template
+structure `dynamic_raw_id/<app>/<model>.html``
 and `dynamic_raw_id/<app>/multi_<model>.html` (for multi-value lookups).
 
 For instance, if I have a blog post with a `User` dynamic_raw_id field that I want
@@ -109,8 +110,6 @@ display as `Firstname Lastname``, I would create the template
 ```html
 <span>{{ object.0.first_name }} {{ object.0.last_name }}</span>
 ```
-
-
 
 A custom admin URL prefix
 =========================
@@ -123,11 +122,14 @@ Example:
 
 ```python
     # In case the app is setup at /foobar/dynamic_raw_id/
-    path('foobar/dynamic_raw_id/', include('dynamic_raw_id.urls')),
+path('foobar/dynamic_raw_id/', include('dynamic_raw_id.urls')),
 ```
 
 ```html
-<script>window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url "admin:index" %}";</script>
+
+<script>window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url "
+admin:index
+" %}";</script>
 ```
 
 An ideal place is the admin `base_site.html` template. Full example:
@@ -138,14 +140,17 @@ An ideal place is the admin `base_site.html` template. Full example:
 {% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
 
 {% block extrahead %}
-  {{ block.super }}
-  <script>
-    window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url "admin:index" %}";
-  </script>
+{{ block.super }}
+<script>
+  window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url "
+  admin:index
+  " %}";
+</script>
 {% endblock %}
 
 {% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django
+  administration') }}</a></h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
@@ -155,8 +160,8 @@ Testing and Local Development
 =============================
 
 The testsuite uses Selenium to do frontend tests, we require Firefox and
-geckodriver_ to be installed. You can install geckodriver on OS X with
-Homebrew:
+[geckodriver](https://github.com/mozilla/geckodriver) to be installed. You can
+install geckodriver on OS X with Homebrew:
 
 ```bash
 $ brew install geckodriver
@@ -179,28 +184,20 @@ Or use tox to test against various Django and Python versions:
 # If you don't have Tox yet, install it globally.
 $ pip install tox
 
+# Run tox against multiple Python versions.
 $ tox
 ```
 
-You can also invoke the test suite or other 'manage.py' commands by calling
-the `django-admin` tool with the test app settings.
+You can open a Poetry shell to invoke the test suite or other 'manage.py' commands
+by calling the `django-admin` tool with the test app settings.
 
-This also allows you to run the internal testing app in a testserver, to
-preview a sample of what django-dynamic-raw-id is doing:
+This also allows you to run the internal testing app in a testserver, to preview a
+sample of what django-dynamic-raw-id is doing:
 
-.. code-block:: bash
+```shell
+$ poetry shell
 
-    $ poetry run django-admin migrate
-    $ poetry run django-admin createsuperuser
-    $ poetry run django-admin runserver
-
-.. note:: The default settings file is set in the `.env` file which
-   pipenv automatically exposes:
-
-.. code-block:: bash
-
-    DJANGO_SETTINGS_MODULE=dynamic_raw_id.tests.testapp.settings
-
-
-.. _geckodriver: https://github.com/mozilla/geckodriver
-.. _ModelAdmin.raw_id_fields: https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.raw_id_fields
+$ django-admin migrate
+$ django-admin createsuperuser
+$ django-admin runserver
+```

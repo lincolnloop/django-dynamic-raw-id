@@ -4,7 +4,6 @@
 
 - Django 4.2 compatibility and tests.
 - Django 5.0 compatibility and tests.
-- Requires Django 4.2 or up.
 - Requires Python 3.8 or up.
 - Switch package management to Poetry.
 
