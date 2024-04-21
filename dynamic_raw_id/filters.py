@@ -50,7 +50,7 @@ class DynamicRawIDFilter(admin.filters.FieldListFilter):
         field_path: str,
     ) -> None:
         """Use GET param for lookup and form initialization."""
-        self.lookup_kwarg = "%s" % field_path
+        self.lookup_kwarg = field_path
         super().__init__(field, request, params, model, model_admin, field_path)
         rel = field.remote_field
         self.form = self.get_form(request, rel, model_admin.admin_site)
@@ -59,9 +59,9 @@ class DynamicRawIDFilter(admin.filters.FieldListFilter):
         """Filter choices are not available."""
         return []
 
-    def expected_parameters(self) -> list[str]:
+    def expected_parameters(self) -> str:
         """Return GET params for this filter."""
-        return [self.lookup_kwarg]
+        return self.lookup_kwarg
 
     def get_form(
         self,
