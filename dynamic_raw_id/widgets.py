@@ -14,24 +14,19 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
     template_name = "dynamic_raw_id/admin/widgets/dynamic_raw_id_field.html"
 
     def get_context(self, name, value, attrs):
-        context = super(DynamicRawIDWidget, self).get_context(name, value, attrs)
+        context = super().get_context(name, value, attrs)
         model = self.rel.model
         related_url = reverse(
-            "admin:{0}_{1}_changelist".format(
-                model._meta.app_label, model._meta.object_name.lower()
-            ),
+            f"admin:{model._meta.app_label}_{model._meta.object_name.lower()}_changelist",
             current_app=self.admin_site.name,
         )
 
         params = self.url_parameters()
-        if params:
-            url = u"?" + u"&".join([u"{0}={1}".format(k, v) for k, v in params.items()])
-        else:
-            url = u""
+        url = "?" + "&".join([f"{k}={v}" for k, v in params.items()]) if params else ""
         if "class" not in attrs:
-            attrs[
-                "class"
-            ] = "vForeignKeyRawIdAdminField"  # The JavaScript looks for this hook.
+            attrs["class"] = (
+                "vForeignKeyRawIdAdminField"  # The JavaScript looks for this hook.
+            )
         app_name = model._meta.app_label.strip()
         model_name = model._meta.object_name.lower().strip()
 
@@ -51,7 +46,7 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
         extra = "" if settings.DEBUG else ".min"
         return forms.Media(
             js=[
-                "admin/js/vendor/jquery/jquery{0}.js".format(extra),
+                f"admin/js/vendor/jquery/jquery{extra}.js",
                 "admin/js/jquery.init.js",
                 "admin/js/core.js",
                 "dynamic_raw_id/js/dynamic_raw_id.js",
@@ -63,11 +58,10 @@ class DynamicRawIDMultiIdWidget(DynamicRawIDWidget):
     def value_from_datadict(self, data, files, name):
         value = data.get(name)
         if value:
-            return value.split(u",")
+            return value.split(",")
+        return None
 
     def render(self, name, value, attrs, renderer=None):
         attrs["class"] = "vManyToManyRawIdAdminField"
-        value = u",".join([force_str(v) for v in value]) if value else ""
-        return super(DynamicRawIDMultiIdWidget, self).render(
-            name, value, attrs, renderer=renderer
-        )
+        value = ",".join([force_str(v) for v in value]) if value else ""
+        return super().render(name, value, attrs, renderer=renderer)

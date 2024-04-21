@@ -4,14 +4,14 @@ from django.db import models
 class DirectPrimaryKeyModel(models.Model):
     num = models.IntegerField("Number", primary_key=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.num)
 
 
 class CharPrimaryKeyModel(models.Model):
     chr = models.CharField(max_length=20, primary_key=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.chr
 
 
@@ -82,7 +82,7 @@ class TestModel(models.Model):
         on_delete=models.CASCADE,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.dynamic_raw_id_fk:
             return self.dynamic_raw_id_fk.username
         return "Unnamed Test Instance"

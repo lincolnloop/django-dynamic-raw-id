@@ -8,6 +8,7 @@ from dynamic_raw_id.tests.testapp.models import (
     TestModel,
 )
 
+
 class DynamicRawIDTestCase(TestCase):
     """
     Test the basic integrity of the app. We can't test the Javascript side
@@ -15,7 +16,7 @@ class DynamicRawIDTestCase(TestCase):
     dynamic_raw_id was successfully loaded and displays items properly.
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         # Create admin and login by default
         self.admin = User.objects.create_superuser("admin", "", "admin")
         self.client.login(username="admin", password="admin")
@@ -25,14 +26,17 @@ class DynamicRawIDTestCase(TestCase):
         self.user_noperm.is_staff = True
         self.user_noperm.save()
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         self.client.logout()
 
     def get_labelview_url(self, multi=False):
         name = multi and "dynamic_raw_id_multi_label" or "dynamic_raw_id_label"
-        return reverse("dynamic_raw_id:{}".format(name), kwargs={"app_name": "testapp", "model_name": "testmodel"})
+        return reverse(
+            f"dynamic_raw_id:{name}",
+            kwargs={"app_name": "testapp", "model_name": "testmodel"},
+        )
 
-    def create_sample_data(self):
+    def create_sample_data(self) -> None:
         """
         Create a bit of sample data we can use to assign.
         """
@@ -53,7 +57,7 @@ class DynamicRawIDTestCase(TestCase):
         self.obj.rawid_many.add(self.u1, self.u2)
         self.obj.dynamic_raw_id_many.add(self.u1, self.u2)
 
-    def test_changelist_integrity(self):
+    def test_changelist_integrity(self) -> None:
         """
         The `DynamicRawIDFilter` is hooked up in the right filter bar of the
         testapp changelist view.
@@ -61,9 +65,9 @@ class DynamicRawIDTestCase(TestCase):
         self.create_sample_data()
         list_url = reverse("admin:testapp_testmodel_changelist")
         response = self.client.get(list_url)
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
 
-    def test_change_integrity(self):
+    def test_change_integrity(self) -> None:
         """
         The `DynamicRawIDFilter` is hooked up in the right filter bar of the
         testapp changelist view.
@@ -71,17 +75,17 @@ class DynamicRawIDTestCase(TestCase):
         self.create_sample_data()
         list_url = reverse("admin:testapp_testmodel_change", args=(self.obj.pk,))
         response = self.client.get(list_url)
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
 
-    def test_labelview_unauthed(self):
+    def test_labelview_unauthed(self) -> None:
         """
         Label view required authentication and a staff account
         """
         self.client.logout()
         response = self.client.get(self.get_labelview_url(), follow=True)
-        self.assertEqual(response.status_code, 404)
+        assert response.status_code == 404
 
-    def test_labelview_no_permission(self):
+    def test_labelview_no_permission(self) -> None:
         """
         Valid Label view request is denied if user has
         no change permisson for the app.
@@ -92,9 +96,9 @@ class DynamicRawIDTestCase(TestCase):
         response = self.client.get(
             self.get_labelview_url(multi=True), {"id": self.obj.pk}, follow=True
         )
-        self.assertEqual(response.status_code, 403)
+        assert response.status_code == 403
 
-    def test_labelview(self):
+    def test_labelview(self) -> None:
         """
         Call the labelview directly (what usually an Ajax JS call would do)
         and check for proper response.
@@ -103,9 +107,9 @@ class DynamicRawIDTestCase(TestCase):
         response = self.client.get(
             self.get_labelview_url(), {"id": self.obj.pk}, follow=True
         )
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
 
-    def test_multi_labelview(self):
+    def test_multi_labelview(self) -> None:
         """
         Call the labelview directly (what usually an Ajax JS call would do)
         and check for proper response.
@@ -114,9 +118,9 @@ class DynamicRawIDTestCase(TestCase):
         response = self.client.get(
             self.get_labelview_url(multi=True), {"id": self.obj.pk}, follow=True
         )
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
 
-    def test_invalid_id(self):
+    def test_invalid_id(self) -> None:
         """
         Test invalid id.
         """
@@ -124,9 +128,9 @@ class DynamicRawIDTestCase(TestCase):
         response = self.client.get(
             self.get_labelview_url(), {"id": "wrong"}, follow=True
         )
-        self.assertEqual(response.status_code, 400)
+        assert response.status_code == 400
 
-    def test_id_does_not_exist(self):
+    def test_id_does_not_exist(self) -> None:
         """
         Test model primary key does not exist.
         """
@@ -134,21 +138,21 @@ class DynamicRawIDTestCase(TestCase):
         response = self.client.get(
             self.get_labelview_url(), {"id": "123456"}, follow=True
         )
-        self.assertEqual(response.status_code, 400)
+        assert response.status_code == 400
 
-    def test_no_id(self):
+    def test_no_id(self) -> None:
         """
         Test invalid app/model name.
         """
         self.create_sample_data()
         response = self.client.get(self.get_labelview_url(), follow=True)
-        self.assertEqual(response.status_code, 400)
+        assert response.status_code == 400
 
-    def test_invalid_appname(self):
+    def test_invalid_appname(self) -> None:
         """
         Test invalid app/model name.
         """
         self.create_sample_data()
         url = self.get_labelview_url().replace("testapp", "foobar")
         response = self.client.get(url, {"id": self.obj.pk}, follow=True)
-        self.assertEqual(response.status_code, 400)
+        assert response.status_code == 400

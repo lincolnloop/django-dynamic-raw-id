@@ -2,7 +2,7 @@ from django.urls import path
 
 from dynamic_raw_id.views import label_view
 
-app_name = 'dynamic_raw_id'
+app_name = "dynamic_raw_id"
 
 urlpatterns = [
     path(

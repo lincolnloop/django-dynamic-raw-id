@@ -15,7 +15,6 @@ def label_view(
     multi=False,
     template_object_name="object",
 ):
-
     # The list of to obtained objects is in GET.id. No need to resume if we
     # didnt get it.
     if not request.GET.get("id"):
@@ -35,37 +34,29 @@ def label_view(
     try:
         model = apps.get_model(app_name, model_name)
     except LookupError:
-        msg = "Model %s.%s does not exist." % (app_name, model_name)
+        msg = f"Model {app_name}.{model_name} does not exist."
         return HttpResponseBadRequest(settings.DEBUG and msg or "")
 
     # Check 'view' or 'change' permission depending to Django's version
-    if not request.user.has_perm("%s.view_%s" % (app_name, model_name)):
+    if not request.user.has_perm(f"{app_name}.view_{model_name}"):
         return HttpResponseForbidden()
 
     try:
         if multi:
-            model_template = "dynamic_raw_id/%s/multi_%s.html" % (
-                app_name,
-                model_name,
-            )
+            model_template = f"dynamic_raw_id/{app_name}/multi_{model_name}.html"
             objs = model.objects.filter(pk__in=object_list)
             objects = []
             for obj in objs:
                 change_url = reverse(
-                    "admin:%s_%s_change" % (app_name, model_name), args=[obj.pk]
+                    f"admin:{app_name}_{model_name}_change", args=[obj.pk]
                 )
                 obj = (obj, change_url)
                 objects.append(obj)
             extra_context = {template_object_name: objects}
         else:
-            model_template = "dynamic_raw_id/%s/%s.html" % (
-                app_name,
-                model_name,
-            )
+            model_template = f"dynamic_raw_id/{app_name}/{model_name}.html"
             obj = model.objects.get(pk=object_list[0])
-            change_url = reverse(
-                "admin:%s_%s_change" % (app_name, model_name), args=[obj.pk]
-            )
+            change_url = reverse(f"admin:{app_name}_{model_name}_change", args=[obj.pk])
             extra_context = {template_object_name: (obj, change_url)}
     # most likely the pk wasn't convertable
     except ValueError:

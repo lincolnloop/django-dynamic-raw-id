@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """dynamic_raw_id filters."""
 
 from django import forms
@@ -9,12 +7,11 @@ from dynamic_raw_id.widgets import DynamicRawIDWidget
 
 
 class DynamicRawIDFilterForm(forms.Form):
-
     """Form for dynamic_raw_id filter."""
 
-    def __init__(self, rel, admin_site, field_name, **kwargs):
+    def __init__(self, rel, admin_site, field_name, **kwargs) -> None:
         """Construct field for given field rel."""
-        super(DynamicRawIDFilterForm, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.fields["%s" % field_name] = forms.IntegerField(
             label="",
             widget=DynamicRawIDWidget(rel=rel, admin_site=admin_site),
@@ -23,17 +20,14 @@ class DynamicRawIDFilterForm(forms.Form):
 
 
 class DynamicRawIDFilter(admin.filters.FieldListFilter):
-
     """Filter list queryset by primary key of related object."""
 
     template = "dynamic_raw_id/admin/filters/dynamic_raw_id_filter.html"
 
-    def __init__(self, field, request, params, model, model_admin, field_path):
+    def __init__(self, field, request, params, model, model_admin, field_path) -> None:
         """Use GET param for lookup and form initialization."""
         self.lookup_kwarg = "%s" % field_path
-        super(DynamicRawIDFilter, self).__init__(
-            field, request, params, model, model_admin, field_path
-        )
+        super().__init__(field, request, params, model, model_admin, field_path)
         rel = field.remote_field
         self.form = self.get_form(request, rel, model_admin.admin_site)
 
