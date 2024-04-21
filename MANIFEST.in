@@ -1,8 +1,0 @@
-include *.js
-include *.py
-include *.rst
-include LICENSE
-include tox.ini
-recursive-include dynamic_raw_id *.gif
-recursive-include dynamic_raw_id *.html
-recursive-include dynamic_raw_id *.js
