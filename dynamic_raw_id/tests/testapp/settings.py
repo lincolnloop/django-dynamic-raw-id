@@ -43,7 +43,7 @@ MIDDLEWARE = (
 )
 
 
-STATIC_ROOT = TemporaryDirectory()
+STATIC_ROOT = TemporaryDirectory().name
 STATIC_URL = "/static/"
 ROOT_URLCONF = "dynamic_raw_id.tests.testapp.urls"
 
