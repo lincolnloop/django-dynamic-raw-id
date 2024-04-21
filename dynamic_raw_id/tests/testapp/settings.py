@@ -1,6 +1,8 @@
+from tempfile import TemporaryDirectory
+
 DEBUG = True
 
-SECRET_KEY = "super-secret-dynamic_raw_id-key"
+SECRET_KEY = "super-secret-dynamic_raw_id-key"  # noqa: S105 Hardcoded password
 
 DATABASES = {
     "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "testapp.db"},
@@ -40,7 +42,8 @@ MIDDLEWARE = (
     "django.contrib.messages.middleware.MessageMiddleware",
 )
 
-STATIC_ROOT = "/tmp/dynamic_raw_id_static/"
+
+STATIC_ROOT = TemporaryDirectory()
 STATIC_URL = "/static/"
 ROOT_URLCONF = "dynamic_raw_id.tests.testapp.urls"
 

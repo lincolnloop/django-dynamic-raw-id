@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
 from django import forms
 from django.conf import settings
 from django.contrib.admin import widgets
@@ -5,19 +9,25 @@ from django.core.exceptions import ImproperlyConfigured
 from django.urls import reverse
 from django.utils.encoding import force_str
 
+if TYPE_CHECKING:
+    from django.forms.renderers import BaseRenderer
+    from django.template import Context
+
 
 class DynamicRawIDImproperlyConfigured(ImproperlyConfigured):
     pass
 
 
 class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
-    template_name = "dynamic_raw_id/admin/widgets/dynamic_raw_id_field.html"
+    template_name: str = "dynamic_raw_id/admin/widgets/dynamic_raw_id_field.html"
 
-    def get_context(self, name, value, attrs):
+    def get_context(self, name: str, value: Any, attrs: dict[str, Any]) -> Context:
         context = super().get_context(name, value, attrs)
         model = self.rel.model
+        app_label = model._meta.app_label  # noqa: SLF001 Private member accessed
+        model_name = model._meta.object_name.lower()  # noqa: SLF001 Private member accessed
         related_url = reverse(
-            f"admin:{model._meta.app_label}_{model._meta.object_name.lower()}_changelist",
+            f"admin:{app_label}_{model_name}_changelist",
             current_app=self.admin_site.name,
         )
 
@@ -27,8 +37,8 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
             attrs["class"] = (
                 "vForeignKeyRawIdAdminField"  # The JavaScript looks for this hook.
             )
-        app_name = model._meta.app_label.strip()
-        model_name = model._meta.object_name.lower().strip()
+        app_name = model._meta.app_label.strip()  # noqa: SLF001 Private member accessed
+        model_name = model._meta.object_name.lower().strip()  # noqa: SLF001 Private member accessed
 
         context.update(
             {
@@ -42,7 +52,7 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
         return context
 
     @property
-    def media(self):
+    def media(self) -> forms.Media:
         extra = "" if settings.DEBUG else ".min"
         return forms.Media(
             js=[
@@ -55,13 +65,24 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
 
 
 class DynamicRawIDMultiIdWidget(DynamicRawIDWidget):
-    def value_from_datadict(self, data, files, name):
+    def value_from_datadict(
+        self,
+        data: dict[str, Any],
+        files: Any | None,
+        name: str,
+    ) -> str | None:
         value = data.get(name)
         if value:
             return value.split(",")
         return None
 
-    def render(self, name, value, attrs, renderer=None):
+    def render(
+        self,
+        name: str,
+        value: Any,
+        attrs: dict[str, Any] | None = None,
+        renderer: BaseRenderer | None = None,
+    ) -> str:
         attrs["class"] = "vManyToManyRawIdAdminField"
         value = ",".join([force_str(v) for v in value]) if value else ""
         return super().render(name, value, attrs, renderer=renderer)

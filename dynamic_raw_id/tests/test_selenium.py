@@ -4,6 +4,7 @@ from logging import getLogger
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
+from selenium.webdriver.remote.webdriver import BaseWebDriver
 
 from dynamic_raw_id.tests.testapp.models import (
     CharPrimaryKeyModel,
@@ -14,7 +15,7 @@ from dynamic_raw_id.tests.testapp.models import (
 logger = getLogger(__name__)
 
 
-def get_webdriver():
+def get_webdriver() -> BaseWebDriver:
     from selenium.webdriver.firefox.webdriver import WebDriver
 
     return WebDriver()
@@ -47,7 +48,7 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         cls.wd.quit()
         super().tearDownClass()
 
-    def _wait(self, seconds=10) -> None:
+    def _wait(self, seconds: int = 10) -> None:
         """
         Explicit wait, use it for debugging, not to overcome timing issues.
         """
@@ -73,7 +74,7 @@ class BaseSeleniumTests(StaticLiveServerTestCase):
         """
         self.wd.get(self.add_testmodel_url)
 
-    def _click_lookup_and_choose(self, row_id, link_text) -> None:
+    def _click_lookup_and_choose(self, row_id: int, link_text: str) -> None:
         """
         Clicks on the little glass icon selector and waits until the
         selector popup opens. Then it selects the given link text.

@@ -19,7 +19,7 @@ class DynamicRawIDTestCase(TestCase):
     def setUp(self) -> None:
         # Create admin and login by default
         self.admin = User.objects.create_superuser("admin", "", "admin")
-        self.client.login(username="admin", password="admin")
+        self.client.login(username="admin", password="admin")  # noqa: S106 Hardcoded password
 
         # Create additional staff user without any app permissions
         self.user_noperm = User.objects.create_user("user", "", "user")
@@ -29,7 +29,7 @@ class DynamicRawIDTestCase(TestCase):
     def tearDown(self) -> None:
         self.client.logout()
 
-    def get_labelview_url(self, multi=False):
+    def get_labelview_url(self, multi: bool = False) -> str:
         name = multi and "dynamic_raw_id_multi_label" or "dynamic_raw_id_label"
         return reverse(
             f"dynamic_raw_id:{name}",
@@ -91,7 +91,7 @@ class DynamicRawIDTestCase(TestCase):
         no change permisson for the app.
         """
         self.client.logout()
-        self.client.login(username="user", password="user")
+        self.client.login(username="user", password="user")  # noqa: S106 Hardcoded password
         self.create_sample_data()
         response = self.client.get(
             self.get_labelview_url(multi=True), {"id": self.obj.pk}, follow=True
