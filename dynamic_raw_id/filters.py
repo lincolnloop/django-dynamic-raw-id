@@ -28,7 +28,7 @@ class DynamicRawIDFilterForm(forms.Form):
     ) -> None:
         """Construct field for given field rel."""
         super().__init__(**kwargs)
-        self.fields[field_name] = forms.IntegerField(
+        self.fields[field_name] = forms.CharField(
             label="",
             widget=DynamicRawIDWidget(rel=rel, admin_site=admin_site),
             required=False,
