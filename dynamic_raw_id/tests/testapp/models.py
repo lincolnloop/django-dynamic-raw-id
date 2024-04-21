@@ -115,3 +115,25 @@ class ModelToTest(models.Model):
         if self.dynamic_raw_id_fk_uuid_pk:
             return str(self.dynamic_raw_id_fk_uuid_pk)
         return "Test Instance"
+
+
+# Test Inline Admin Model --------------------------------------------------------------
+class ModelToTestInlinesBase(models.Model):
+    def __str__(self) -> str:
+        return "Base Model with Inlines"
+
+
+class ModelToTestInlines(models.Model):
+    base = models.ForeignKey(ModelToTestInlinesBase, on_delete=models.CASCADE)
+
+    dynamic_raw_id_fk = models.ForeignKey(
+        "auth.User",
+        related_name="inline_dynamic_raw_id_fk",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name="Dynamic RawID ForeignKey",
+    )
+
+    def __str__(self) -> str:
+        return "Inline Model"
