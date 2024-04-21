@@ -1,5 +1,5 @@
-![PyPi Version](https://img.shields.io/pypi/v/django-dynamic-raw-id.svg)(https://pypi.org/project/django-dynamic-raw-id/)
-![Github Actions](https://github.com/lincolnloop/django-dynamic-raw-id/actions/workflows/test.yml/badge.svg)(https://travis-ci.org/lincolnloop/django-dynamic-raw-id)
+![PyPi Version](https://img.shields.io/pypi/v/django-dynamic-raw-id.svg)
+![Github Actions](https://github.com/lincolnloop/django-dynamic-raw-id/actions/workflows/test.yml/badge.svg)
 
 # django-dynamic-raw-id
 
