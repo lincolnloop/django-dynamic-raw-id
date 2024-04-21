@@ -6,11 +6,10 @@ dynamic_raw_id was successfully loaded and displays items properly.
 
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import pytest
 from django.contrib.auth.models import User
-from django.test import Client
 from django.urls import reverse
 from pytest_django.asserts import assertContains
 
@@ -21,9 +20,12 @@ from dynamic_raw_id.tests.testapp.models import (
     UUIDPrimaryKeyModel,
 )
 
+if TYPE_CHECKING:
+    from django.test import Client
+
 
 @pytest.fixture()
-def staff_user(db) -> User:
+def staff_user(db: Any) -> User:
     """Staff user with no additional permissions."""
     user = User.objects.create_user("staff", "", "staff")
     user.is_staff = True

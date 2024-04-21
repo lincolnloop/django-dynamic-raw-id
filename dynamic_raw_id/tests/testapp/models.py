@@ -31,6 +31,7 @@ class ModelToTest(models.Model):
         blank=True,
         null=True,
         on_delete=models.CASCADE,
+        verbose_name="Regular RawID ForeignKey",
     )
     rawid_fk_limited = models.ForeignKey(
         "auth.User",
@@ -39,9 +40,13 @@ class ModelToTest(models.Model):
         blank=True,
         null=True,
         on_delete=models.CASCADE,
+        verbose_name="Regular RawID ForeignKey with limited choices",
     )
     rawid_many = models.ManyToManyField(
-        "auth.User", related_name="rawid_many", blank=True
+        "auth.User",
+        related_name="rawid_many",
+        blank=True,
+        verbose_name="Regular RawID ManyToMany",
     )
 
     # Dynamic RawID Fields with Django Default PK --------------------------------------
@@ -51,6 +56,7 @@ class ModelToTest(models.Model):
         blank=True,
         null=True,
         on_delete=models.CASCADE,
+        verbose_name="Dynamic RawID ForeignKey",
     )
     dynamic_raw_id_fk_limited = models.ForeignKey(
         "auth.User",
@@ -59,9 +65,13 @@ class ModelToTest(models.Model):
         blank=True,
         null=True,
         on_delete=models.CASCADE,
+        verbose_name="Dynamic RawID ForeignKey with limited choices",
     )
     dynamic_raw_id_many = models.ManyToManyField(
-        "auth.User", related_name="dynamic_raw_id_many", blank=True
+        "auth.User",
+        related_name="dynamic_raw_id_many",
+        blank=True,
+        verbose_name="Dynamic RawID ManyToMany",
     )
 
     # Dynamic RawID Fields with Custom PK Fields ---------------------------------------
@@ -72,6 +82,7 @@ class ModelToTest(models.Model):
         blank=True,
         null=True,
         on_delete=models.CASCADE,
+        verbose_name="Dynamic RawID Custom Primary Key: Integer Field",
     )
 
     # Custom PrimaryKey Field Model with a Character value
@@ -81,6 +92,7 @@ class ModelToTest(models.Model):
         blank=True,
         null=True,
         on_delete=models.CASCADE,
+        verbose_name="Dynamic RawID Custom Primary Key: Character Field",
     )
 
     # Custom PrimaryKey Field Model with an UUID value
@@ -90,6 +102,7 @@ class ModelToTest(models.Model):
         blank=True,
         null=True,
         on_delete=models.CASCADE,
+        verbose_name="Dynamic RawID Custom Primary Key: UUID Field",
     )
 
     def __str__(self) -> str:
