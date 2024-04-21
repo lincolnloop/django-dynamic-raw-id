@@ -4,6 +4,7 @@ coverage_report
 django_dynamic_raw_id.egg-info
 geckodriver.log
 testapp.db
+dist/
 
 # For your custom pyenv/tox
 .python-version
