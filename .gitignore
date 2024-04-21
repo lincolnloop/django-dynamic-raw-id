@@ -1,8 +1,9 @@
 *.pyc
-testapp.db
-geckodriver.log
-coverage_report
 .coverage
+coverage_report
+django_dynamic_raw_id.egg-info
+geckodriver.log
+testapp.db
 
 # For your custom pyenv/tox
 .python-version
