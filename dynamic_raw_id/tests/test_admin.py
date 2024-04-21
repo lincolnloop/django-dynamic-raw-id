@@ -53,12 +53,12 @@ def test_widgets(selenium: WebDriver) -> None:
         # Activate the default window
         selenium.switch_to.window(selenium.window_handles[0])
 
-        # Find the attached label next to it, and draw a red border around it
+        # Find the attached label next to it
         label = selenium.find_element(By.ID, f"{id_value}_dynamic_raw_id_label")
 
         # Test that the displayed value matches the test value
+        selenium.implicitly_wait(0.5)  # Wait a bit for page reload
         assert label.text == test_value
 
         # For debugging, draw green border around the label and wait a bit
         # selenium.execute_script("arguments[0].style.border='3px solid green'", label)
-        # time.sleep(1)
