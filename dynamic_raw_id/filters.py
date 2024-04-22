@@ -56,7 +56,7 @@ class DynamicRawIDFilter(admin.filters.FieldListFilter):
         self.form = self.get_form(request, rel, model_admin.admin_site)
 
     def choices(self, changelist: Any) -> list:
-        """Filter choices are not available."""
+        """Filter choices do not exist, since we choose the popup value."""
         return []
 
     def expected_parameters(self) -> str:

@@ -16,7 +16,7 @@ def label_view(  # noqa: PLR0913 Too Many arguments
     request: HttpRequest,
     app_name: str,
     model_name: str,
-    template_name: str = "",
+    template_name: str,
     multi: bool = False,
     template_object_name: str = "object",
 ) -> HttpResponse:
@@ -38,9 +38,9 @@ def label_view(  # noqa: PLR0913 Too Many arguments
         model = apps.get_model(app_name, model_name)
     except LookupError:
         msg = f"Model {app_name}.{model_name} does not exist."
-        return HttpResponseBadRequest(settings.DEBUG and msg or "")
+        return HttpResponseBadRequest(msg)
 
-    # Check 'view' or 'change' permission depending on Django's version
+    # Check 'view' permission
     if not request.user.has_perm(f"{app_name}.view_{model_name}"):
         return HttpResponseForbidden()
 
@@ -48,24 +48,23 @@ def label_view(  # noqa: PLR0913 Too Many arguments
         if multi:
             model_template = f"dynamic_raw_id/{app_name}/multi_{model_name}.html"
             objs = model.objects.filter(pk__in=object_list)
-            objects = []
-            for obj in objs:
-                change_url = reverse(
-                    f"admin:{app_name}_{model_name}_change", args=[obj.pk]
-                )
-                objects.append((obj, change_url))
+            objects = [
+                (obj, reverse(f"admin:{app_name}_{model_name}_change", args=[obj.pk]))
+                for obj in objs
+            ]
             extra_context = {template_object_name: objects}
         else:
             model_template = f"dynamic_raw_id/{app_name}/{model_name}.html"
             obj = model.objects.get(pk=object_list[0])
             change_url = reverse(f"admin:{app_name}_{model_name}_change", args=[obj.pk])
             extra_context = {template_object_name: (obj, change_url)}
+
     # most likely, the pk wasn't convertable
     except ValueError:
         msg = "ValueError during lookup"
-        return HttpResponseBadRequest(settings.DEBUG and msg or "")
+        return HttpResponseBadRequest(msg)
     except model.DoesNotExist:
         msg = "Model instance does not exist"
-        return HttpResponseBadRequest(settings.DEBUG and msg or "")
+        return HttpResponseBadRequest(msg)
 
     return render(request, (model_template, template_name), extra_context)

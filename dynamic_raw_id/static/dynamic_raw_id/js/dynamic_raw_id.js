@@ -7,14 +7,15 @@
  */
 if (!windowname_to_id) {
   function windowname_to_id(text) {
-    text = text.replace(/__dot__/g, '.');
-    text = text.replace(/__dash__/g, '-');
-    return text;
+    return text
+      .replace(/__dot__/g, '.')
+      .replace(/__dash__/g, '-')
+      .replace(/__\d+$/, '');
   }
 }
 
 function dismissRelatedLookupPopup(win, chosenId) {
-  const name = windowname_to_id(win.name).replace(/__\d+$/, '');
+  const name = windowname_to_id(win.name);
   const elem = document.getElementById(name);
   if (elem.className.indexOf('vManyToManyRawIdAdminField') !== -1 && elem.value) {
     elem.value += `,${chosenId}`;
@@ -83,14 +84,12 @@ function dismissRelatedLookupPopup(win, chosenId) {
     $('.dynamic_raw_id-clear-field').click(function() {
       const $this = $(this);
       $this
-        .parent()
-        .find('.vForeignKeyRawIdAdminField, .vManyToManyRawIdAdminField')
+        .closest('.vForeignKeyRawIdAdminField, .vManyToManyRawIdAdminField')
         .val('')
         .trigger('change');
 
       $this
-        .parent()
-        .find('.dynamic_raw_id_label')
+        .closest('.dynamic_raw_id_label')
         .html('&nbsp;');
     });
 

@@ -88,7 +88,7 @@ filterwarnings = [
 
 [tool.coverage]
 run.omit = [
-  "django_markup/tests/*",
+  "dynamic_raw_id/tests/*",
 ]
 report.exclude_lines = [
     "pragma: no cover",

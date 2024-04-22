@@ -8,7 +8,7 @@ string value on change and can be overridden via a template.
 
 See this example:
 
-<img src="https://d.pr/i/1kv7d.png" style="max-height: 500px;" alt="Screenshot of Django Admin"/>
+<img src="https://d.pr/i/1kv7d.png" style="max-height: 400px;" alt="Screenshot of Django Admin"/>
 
 ## Compatibility Matrix:
 
@@ -27,7 +27,7 @@ interface (`<select>`) for fields that are ForeignKey. This can result in long l
 times and unresponsive admin pages for models with thousands of instances, or with
 multiple ForeinKeys.
 
-The normal fix is to use Django's [ModelAdmin.raw_id_fields](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.raw_id_fields),
+The normal fix is to use Django's [ModelAdmin.raw_id_fields][raw_id_docs],
 but by default it *only* shows the raw id of the related model instance, which is
 somewhat unhelpful.
 
@@ -100,68 +100,53 @@ implementation if all you want is your object's `__unicode__` value. To change
 the value displayed all you need to do is implement the correct template.
 
 django-dynamic-raw-id looks for this template
-structure `dynamic_raw_id/<app>/<model>.html``
+structure `dynamic_raw_id/<app>/<model>.html`
 and `dynamic_raw_id/<app>/multi_<model>.html` (for multi-value lookups).
 
 For instance, if I have a blog post with a `User` dynamic_raw_id field that I want
-display as `Firstname Lastname``, I would create the template
-``dynamic_raw_id/auth/user.html` with:
+display as `Firstname Lastname`, I would create the template
+`dynamic_raw_id/auth/user.html` with:
 
 ```html
 <span>{{ object.0.first_name }} {{ object.0.last_name }}</span>
 ```
 
-A custom admin URL prefix
-=========================
+### A custom admin URL prefix
 
 If you have your admin *and* the dynamic_raw_id scripts located on a different
-prefix than `/admin/dynamic_raw_id/` you need adjust the `DYNAMIC_RAW_ID_MOUNT_URL``
-JS variable.
+prefix than `/admin/dynamic_raw_id/` you need adjust the `DYNAMIC_RAW_ID_MOUNT_URL`
+Javascript variable.
 
 Example:
 
 ```python
-    # In case the app is setup at /foobar/dynamic_raw_id/
+# In case the app is setup at /foobar/dynamic_raw_id/
 path('foobar/dynamic_raw_id/', include('dynamic_raw_id.urls')),
 ```
 
 ```html
 
-<script>window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url "
-admin:index
-" %}";</script>
+<script>window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url 'admin:index' %}";</script>
 ```
 
-An ideal place is the admin `base_site.html` template. Full example:
+An ideal place is the admin `admin/base_site.html` template. Full example:
 
 ```html
-{% extends "admin/base.html" %}
-
-{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+{% extends "admin/base_site.html" %}
 
 {% block extrahead %}
-{{ block.super }}
-<script>
-  window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url "
-  admin:index
-  " %}";
-</script>
+  {{ block.super }}
+  <script>
+    window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url 'admin:index' %}";
+  </script>
 {% endblock %}
-
-{% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django
-  administration') }}</a></h1>
-{% endblock %}
-
-{% block nav-global %}{% endblock %}
 ```
 
-Testing and Local Development
-=============================
+# Testing and Local Development
 
 The testsuite uses Selenium to do frontend tests, we require Firefox and
-[geckodriver](https://github.com/mozilla/geckodriver) to be installed. You can
-install geckodriver on OS X with Homebrew:
+[geckodriver][geckodriver] to be installed. You can install geckodriver on OS X with
+Homebrew:
 
 ```bash
 $ brew install geckodriver
@@ -201,3 +186,6 @@ $ django-admin migrate
 $ django-admin createsuperuser
 $ django-admin runserver
 ```
+
+[raw_id_docs]: https://docs.djangoproject.com/en/dev/ref/contrib/admin/#django.contrib.admin.ModelAdmin.raw_id_fields
+[geckodriver]: https://github.com/mozilla/geckodriver

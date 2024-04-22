@@ -20,7 +20,7 @@ def test_widgets(selenium: WebDriver) -> None:
     Django Admin adds three 'inline' rows to the base model which we fill with
     three users.
 
-    Then click the 'Add another' link three times, and fill antoher three users.
+    Then click the 'Add another' link three times, and fill another three users.
     """
 
     # Create six test users first
