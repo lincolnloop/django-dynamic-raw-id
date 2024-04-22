@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from django.apps import apps
-from django.db.models.base import ModelBase
 from django.http import (
     HttpRequest,
     HttpResponse,
@@ -15,6 +14,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 if TYPE_CHECKING:
+    from django.db.models.base import ModelBase
     from django.template import Context
 
 
