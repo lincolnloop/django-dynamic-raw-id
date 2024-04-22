@@ -9,7 +9,6 @@ from django.urls import reverse
 from django.utils.encoding import force_str
 
 if TYPE_CHECKING:
-    from django.forms.renderers import BaseRenderer
     from django.template import Context
 
 
@@ -17,11 +16,11 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
     template_name: str = "dynamic_raw_id/admin/widgets/dynamic_raw_id_field.html"
 
     def get_context(self, name: str, value: Any, attrs: dict[str, Any]) -> Context:
+        attrs.setdefault("class", "vForeignKeyRawIdAdminField")
+
         context = super().get_context(name, value, attrs)
         app_name = self.rel.model._meta.app_label  # noqa: SLF001 Private member accessed
         model_name = self.rel.model._meta.object_name.lower()  # noqa: SLF001 Private member accessed
-
-        attrs.setdefault("class", "vForeignKeyRawIdAdminField")
 
         context.update(
             name=name,
@@ -48,13 +47,7 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
 
 
 class DynamicRawIDMultiIdWidget(DynamicRawIDWidget):
-    def render(
-        self,
-        name: str,
-        value: Any,
-        attrs: dict[str, Any] | None = None,
-        renderer: BaseRenderer | None = None,
-    ) -> str:
-        attrs["class"] = "vManyToManyRawIdAdminField"
+    def get_context(self, name: str, value: Any, attrs: dict[str, Any]) -> Context:
+        attrs.setdefault("class", "vManyToManyRawIdAdminField")
         value = ",".join([force_str(v) for v in value]) if value else ""
-        return super().render(name, value, attrs, renderer=renderer)
+        return super().get_context(name, value, attrs)

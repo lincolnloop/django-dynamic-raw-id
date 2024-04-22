@@ -61,13 +61,25 @@ def sample_obj(db: Any) -> dict[str, Any]:
     return obj
 
 
-def get_labelview_url(multi: bool = False) -> str:
+@pytest.fixture()
+def labelview_url() -> str:
     """
     Create a URL to the JSON view that creates the dynamic labels.
     """ ""
-    name = multi and "dynamic_raw_id_multi_label" or "dynamic_raw_id_label"
     return reverse(
-        f"dynamic_raw_id:{name}",
+        "dynamic_raw_id:dynamic_raw_id_label",
+        kwargs={"app_name": "testapp", "model_name": "modeltotest"},
+    )
+
+
+@pytest.fixture()
+def labelview_url_multi() -> str:
+    """
+    Create a URL to the JSON view that creates the dynamic labels.
+    For multiple responses.
+    """ ""
+    return reverse(
+        "dynamic_raw_id:dynamic_raw_id_multi_label",
         kwargs={"app_name": "testapp", "model_name": "modeltotest"},
     )
 
@@ -94,75 +106,92 @@ def test_change_integrity(admin_client: Client, sample_obj: Any) -> None:
     assertContains(response, "dynamic_raw_id-related-lookup")
 
 
-def test_labelview_unauthed(client: Client, sample_obj: Any) -> None:
+def test_labelview_unauthed(
+    client: Client, sample_obj: Any, labelview_url: str
+) -> None:
     """
     Label view required authentication and a staff account
     """
-    response = client.get(get_labelview_url(), follow=True)
+
+    response = client.get(labelview_url, follow=True)
     assert response.status_code == 404
 
 
 def test_labelview_no_permission(
-    client: Client, staff_user: User, sample_obj: Any
+    client: Client, staff_user: User, sample_obj: Any, labelview_url: str
 ) -> None:
     """
     Valid Label view request is denied if user has no change permisson for the app.
     """
     client.login(username="staff", password="staff")  # noqa: S106 Hardcoded password
-    response = client.get(
-        get_labelview_url(multi=True), {"id": sample_obj.pk}, follow=True
-    )
+    response = client.get(labelview_url, {"id": sample_obj.pk}, follow=True)
     assert response.status_code == 403
 
 
-def test_labelview(admin_client: Client, sample_obj: Any) -> None:
+def test_labelview(admin_client: Client, sample_obj: Any, labelview_url: str) -> None:
     """
     Call the labelview directly (what usually an Ajax JS call would do)
     and check for proper response.
     """
-    response = admin_client.get(get_labelview_url(), {"id": sample_obj.pk}, follow=True)
+    response = admin_client.get(labelview_url, {"id": sample_obj.pk}, follow=True)
     assert response.status_code == 200
 
 
-def test_multi_labelview(admin_client: Client, sample_obj: Any) -> None:
+def test_multi_labelview(
+    admin_client: Client, sample_obj: Any, labelview_url_multi: str
+) -> None:
     """
     Call the labelview directly (what usually an Ajax JS call would do)
     and check for proper response. Exect a multi response.
     """
     response = admin_client.get(
-        get_labelview_url(multi=True), {"id": sample_obj.pk}, follow=True
+        labelview_url_multi, {"id": f"{sample_obj.pk},{sample_obj.pk}"}, follow=True
     )
     assert response.status_code == 200
 
 
-def test_invalid_id(admin_client: Client) -> None:
+def test_invalid_id(admin_client: Client, labelview_url: str) -> None:
     """
     Test label view with where model primary key is invalid.
+    It will just render an empty label, as if no ID was given.
     """
-    response = admin_client.get(get_labelview_url(), {"id": "wrong"}, follow=True)
-    assert response.status_code == 400
+    response = admin_client.get(labelview_url, {"id": "wrong"}, follow=True)
+    assert response.status_code == 200
 
 
-def test_id_does_not_exist(admin_client: Client) -> None:
+def test_invalid_multi_id(admin_client: Client, labelview_url_multi: str) -> None:
+    """
+    Test label view with where model primary key is invalid.
+    It will just render an empty label, as if no ID was given.
+    """
+    response = admin_client.get(
+        labelview_url_multi, {"id": ["very,wrong"]}, follow=True
+    )
+    assert response.status_code == 200
+
+
+def test_id_does_not_exist(admin_client: Client, labelview_url: str) -> None:
     """
     Test label view with where a model primary key does not exist.
+    It will just render an empty label, as if no ID was given.
     """
-    response = admin_client.get(get_labelview_url(), {"id": "123456"}, follow=True)
-    assert response.status_code == 400
+    response = admin_client.get(labelview_url, {"id": "123456"}, follow=True)
+    assert response.status_code == 200
 
 
-def test_no_id(admin_client: Client) -> None:
+def test_no_id(admin_client: Client, labelview_url: str) -> None:
     """
     Test label view with no ID given.
     """
-    response = admin_client.get(get_labelview_url(), follow=True)
+    response = admin_client.get(labelview_url, follow=True)
     assert response.status_code == 400
 
 
-def test_invalid_appname(admin_client: Client) -> None:
+def test_invalid_appname(admin_client: Client, labelview_url: str) -> None:
     """
     Test label view with invalid app/model name.
     """
-    url = get_labelview_url().replace("testapp", "foobar")
+
+    url = labelview_url.replace("testapp", "foobar")
     response = admin_client.get(url, {"id": "123456"}, follow=True)
     assert response.status_code == 400

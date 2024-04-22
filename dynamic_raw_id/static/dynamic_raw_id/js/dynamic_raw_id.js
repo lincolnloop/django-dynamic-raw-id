@@ -17,7 +17,8 @@ if (!windowname_to_id) {
 function dismissRelatedLookupPopup(win, chosenId) {
   const name = windowname_to_id(win.name);
   const elem = document.getElementById(name);
-  if (elem.className.indexOf('vManyToManyRawIdAdminField') !== -1 && elem.value) {
+
+  if (elem.className.includes('vManyToManyRawIdAdminField') && elem.value) {
     elem.value += `,${chosenId}`;
   } else {
     elem.value = chosenId;
