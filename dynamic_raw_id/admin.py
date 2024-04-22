@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any
 
 from django.contrib.admin.options import BaseModelAdmin
 
-from dynamic_raw_id.widgets import DynamicRawIDMultiIdWidget, DynamicRawIDWidget
+from .widgets import DynamicRawIDMultiIdWidget, DynamicRawIDWidget
 
 if TYPE_CHECKING:
     from django.db.models.fields import Field as DB_Field

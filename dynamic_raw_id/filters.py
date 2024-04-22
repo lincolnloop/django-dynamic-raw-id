@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any
 from django import forms
 from django.contrib import admin
 
-from dynamic_raw_id.widgets import DynamicRawIDWidget
+from .widgets import DynamicRawIDWidget
 
 if TYPE_CHECKING:
     from django.db.models import Field as DbField

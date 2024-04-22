@@ -4,6 +4,9 @@ DEBUG = True
 
 SECRET_KEY = "super-secret-dynamic_raw_id-key"  # noqa: S105 Hardcoded password
 
+
+ROOT_URLCONF = "dynamic_raw_id.tests.testapp.urls"
+
 DATABASES = {
     "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "testapp.db"},
 }
@@ -47,22 +50,10 @@ MIDDLEWARE = (
 
 STATIC_ROOT = TemporaryDirectory().name
 STATIC_URL = "/static/"
-ROOT_URLCONF = "dynamic_raw_id.tests.testapp.urls"
 
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-TEST_SETTINGS = {
-    "DEBUG": DEBUG,
-    "SECRET_KEY": SECRET_KEY,
-    "DATABASES": DATABASES,
-    "TEMPLATES": TEMPLATES,
-    "INSTALLED_APPS": INSTALLED_APPS,
-    "MIDDLEWARE": MIDDLEWARE,
-    "STATIC_ROOT": STATIC_ROOT,
-    "STATIC_URL": STATIC_URL,
-    "ROOT_URLCONF": ROOT_URLCONF,
-    "STATICFILES_FINDERS": STATICFILES_FINDERS,
-}
+USE_TZ = False

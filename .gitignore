@@ -5,6 +5,7 @@ django_dynamic_raw_id.egg-info
 geckodriver.log
 testapp.db
 dist/
+htmlcov/
 
 # For your custom pyenv/tox
 .python-version
