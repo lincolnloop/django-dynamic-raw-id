@@ -50,13 +50,11 @@ exclude = ["migrations"]
 select = ["ALL"]
 ignore = [
   "ANN101",   # Missing Type Annotation for "self"
-  "ANN102",   # Missing Type Annotation for "cls" (classmethods)
-  "ANN401",   # Dynamically typed expressions (typing.Any) are disallowed in `**kwargs`"
+  "ANN401",   # Dynamically typed expressions (typing.Any) are disallowed in `**kwargs`
   "ARG001",   # Unused function argument (request, ...)
   "ARG002",   # Unused method argument (*args, **kwargs)
   "D",        # Missing or badly formatted docstrings
   "FBT",      # Flake Boolean Trap (don't use arg=True in functions)
-  "RUF012",   # Mutable class attributes https://github.com/astral-sh/ruff/issues/5243
 
   "COM812",   # (ruff format) Checks for the absence of trailing commas
   "ISC001",   # (ruff format) Checks for implicitly concatenated strings on a single line
