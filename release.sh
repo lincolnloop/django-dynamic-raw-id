@@ -3,7 +3,7 @@ set -o errexit
 set -o pipefail
 
 # Run tests before release
-./tests.sh
+tox -p 8
 
 # Bump up major version number
 poetry version minor
