@@ -1,5 +1,10 @@
 # Changelog
 
+## v4.1 (2024-05-20)
+
+- Overall code cleanup.
+- Refactored tests. Now full test coverage.
+
 ## v4.0 (2024-04-21)
 
 - Django 4.2 compatibility and tests.
@@ -12,7 +17,7 @@
 - Django 4.0 compatibility and tests.
 - Requires Django 3.2 or up.
 - Requires Python 3.7 or up.
-- *Note:* You may now need to change the order and put the dynamic-raw-id
+- _Note:_ You may now need to change the order and put the dynamic-raw-id
   include before the generic admin include. See Readme for details.
 
 ## v2.8 (2020-12-02)
@@ -44,7 +49,7 @@
 ## v2.3 (2018-01-18)
 
 - BACKWARDS INCOMPATIBLE: Renamed the project to `django-dynamic-raw-id`.
-  to reflect what it's  actually doing.
+  to reflect what it's actually doing.
 - Fixed glass lookup icon in Django 1.10 and below.
 - Specific ordering of media asset loading.
 
