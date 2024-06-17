@@ -48,6 +48,17 @@ class DynamicRawIDWidget(widgets.ForeignKeyRawIdWidget):
 
 
 class DynamicRawIDMultiIdWidget(DynamicRawIDWidget):
+    def value_from_datadict(
+            self,
+            data: dict[str, Any],
+            files: Any | None,
+            name: str,
+    ) -> str | None:
+        value = data.get(name)
+        if value:
+            return value.split(",")
+        return None
+
     def render(
         self,
         name: str,
