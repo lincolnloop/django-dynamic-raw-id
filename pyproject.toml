@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 # Poetry -------------------------------------------------------------------------------
 [tool.poetry]
 name = "django-dynamic-raw-id"
-version = "4.1"
+version = "4.2"
 packages = [{include = "dynamic_raw_id"}]
 description = "raw_id_fields widget replacement that handles display of an object's string value on change."
 keywords = ["django", "widget", "field", "admin", "raw-id", "foreignkey"]

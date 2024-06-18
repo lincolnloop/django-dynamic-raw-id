@@ -1,5 +1,9 @@
 # Changelog
 
+## v4.2 (2024-06-18)
+
+- Fix Multi Widgets which was showing multiple commas after save. #103
+
 ## v4.1 (2024-05-20)
 
 - Overall code cleanup.
