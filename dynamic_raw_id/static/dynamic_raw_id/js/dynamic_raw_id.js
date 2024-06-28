@@ -84,7 +84,8 @@ function dismissRelatedLookupPopup(win, chosenId) {
     $('.dynamic_raw_id-clear-field').click(function() {
       const $this = $(this);
       $this
-        .closest('.vForeignKeyRawIdAdminField, .vManyToManyRawIdAdminField')
+        .parent()
+        .find('.vForeignKeyRawIdAdminField, .vManyToManyRawIdAdminField')
         .val('')
         .trigger('change');
 
