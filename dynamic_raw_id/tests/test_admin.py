@@ -7,7 +7,14 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
+from django.contrib.auth.models import User
 from selenium.webdriver.common.by import By
+
+from dynamic_raw_id.tests.testapp.models import (
+    CharPrimaryKeyModel,
+    IntPrimaryKeyModel,
+    UUIDPrimaryKeyModel,
+)
 
 if TYPE_CHECKING:
     from selenium.webdriver.firefox.webdriver import WebDriver
@@ -57,8 +64,38 @@ def test_widgets(selenium: WebDriver) -> None:
         label = selenium.find_element(By.ID, f"{id_value}_dynamic_raw_id_label")
 
         # Test that the displayed value matches the test value
-        selenium.implicitly_wait(0.5)  # Wait a bit for page reload
+        selenium.implicitly_wait(0.2)  # Wait a bit for page reload
         assert label.text == test_value
 
         # For debugging, draw green border around the label and wait a bit
         # selenium.execute_script("arguments[0].style.border='3px solid green'", label)
+
+    # Save the change form once and make sure, the previously
+    # entered values are shown correctly.
+    selenium.find_element(By.NAME, "_continue").click()
+    selenium.implicitly_wait(0.5)  # Wait a bit for page reload
+
+    # Check values are all intact
+    el = selenium.find_element(By.ID, "id_dynamic_raw_id_fk")
+    assert el.get_attribute("value") == str(User.objects.get(username="user1").pk)
+
+    el = selenium.find_element(By.ID, "id_dynamic_raw_id_fk_limited")
+    assert el.get_attribute("value") == str(User.objects.get(username="admin").pk)
+
+    el = selenium.find_element(By.ID, "id_dynamic_raw_id_many")
+    u1 = User.objects.get(username="user1").pk
+    u2 = User.objects.get(username="user2").pk
+    assert el.get_attribute("value") == f"{u1},{u2}"
+
+    el = selenium.find_element(By.ID, "id_dynamic_raw_id_fk_int_pk")
+    assert el.get_attribute("value") == str(IntPrimaryKeyModel.objects.get(num=123).pk)
+
+    el = selenium.find_element(By.ID, "id_dynamic_raw_id_fk_char_pk")
+    assert el.get_attribute("value") == str(
+        CharPrimaryKeyModel.objects.get(chr="abc").pk
+    )
+
+    el = selenium.find_element(By.ID, "id_dynamic_raw_id_fk_uuid_pk")
+    assert el.get_attribute("value") == str(
+        UUIDPrimaryKeyModel.objects.get(uuid="9a10987b-51ba-472f-9dfe-175286e2258a").pk
+    )

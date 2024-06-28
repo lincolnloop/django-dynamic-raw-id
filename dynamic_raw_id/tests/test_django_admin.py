@@ -16,13 +16,8 @@ if TYPE_CHECKING:
 @pytest.mark.usefixtures("_add_page", "_sample_primary_keys")
 def test_widgets(selenium: WebDriver) -> None:
     """
-    Test the variations of the Dynamic Raw ID Widget.
-
-    The tests select the "Lookup" icon, choose the first element in the result set,
-    and test that the selected element name appears next to the field.
-
-    Doing this in a all-in-one testcase, rather a parameterized test, so it's much
-    faster.
+    Test the classic Django Foreignkey Widget to make sure,
+    this application does not break the vanilla behavior.
     """
 
     # Input Field ID, Select Value, Test Value

@@ -47,8 +47,8 @@ selenium = "^4.19.0"
 [tool.ruff]
 target-version = "py38"
 exclude = ["migrations"]
-select = ["ALL"]
-ignore = [
+lint.select = ["ALL"]
+lint.ignore = [
   "ANN101",   # Missing Type Annotation for "self"
   "ANN401",   # Dynamically typed expressions (typing.Any) are disallowed in `**kwargs`
   "ARG001",   # Unused function argument (request, ...)
@@ -60,7 +60,7 @@ ignore = [
   "ISC001",   # (ruff format) Checks for implicitly concatenated strings on a single line
 ]
 
-[tool.ruff.extend-per-file-ignores]
+[tool.ruff.lint.extend-per-file-ignores]
 "test_*.py" = [
   "ERA001",   # Found commented-out code
   "PLR2004",  # Magic value used in comparison,
