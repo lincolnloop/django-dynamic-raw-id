@@ -9,3 +9,4 @@ htmlcov/
 
 # For your custom pyenv/tox
 .python-version
+poetry.lock
