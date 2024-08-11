@@ -1,5 +1,9 @@
 # Changelog
 
+## WIP
+
+- Django 5.1 compatibility and tests.
+
 ## v4.2 (2024-06-18)
 
 - Fix Multi Widgets which was showing multiple commas after save. #103

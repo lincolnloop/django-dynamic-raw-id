@@ -13,12 +13,13 @@ See this example:
 ## Compatibility Matrix:
 
 | Py/Dj     | 3.8 | 3.9 | 3.10 | 3.11 | 3.12 |
-|-----------|-----|-----|------|------|------|
+| --------- | --- | --- | ---- | ---- | ---- |
 | 3.2 (LTS) | ✓   | ✓   | ✓    | ✓    | ✓    |
 | 4.0       | ✓   | ✓   | ✓    | ✓    | ✓    |
 | 4.1       | ✓   | ✓   | ✓    | ✓    | ✓    |
 | 4.2 (LTS) | ✓   | ✓   | ✓    | ✓    | ✓    |
 | 5.0       | —   | —   | ✓    | ✓    | ✓    |
+| 5.1       | —   | —   | ✓    | ✓    | ✓    |
 
 ## Rationale
 
@@ -28,7 +29,7 @@ times and unresponsive admin pages for models with thousands of instances, or wi
 multiple ForeinKeys.
 
 The normal fix is to use Django's [ModelAdmin.raw_id_fields][raw_id_docs],
-but by default it *only* shows the raw id of the related model instance, which is
+but by default it _only_ shows the raw id of the related model instance, which is
 somewhat unhelpful.
 
 This package improves the user experience by providing the string representation or
@@ -52,7 +53,7 @@ INSTALLED_APPS = (
 )
 ```
 
-And add the `urlpattern`. Make sure its listed *before* the generic `admin.site.urls`
+And add the `urlpattern`. Make sure its listed _before_ the generic `admin.site.urls`
 urlpattern include:
 
 ```python
@@ -69,7 +70,7 @@ urlpatterns = [
 ## Usage
 
 To start using django-dynamic-raw-id in your application all you need to do is
-implement `DynamicRawIDMixin` in your  `ModelAdmin` class and add the desired
+implement `DynamicRawIDMixin` in your `ModelAdmin` class and add the desired
 fields to a list of `dynamic_raw_id_fields``:
 
 ```python
@@ -113,7 +114,7 @@ display as `Firstname Lastname`, I would create the template
 
 ### A custom admin URL prefix
 
-If you have your admin *and* the dynamic_raw_id scripts located on a different
+If you have your admin _and_ the dynamic_raw_id scripts located on a different
 prefix than `/admin/dynamic_raw_id/` you need adjust the `DYNAMIC_RAW_ID_MOUNT_URL`
 Javascript variable.
 
@@ -125,20 +126,18 @@ path('foobar/dynamic_raw_id/', include('dynamic_raw_id.urls')),
 ```
 
 ```html
-
-<script>window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url 'admin:index' %}";</script>
+<script>
+  window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url 'admin:index' %}";
+</script>
 ```
 
 An ideal place is the admin `admin/base_site.html` template. Full example:
 
 ```html
-{% extends "admin/base_site.html" %}
-
-{% block extrahead %}
-  {{ block.super }}
-  <script>
-    window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url 'admin:index' %}";
-  </script>
+{% extends "admin/base_site.html" %} {% block extrahead %} {{ block.super }}
+<script>
+  window.DYNAMIC_RAW_ID_MOUNT_URL = "{% url 'admin:index' %}";
+</script>
 {% endblock %}
 ```
 
