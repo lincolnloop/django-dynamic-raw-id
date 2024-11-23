@@ -1,8 +1,9 @@
 # Changelog
 
-## WIP
+## v4.3 (2024-11-23)
 
 - Django 5.1 compatibility and tests.
+- Empty filter form field after submission. https://github.com/lincolnloop/django-dynamic-raw-id/issues/109
 
 ## v4.2 (2024-06-18)
 

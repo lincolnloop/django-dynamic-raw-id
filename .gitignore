@@ -1,4 +1,4 @@
-*.pyc
+poetry.lock
 .coverage
 coverage_report
 django_dynamic_raw_id.egg-info

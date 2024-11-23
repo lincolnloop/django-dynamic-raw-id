@@ -74,7 +74,7 @@ class DynamicRawIDFilter(admin.filters.FieldListFilter):
             admin_site=admin_site,
             rel=rel,
             field_name=self.field_path,
-            data=self.used_parameters,
+            data={self.field_path: request.GET.get(self.field_path, "")},
         )
 
     def queryset(
